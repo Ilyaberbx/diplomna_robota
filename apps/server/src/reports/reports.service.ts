@@ -1,13 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { errAsync, okAsync, type ResultAsync } from 'neverthrow';
 import type { DbError } from '../shared/errors.js';
-import { forbidden, notFound, type Forbidden, type NotFound } from './reports.errors.js';
+import {
+  STORAGE_CLIENT,
+  type StoragePort,
+  type StoredBlob,
+} from '../storage/index.js';
+import {
+  forbidden,
+  notFound,
+  payloadTooLarge,
+  unsupportedMediaType,
+  type Forbidden,
+  type NotFound,
+  type PayloadTooLarge,
+  type UnsupportedMediaType,
+} from './reports.errors.js';
 import { ReportsRepository } from './reports.repository.js';
 import type {
   CreateReportInput,
   UpdateReportInput,
   BrowseQueryInput,
 } from './reports.dto.js';
+import { ALLOWED_PHOTO_MIME, PHOTO_MAX_BYTES } from './reports.types.js';
 import type { ReportsReader, ReportsWriter } from './reports.ports.js';
 import type {
   BrowseFilters,
@@ -16,6 +31,7 @@ import type {
   ReportPage,
   ReportProjection,
   ReportRecord,
+  UploadedPhoto,
 } from './reports.types.js';
 
 function toPublic(record: ReportRecord): PublicReport {
@@ -49,7 +65,48 @@ function toOwner(record: ReportRecord): OwnerReport {
 
 @Injectable()
 export class ReportsService implements ReportsReader, ReportsWriter {
-  constructor(private readonly repo: ReportsRepository) {}
+  constructor(
+    private readonly repo: ReportsRepository,
+    @Inject(STORAGE_CLIENT) private readonly storage: StoragePort,
+  ) {}
+
+  attachPhoto(
+    actorId: string,
+    id: string,
+    photo: UploadedPhoto,
+  ): ResultAsync<
+    OwnerReport,
+    Forbidden | NotFound | UnsupportedMediaType | PayloadTooLarge | DbError
+  > {
+    const allowed: readonly string[] = ALLOWED_PHOTO_MIME;
+    const isAllowedMime = allowed.includes(photo.mimeType);
+    if (!isAllowedMime)
+      return errAsync(unsupportedMediaType(photo.mimeType));
+    const isTooLarge = photo.sizeBytes > PHOTO_MAX_BYTES;
+    if (isTooLarge) return errAsync(payloadTooLarge(PHOTO_MAX_BYTES));
+
+    return this.getRecord(id).andThen((record) => {
+      const isReporter = record.reporterId === actorId;
+      if (!isReporter)
+        return errAsync(
+          forbidden('only the reporter may add a photo to this report'),
+        );
+      return this.storage
+        .put(photo.buffer, photo.mimeType)
+        .andThen((key) => this.repo.update(id, { photoKey: key }))
+        .map(toOwner);
+    });
+  }
+
+  getPhoto(
+    id: string,
+  ): ResultAsync<StoredBlob, NotFound | DbError> {
+    return this.getRecord(id).andThen((record) => {
+      const hasPhoto = record.photoKey !== null;
+      if (!hasPhoto) return errAsync(notFound('photo', id));
+      return this.storage.get(record.photoKey as string);
+    });
+  }
 
   getRecord(id: string): ResultAsync<ReportRecord, NotFound | DbError> {
     return this.repo.findById(id).andThen((record) => {

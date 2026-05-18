@@ -6,9 +6,14 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { ConfigModule } from '../../config/config.module.js';
 import { JwtAuthGuard } from '../../auth/jwt.guard.js';
 import { DomainExceptionFilter } from '../../shared/http/domain-exception.filter.js';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { ReportsController } from '../reports.controller.js';
 import { ReportsRepository } from '../reports.repository.js';
 import { ReportsService } from '../reports.service.js';
+import { LocalFsStorageClient } from '../../storage/storage.adapter.js';
+import { STORAGE_CLIENT } from '../../storage/index.js';
 import {
   createPostgresTestDb,
   type TestDb,
@@ -26,10 +31,13 @@ describe('ReportsController (HTTP, real Postgres)', () => {
   let testDb: TestDb;
   let reporterId: string;
   let otherId: string;
+  let storageDir: string;
 
   beforeAll(async () => {
+    storageDir = await mkdtemp(join(tmpdir(), 'reports-photo-'));
     process.env.DATABASE_URL = 'postgres://u:p@localhost:5432/test';
     process.env.AUTH_JWT_SECRET = 'test-secret';
+    process.env.STORAGE_DIR = storageDir;
     testDb = await createPostgresTestDb();
     const auth = new AuthRepository(testDb.db);
     reporterId = (
@@ -46,6 +54,7 @@ describe('ReportsController (HTTP, real Postgres)', () => {
         ReportsService,
         ReportsRepository,
         { provide: DRIZZLE, useValue: testDb.db },
+        { provide: STORAGE_CLIENT, useClass: LocalFsStorageClient },
         { provide: APP_GUARD, useClass: JwtAuthGuard },
       ],
     }).compile();
@@ -57,6 +66,7 @@ describe('ReportsController (HTTP, real Postgres)', () => {
   afterAll(async () => {
     await app.close();
     await testDb.stop();
+    await rm(storageDir, { recursive: true, force: true });
   });
 
   const body = {
@@ -158,5 +168,54 @@ describe('ReportsController (HTTP, real Postgres)', () => {
       .send({ name: 'Hacked' })
       .expect(403)
       .expect((res) => expect(res.body.error.code).toBe('FORBIDDEN'));
+  });
+
+  const pngBytes = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+
+  it('GET /reports/:id/photo is 404 before any upload', async () => {
+    await request(app.getHttpServer())
+      .get(`/reports/${createdId}/photo`)
+      .expect(404);
+  });
+
+  it('POST /reports/:id/photo by a non-reporter is 403 FORBIDDEN', async () => {
+    await request(app.getHttpServer())
+      .post(`/reports/${createdId}/photo`)
+      .set('Authorization', `Bearer ${tokenFor(otherId)}`)
+      .attach('photo', pngBytes, { filename: 'p.png', contentType: 'image/png' })
+      .expect(403)
+      .expect((res) => expect(res.body.error.code).toBe('FORBIDDEN'));
+  });
+
+  it('POST /reports/:id/photo rejects a non-image with 415', async () => {
+    await request(app.getHttpServer())
+      .post(`/reports/${createdId}/photo`)
+      .set('Authorization', `Bearer ${tokenFor(reporterId)}`)
+      .attach('photo', Buffer.from('not an image'), {
+        filename: 'p.txt',
+        contentType: 'text/plain',
+      })
+      .expect(415)
+      .expect((res) =>
+        expect(res.body.error.code).toBe('UNSUPPORTED_MEDIA_TYPE'),
+      );
+  });
+
+  it('POST /reports/:id/photo by the reporter then GET streams it', async () => {
+    await request(app.getHttpServer())
+      .post(`/reports/${createdId}/photo`)
+      .set('Authorization', `Bearer ${tokenFor(reporterId)}`)
+      .attach('photo', pngBytes, { filename: 'p.png', contentType: 'image/png' })
+      .expect(201)
+      .expect((res) => expect(res.body.photoKey).toBeTruthy());
+
+    await request(app.getHttpServer())
+      .get(`/reports/${createdId}/photo`)
+      .responseType('blob')
+      .expect(200)
+      .expect('content-type', /image\/png/)
+      .expect((res) => {
+        expect(Buffer.compare(res.body as Buffer, pngBytes)).toBe(0);
+      });
   });
 });

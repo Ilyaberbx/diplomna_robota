@@ -7,6 +7,7 @@ export const appConfigSchema = z.object({
   databaseUrl: z.string().url(),
   authJwtSecret: z.string().min(1),
   authJwtTtl: z.string().min(1).default('7d'),
+  storageDir: z.string().min(1).default('./.storage'),
   corsAllowedOrigins: z
     .string()
     .default('http://localhost:5173')
@@ -21,5 +22,6 @@ export const loadAppConfig = (env: NodeJS.ProcessEnv): AppConfig =>
     databaseUrl: env.DATABASE_URL,
     authJwtSecret: env.AUTH_JWT_SECRET,
     authJwtTtl: env.AUTH_JWT_TTL,
+    storageDir: env.STORAGE_DIR,
     corsAllowedOrigins: env.CORS_ALLOWED_ORIGINS,
   });

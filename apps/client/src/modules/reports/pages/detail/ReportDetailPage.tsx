@@ -1,3 +1,4 @@
+import { ReportPhoto } from '../../components/report-photo/index.js';
 import { useReportDetailPage } from './use-report-detail-page.js';
 import styles from './report-detail-page.module.css';
 
@@ -25,6 +26,12 @@ export function ReportDetailPage() {
             {state.report.status}
           </span>
           <h1>{state.report.name ?? state.report.species}</h1>
+          <ReportPhoto
+            reportId={state.report.id}
+            photoKey={state.report.photoKey}
+            alt={state.report.name ?? state.report.species}
+            variant="detail"
+          />
           <dl className={styles.facts}>
             <dt>Species</dt>
             <dd>{state.report.species}</dd>

@@ -82,11 +82,34 @@ export type UpdateReportData = {
   name?: string | null;
   color?: string | null;
   description?: string | null;
+  photoKey?: string | null;
   contactPhone?: string | null;
   contactEmail?: string | null;
   lat?: number;
   lng?: number;
   eventDate?: Date;
+};
+
+export const PHOTO_MAX_BYTES = 5 * 1024 * 1024;
+export const ALLOWED_PHOTO_MIME = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+] as const;
+
+export type UploadedPhoto = {
+  buffer: Buffer;
+  mimeType: string;
+  sizeBytes: number;
+};
+
+// The subset of multer's file object the controller reads. Typed locally so
+// the build does not depend on the ambient `Express.Multer` namespace
+// (tsconfig `types` is pinned to `node`).
+export type MultipartFile = {
+  buffer: Buffer;
+  mimetype: string;
+  size: number;
 };
 
 export type BrowseFilters = {

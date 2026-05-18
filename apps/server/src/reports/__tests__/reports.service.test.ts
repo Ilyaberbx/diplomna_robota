@@ -73,9 +73,39 @@ class FakeRepo {
   }
 }
 
-function svc(b: RepoBehaviour = {}): ReportsService {
-  return new ReportsService(new FakeRepo(b) as unknown as never);
+type StorageBehaviour = { putFails?: boolean; getMissing?: boolean };
+
+class FakeStorage {
+  constructor(private readonly b: StorageBehaviour = {}) {}
+
+  put(
+    _body: Buffer,
+    _ct: string,
+  ): ResultAsync<string, DbError> {
+    if (this.b.putFails) return errAsync(dbError('put'));
+    return okAsync('stored-key');
+  }
+
+  get(key: string): ResultAsync<unknown, DbError> {
+    return okAsync({ stream: null, contentType: 'image/png', key });
+  }
 }
+
+function svc(
+  b: RepoBehaviour = {},
+  sb: StorageBehaviour = {},
+): ReportsService {
+  return new ReportsService(
+    new FakeRepo(b) as unknown as never,
+    new FakeStorage(sb) as unknown as never,
+  );
+}
+
+const PHOTO = {
+  buffer: Buffer.from([1, 2, 3]),
+  mimeType: 'image/png',
+  sizeBytes: 3,
+};
 
 const CREATE_INPUT: CreateReportInput = {
   kind: 'lost',
@@ -179,5 +209,78 @@ describe('ReportsService', () => {
       { name: 'X' },
     );
     expect(res.isErr() && res.error.tag).toBe('DbError');
+  });
+
+  it('attachPhoto stores and returns the owner projection (Ok)', async () => {
+    const res = await svc({ found: RECORD }).attachPhoto(
+      'user-1',
+      'rep-1',
+      PHOTO,
+    );
+    expect(res.isOk()).toBe(true);
+    if (res.isOk()) {
+      expect(res.value.viewer).toBe('owner');
+      expect(res.value.photoKey).toBe('stored-key');
+    }
+  });
+
+  it('attachPhoto rejects a non-image MIME with UnsupportedMediaType', async () => {
+    const res = await svc({ found: RECORD }).attachPhoto('user-1', 'rep-1', {
+      ...PHOTO,
+      mimeType: 'application/pdf',
+    });
+    expect(res.isErr() && res.error.tag).toBe('UnsupportedMediaType');
+  });
+
+  it('attachPhoto rejects an oversized file with PayloadTooLarge', async () => {
+    const res = await svc({ found: RECORD }).attachPhoto('user-1', 'rep-1', {
+      ...PHOTO,
+      sizeBytes: 6 * 1024 * 1024,
+    });
+    expect(res.isErr() && res.error.tag).toBe('PayloadTooLarge');
+  });
+
+  it('attachPhoto by a non-reporter returns Forbidden', async () => {
+    const res = await svc({ found: RECORD }).attachPhoto(
+      'intruder',
+      'rep-1',
+      PHOTO,
+    );
+    expect(res.isErr() && res.error.tag).toBe('Forbidden');
+  });
+
+  it('attachPhoto returns NotFound when the report is missing', async () => {
+    const res = await svc({ found: null }).attachPhoto(
+      'user-1',
+      'nope',
+      PHOTO,
+    );
+    expect(res.isErr() && res.error.tag).toBe('NotFound');
+  });
+
+  it('attachPhoto surfaces DbError from storage', async () => {
+    const res = await svc({ found: RECORD }, { putFails: true }).attachPhoto(
+      'user-1',
+      'rep-1',
+      PHOTO,
+    );
+    expect(res.isErr() && res.error.tag).toBe('DbError');
+  });
+
+  it('getPhoto returns the blob when the report has a photo (Ok)', async () => {
+    const res = await svc({ found: { ...RECORD, photoKey: 'k1' } }).getPhoto(
+      'rep-1',
+    );
+    expect(res.isOk()).toBe(true);
+  });
+
+  it('getPhoto returns NotFound when the report has no photo', async () => {
+    const res = await svc({ found: RECORD }).getPhoto('rep-1');
+    expect(res.isErr() && res.error.tag).toBe('NotFound');
+  });
+
+  it('getPhoto returns NotFound when the report is missing', async () => {
+    const res = await svc({ found: null }).getPhoto('nope');
+    expect(res.isErr() && res.error.tag).toBe('NotFound');
   });
 });

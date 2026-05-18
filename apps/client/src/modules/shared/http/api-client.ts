@@ -11,6 +11,7 @@ type RequestSpec = {
   method: 'GET' | 'POST';
   url: string;
   body?: unknown;
+  formData?: FormData;
 };
 
 function isSuccess(status: number): boolean {
@@ -25,13 +26,21 @@ export function createApiClient(opts: CreateApiClientOptions): ApiClient {
     // Each send issues its own fetch, so a retry never shares the original
     // request (http.md §3). The frozen public surface exposes no cancellation;
     // a per-send AbortController is added the day cancellation is wired in.
+    const isMultipart = spec.formData !== undefined;
+    // The browser must set the multipart boundary itself, so content-type is
+    // omitted for uploads (ADR 0004).
+    const headers: Record<string, string> = isMultipart
+      ? { authorization: `Bearer ${token}` }
+      : {
+          'content-type': 'application/json',
+          authorization: `Bearer ${token}`,
+        };
+    const jsonBody =
+      spec.body === undefined ? undefined : JSON.stringify(spec.body);
     const init: RequestInit = {
       method: spec.method,
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${token}`,
-      },
-      body: spec.body === undefined ? undefined : JSON.stringify(spec.body),
+      headers,
+      body: isMultipart ? spec.formData : jsonBody,
     };
     return ResultAsync.fromPromise(
       fetch(`${opts.baseUrl}${spec.url}`, init),
@@ -110,5 +119,10 @@ export function createApiClient(opts: CreateApiClientOptions): ApiClient {
     get: <T>(url: string) => run<T>({ method: 'GET', url }),
     post: <T>(url: string, body: unknown) =>
       run<T>({ method: 'POST', url, body }),
+    upload: <T>(url: string, file: Blob, fileName: string) => {
+      const formData = new FormData();
+      formData.append('photo', file, fileName);
+      return run<T>({ method: 'POST', url, formData });
+    },
   };
 }

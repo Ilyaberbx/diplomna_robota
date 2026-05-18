@@ -15,6 +15,13 @@ export type ApiClient = {
     url: string,
     body: unknown,
   ) => import('neverthrow').ResultAsync<T, HttpError>;
+  // Multipart upload of a single binary file (ADR 0004). Same token attach,
+  // missing-token guard, 401-retry and HttpError union as get/post.
+  upload: <T>(
+    url: string,
+    file: Blob,
+    fileName: string,
+  ) => import('neverthrow').ResultAsync<T, HttpError>;
 };
 
 export type CreateApiClientOptions = {

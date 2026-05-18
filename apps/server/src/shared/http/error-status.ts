@@ -7,7 +7,9 @@ import type {
   InvalidCredentials,
   NotFound,
   ParseError,
+  PayloadTooLarge,
   Unauthorized,
+  UnsupportedMediaType,
 } from '../errors.js';
 
 export type AppError =
@@ -18,7 +20,9 @@ export type AppError =
   | DbError
   | ParseError
   | EmailTaken
-  | InvalidCredentials;
+  | InvalidCredentials
+  | UnsupportedMediaType
+  | PayloadTooLarge;
 
 export type HttpErrorBody = {
   error: {
@@ -44,6 +48,10 @@ export function errorToStatus(err: AppError): number {
       return 409;
     case 'InvalidCredentials':
       return 401;
+    case 'UnsupportedMediaType':
+      return 415;
+    case 'PayloadTooLarge':
+      return 413;
     case 'DbError':
       return 500;
     default:
@@ -74,6 +82,20 @@ export function errorToBody(err: AppError): HttpErrorBody {
     case 'InvalidCredentials':
       return {
         error: { code: 'INVALID_CREDENTIALS', message: 'Invalid credentials' },
+      };
+    case 'UnsupportedMediaType':
+      return {
+        error: {
+          code: 'UNSUPPORTED_MEDIA_TYPE',
+          message: 'Photo must be a JPEG, PNG or WebP image',
+        },
+      };
+    case 'PayloadTooLarge':
+      return {
+        error: {
+          code: 'PAYLOAD_TOO_LARGE',
+          message: 'Photo must be 5 MB or smaller',
+        },
       };
     case 'DbError':
       return { error: { code: 'INTERNAL', message: 'Internal server error' } };

@@ -1,7 +1,18 @@
-import { Controller, Get, Param, Patch, Post, Req } from '@nestjs/common';
-import type { Request } from 'express';
-import type { Result } from 'neverthrow';
-import { okAsync } from 'neverthrow';
+import {
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  Res,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import type { Request, Response } from 'express';
+import { err, type Result } from 'neverthrow';
+import { errorToBody, errorToStatus } from '../shared/http/error-status.js';
 import { toHttp } from '../shared/http/to-http.js';
 import { ZodBody, ZodQuery } from '../shared/http/zod-body.pipe.js';
 import { CurrentUser, OptionalUser, Public } from '../auth/index.js';
@@ -16,7 +27,9 @@ import {
   type UpdateReportInput,
 } from './reports.dto.js';
 import { ReportsService } from './reports.service.js';
+import { unsupportedMediaType } from './reports.errors.js';
 import type {
+  MultipartFile,
   OwnerReport,
   ReportPage,
   ReportProjection,
@@ -71,5 +84,44 @@ export class ReportsController {
     return toHttp(
       await input.asyncAndThen((i) => this.svc.update(actor.id, id, i)),
     );
+  }
+
+  @Post(':id/photo')
+  @UseInterceptors(FileInterceptor('photo'))
+  async uploadPhoto(
+    @CurrentUser() actor: AuthenticatedUser,
+    @Param('id') id: string,
+    @UploadedFile() file: MultipartFile | undefined,
+  ): Promise<OwnerReport> {
+    const hasFile = file !== undefined;
+    if (!hasFile)
+      return toHttp(err(unsupportedMediaType('none')));
+    return toHttp(
+      await this.svc.attachPhoto(actor.id, id, {
+        buffer: file.buffer,
+        mimeType: file.mimetype,
+        sizeBytes: file.size,
+      }),
+    );
+  }
+
+  // Public: the report photo is rendered by anonymous browsers via a plain
+  // <img src>, so the stream endpoint must not require a token.
+  @Public()
+  @Get(':id/photo')
+  async getPhoto(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    const result = await this.svc.getPhoto(id);
+    if (result.isErr()) {
+      const err = result.error;
+      res.status(errorToStatus(err)).json(errorToBody(err));
+      return;
+    }
+    const blob = result.value;
+    res.setHeader('content-type', blob.contentType);
+    res.setHeader('cache-control', 'private, max-age=60');
+    blob.stream.pipe(res);
   }
 }

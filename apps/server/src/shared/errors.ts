@@ -46,6 +46,23 @@ export const invalidCredentials = (): InvalidCredentials => ({
   tag: 'InvalidCredentials',
 });
 
+export type UnsupportedMediaType = {
+  tag: 'UnsupportedMediaType';
+  received: string;
+};
+export const unsupportedMediaType = (
+  received: string,
+): UnsupportedMediaType => ({ tag: 'UnsupportedMediaType', received });
+
+export type PayloadTooLarge = {
+  tag: 'PayloadTooLarge';
+  maxBytes: number;
+};
+export const payloadTooLarge = (maxBytes: number): PayloadTooLarge => ({
+  tag: 'PayloadTooLarge',
+  maxBytes,
+});
+
 export function assertNever(x: never): never {
   throw new Error(`unhandled variant: ${JSON.stringify(x)}`);
 }

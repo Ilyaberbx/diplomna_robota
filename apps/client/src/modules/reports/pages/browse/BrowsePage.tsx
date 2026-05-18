@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ReportPhoto } from '../../components/report-photo/index.js';
 import { useBrowsePage } from './use-browse-page.js';
 import styles from './browse-page.module.css';
 
@@ -62,6 +63,12 @@ export function BrowsePage() {
             {state.data.items.map((report) => (
               <li key={report.id} className={styles.card}>
                 <Link to={`/reports/${report.id}`}>
+                  <ReportPhoto
+                    reportId={report.id}
+                    photoKey={report.photoKey}
+                    alt={report.name ?? report.species}
+                    variant="card"
+                  />
                   <span className={styles.badge}>
                     {report.kind === 'lost' ? 'Lost' : 'Found'} ·{' '}
                     {report.status}

@@ -2,8 +2,16 @@ import { useCreateReportPage } from './use-create-report-page.js';
 import styles from './create-report-page.module.css';
 
 export function CreateReportPage() {
-  const { fields, errors, submitting, setField, onSubmit } =
-    useCreateReportPage();
+  const {
+    fields,
+    errors,
+    submitting,
+    photoName,
+    setField,
+    setPhoto,
+    skipPhoto,
+    onSubmit,
+  } = useCreateReportPage();
 
   return (
     <main className={styles.page}>
@@ -118,7 +126,40 @@ export function CreateReportPage() {
         </fieldset>
 
         <fieldset className={styles.section}>
-          <legend>3 — Contact (photo can be added later)</legend>
+          <legend>3 — Photo (optional)</legend>
+          <p className={styles.hint}>
+            A clear photo helps people recognise the pet. You can skip this
+            and add one later.
+          </p>
+          <div className={styles.field}>
+            <label htmlFor="report-photo">Photo</label>
+            <input
+              id="report-photo"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={(e) => setPhoto(e.target.files?.[0] ?? null)}
+            />
+          </div>
+          {photoName ? (
+            <p className={styles.photoChosen}>
+              Selected: {photoName}{' '}
+              <button
+                type="button"
+                className={styles.linkButton}
+                onClick={skipPhoto}
+              >
+                Remove
+              </button>
+            </p>
+          ) : (
+            <p className={styles.hint}>
+              No photo selected — you can add one later.
+            </p>
+          )}
+        </fieldset>
+
+        <fieldset className={styles.section}>
+          <legend>4 — Contact</legend>
           <div className={styles.field}>
             <label htmlFor="report-phone">Contact phone</label>
             <input
