@@ -4,8 +4,9 @@ One-line summary of every module in the repo. Each entry links to the module's `
 
 ## Client (`apps/client/src/modules/`)
 
-<!-- - [example-feature](../apps/client/src/modules/example-feature/MODULE.md) — one-line purpose. -->
+- [connectivity](../apps/client/src/modules/connectivity/MODULE.md) — health/connectivity tracer page (ok/loading/error) plus theme toggle.
 
 ## Server (`apps/server/src/`)
 
-<!-- - [example](../apps/server/src/example/MODULE.md) — one-line purpose. -->
+- [auth](../apps/server/src/auth/MODULE.md) — global default-deny JWT guard + `@Public`/`@CurrentUser`/`@RequireUser`.
+- [health](../apps/server/src/health/MODULE.md) — public `GET /health` liveness probe.

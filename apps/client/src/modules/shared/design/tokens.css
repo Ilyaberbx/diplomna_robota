@@ -1,0 +1,112 @@
+/**
+ * PetFinder design tokens — Warm Humane.
+ * Source of truth for the contract documented in /DESIGN.md. Keep in sync.
+ * Light theme is :root; dark theme via [data-theme="dark"]. Full token parity.
+ */
+
+:root {
+	/* Color — light */
+	--background: #fbf7f2;
+	--surface: #fffdfa;
+	--surface-raised: #ffffff;
+	--border: #e7ded2;
+	--text-primary: #2b2620;
+	--text-secondary: #5c5347;
+	--text-muted: #7c7264;
+	--accent: #be5a33;
+	--accent-hover: #a44a28;
+	--accent-contrast: #ffffff;
+	--urgent: #c2362b;
+	--urgent-contrast: #ffffff;
+	--success: #2f7d4f;
+	--success-contrast: #ffffff;
+	--pending: #9a6212;
+	--pending-contrast: #ffffff;
+	--muted-status: #7c7264;
+	--focus-ring: #be5a33;
+
+	/* Elevation — light (warm-tinted) */
+	--shadow-sm: 0 1px 2px rgba(43, 38, 32, 0.06);
+	--shadow-md: 0 4px 12px rgba(43, 38, 32, 0.1);
+	--shadow-lg: 0 12px 32px rgba(43, 38, 32, 0.16);
+
+	/* Spacing */
+	--space-1: 4px;
+	--space-2: 8px;
+	--space-3: 12px;
+	--space-4: 16px;
+	--space-5: 24px;
+	--space-6: 32px;
+	--space-8: 48px;
+	--space-10: 64px;
+
+	/* Radius */
+	--radius-sm: 8px;
+	--radius-md: 12px;
+	--radius-lg: 20px;
+	--radius-pill: 999px;
+
+	/* Typography */
+	--font-sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+		Arial, sans-serif;
+	--text-xs: 12px;
+	--text-xs-lh: 16px;
+	--text-sm: 14px;
+	--text-sm-lh: 20px;
+	--text-base: 16px;
+	--text-base-lh: 24px;
+	--text-lg: 18px;
+	--text-lg-lh: 26px;
+	--text-xl: 22px;
+	--text-xl-lh: 30px;
+	--text-2xl: 28px;
+	--text-2xl-lh: 36px;
+	--text-3xl: 36px;
+	--text-3xl-lh: 44px;
+	--weight-regular: 400;
+	--weight-medium: 500;
+	--weight-semibold: 600;
+	--weight-bold: 700;
+
+	/* Sizing / a11y */
+	--tap-min: 44px;
+	--focus-width: 3px;
+	--focus-offset: 2px;
+}
+
+[data-theme="dark"] {
+	/* Color — dark */
+	--background: #1c1815;
+	--surface: #262019;
+	--surface-raised: #2f2820;
+	--border: #3d352b;
+	--text-primary: #f5efe6;
+	--text-secondary: #c8bcab;
+	--text-muted: #9c8f7c;
+	--accent: #e08054;
+	--accent-hover: #ec9269;
+	--accent-contrast: #241d16;
+	--urgent: #e66a5c;
+	--urgent-contrast: #241d16;
+	--success: #6fb389;
+	--success-contrast: #1c1815;
+	--pending: #e0a93f;
+	--pending-contrast: #241d16;
+	--muted-status: #9c8f7c;
+	--focus-ring: #e08054;
+
+	/* Elevation — dark (black-tinted, equivalent depth) */
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+	--shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+	--shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

@@ -1,0 +1,27 @@
+{
+  "name": "diplomna-robota",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "verify": "turbo run verify",
+    "build": "turbo run build",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.8",
+    "typescript": "^5.9.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@swc/core",
+      "argon2",
+      "esbuild",
+      "msw",
+      "unrs-resolver",
+      "protobufjs",
+      "cpu-features",
+      "ssh2"
+    ]
+  }
+}
