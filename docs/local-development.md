@@ -3,6 +3,12 @@
 How to run PetFinder (client + server) from a fresh clone with **only Docker
 for Postgres**. No external services, no cloud accounts, no API keys.
 
+> **Shortcut:** after `pnpm install`, `./dev.sh` from the repo root does steps
+> 2, 4 and 5 in one command — starts (or reuses) the Postgres container,
+> applies migrations, and runs both dev servers. Override the host port for a
+> fresh container with `PG_PORT=5444 ./dev.sh`. The manual steps below are the
+> equivalent if you want to run them individually.
+
 ## Prerequisites
 
 - **Node.js** ≥ 22 (the lockfile is built on Node 25; 22 LTS works).
@@ -29,7 +35,7 @@ the left side of `-p` changes. Set it once here and reuse it in step 3:
 
 ```bash
 # Pick any free host port. 5432 is the default; use another if it's taken.
-PG_PORT=5432
+PG_PORT=5439
 
 docker run --name petfinder-pg \
   -e POSTGRES_USER=postgres \
