@@ -32,6 +32,7 @@ guessing). A report is never blocked by the absence of a photo.
 - `shared/http` `ApiClient` + `useApiClient()` provider (transport, token attach).
 - `react-router-dom` (`useSearchParams` for URL-synced filters, `useParams`, `useNavigate`).
 - `auth` module's `RouteGuard` — wired in `app/App.tsx`, not imported here.
+- `matches` module's `ProposeMatchButton` (public API) — rendered per candidate on `CandidatesPage` to start the reunion loop.
 
 ## Cross-app contract
 
@@ -46,4 +47,4 @@ guessing). A report is never blocked by the absence of a photo.
 
 ## Out of scope
 
-My-reports dashboard (the candidates page is reachable from the report detail in this slice; the full `/me/reports` entrypoint lands in Slice 7), Match-proposal/confirm loop, lifecycle status actions, landing/hybrid feed (later slices). Multi-photo is out (single photo by PRD).
+My-reports dashboard (the candidates page is reachable from the report detail in this slice; the full `/me/reports` entrypoint lands in Slice 7), the Match propose/confirm loop itself (owned by the client `matches` module; this module only renders its `ProposeMatchButton` on the candidates surface), lifecycle status actions, landing/hybrid feed (later slices). Multi-photo is out (single photo by PRD).

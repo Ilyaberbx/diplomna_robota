@@ -21,7 +21,7 @@ contact.
   - `PATCH /reports/:id` (guarded) — reporter-only edit of mutable fields.
   - `POST /reports/:id/photo` (guarded, `multipart/form-data`, single `photo` field) — reporter-only; stores the photo and returns the owner projection.
   - `GET /reports/:id/photo` (`@Public()`) — streams the stored image, or 404 when the report has no photo.
-- `REPORTS_READER` / `ReportsReader` — `getRecord`, `publicById`, `browsePublic` (cross-module reads; used by `matches`/`candidates` in later slices).
+- `REPORTS_READER` / `ReportsReader` — `getRecord`, `publicById`, `browsePublic`, `revealContact` (cross-module reads; `matches` uses `getRecord` for ownership/decider checks and `revealContact` for the confirmed-match contact reveal). `revealContact` returns the contact-included owner projection (`OwnerReport`) — the projection rule stays owned here; callers never re-derive contact from the raw record.
 - `REPORTS_WRITER` / `ReportsWriter` — `markStatus` (lifecycle transitions, wired to a route in a later slice).
 - Types: `ReportKind`, `ReportSpecies`, `ReportStatus`, `ReportRecord`, `PublicReport`, `ReportPage`.
 
@@ -54,4 +54,4 @@ contact.
 
 ## Out of scope
 
-Match loop (Slice 6), status-transition route + state machine (Slice 9). Multi-photo is explicitly out (PRD: single photo).
+The match loop itself (the `matches` module owns it; this module only exposes `revealContact` for the confirmed-match reveal). Status-transition route + state machine (Slice 9). Multi-photo is explicitly out (PRD: single photo).

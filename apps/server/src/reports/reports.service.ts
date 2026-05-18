@@ -121,6 +121,10 @@ export class ReportsService implements ReportsReader, ReportsWriter {
     return this.getRecord(id).map(toPublic);
   }
 
+  revealContact(id: string): ResultAsync<OwnerReport, NotFound | DbError> {
+    return this.getRecord(id).map(toOwner);
+  }
+
   browsePublic(filters: BrowseFilters): ResultAsync<ReportPage, DbError> {
     return this.repo.browse(filters).map((result) => ({
       items: result.items.map(toPublic),

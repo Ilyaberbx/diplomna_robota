@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ProposeMatchButton } from '@/modules/matches';
 import { ReportPhoto } from '../../components/report-photo/index.js';
 import { useCandidatesPage } from './use-candidates-page.js';
 import styles from './candidates-page.module.css';
@@ -75,6 +76,20 @@ export function CandidatesPage() {
                       : `${candidate.daysApart} day(s) apart`}
                   </span>
                 </div>
+                {reportId && (
+                  <ProposeMatchButton
+                    lostReportId={
+                      candidate.report.kind === 'found'
+                        ? reportId
+                        : candidate.report.id
+                    }
+                    foundReportId={
+                      candidate.report.kind === 'found'
+                        ? candidate.report.id
+                        : reportId
+                    }
+                  />
+                )}
               </div>
             </li>
           ))}

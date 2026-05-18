@@ -4,6 +4,7 @@ import { AuthModule } from './auth/index.js';
 import { ConfigModule } from './config/config.module.js';
 import { DbModule } from './db/db.module.js';
 import { HealthModule } from './health/index.js';
+import { MatchesModule } from './matches/index.js';
 import { ReportsModule } from './reports/index.js';
 
 @Module({
@@ -13,6 +14,7 @@ import { ReportsModule } from './reports/index.js';
     ThrottlerModule.forRoot([{ ttl: 60000, limit: 100 }]),
     AuthModule,
     ReportsModule,
+    MatchesModule,
     HealthModule,
   ],
 })

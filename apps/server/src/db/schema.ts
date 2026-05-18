@@ -4,6 +4,7 @@ import {
   pgTable,
   text,
   timestamp,
+  unique,
   uuid,
 } from 'drizzle-orm/pg-core';
 
@@ -49,3 +50,34 @@ export const reports = pgTable('reports', {
     .notNull()
     .defaultNow(),
 });
+
+// Owned by the `matches` module. A Match is a stored, human-proposed link
+// between exactly one Lost Report and one Found Report
+// (`status`: proposed | confirmed | rejected). Only a human turns a Candidate
+// into a Match. `proposed_by` is the proposing Reporter; only the
+// *non-proposing* Reporter may confirm/reject. `unique(lost, found)` enforces
+// one Match per (lost, found) pair. `status` is stored as text, validated by
+// a Zod enum at the boundary (no PG enum types). Contact reveal on `confirmed`
+// is a service-layer projection through the `reports` ReportsReader port —
+// this module never touches the `reports` table.
+export const matches = pgTable(
+  'matches',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    lostReportId: uuid('lost_report_id')
+      .notNull()
+      .references(() => reports.id),
+    foundReportId: uuid('found_report_id')
+      .notNull()
+      .references(() => reports.id),
+    proposedBy: uuid('proposed_by')
+      .notNull()
+      .references(() => users.id),
+    status: text('status').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    resolvedAt: timestamp('resolved_at', { withTimezone: true }),
+  },
+  (t) => [unique('matches_lost_found_unique').on(t.lostReportId, t.foundReportId)],
+);

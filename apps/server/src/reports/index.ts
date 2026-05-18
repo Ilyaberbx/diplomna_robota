@@ -11,5 +11,6 @@ export type {
   ReportStatus,
   ReportRecord,
   PublicReport,
+  OwnerReport,
   ReportPage,
 } from './reports.types.js';

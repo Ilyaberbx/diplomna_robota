@@ -50,6 +50,19 @@ export async function createPostgresTestDb(): Promise<TestDb> {
     )
   `);
 
+  await db.execute(sql`
+    create table if not exists matches (
+      id uuid primary key default gen_random_uuid(),
+      lost_report_id uuid not null references reports(id),
+      found_report_id uuid not null references reports(id),
+      proposed_by uuid not null references users(id),
+      status text not null,
+      created_at timestamptz not null default now(),
+      resolved_at timestamptz,
+      constraint matches_lost_found_unique unique (lost_report_id, found_report_id)
+    )
+  `);
+
   return {
     db,
     stop: async () => {

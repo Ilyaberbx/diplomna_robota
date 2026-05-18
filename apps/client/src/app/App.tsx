@@ -12,6 +12,7 @@ import {
   CreateReportPage,
   ReportDetailPage,
 } from '@/modules/reports';
+import { MatchDetailPage, MyMatchesPage } from '@/modules/matches';
 import { ApiClientProvider } from '@/modules/shared/providers/api-client';
 import { ThemeProvider } from '@/modules/shared/providers/theme';
 import { apiClient } from './api-client.js';
@@ -47,6 +48,22 @@ const router = createBrowserRouter([
         element: (
           <RouteGuard>
             <AccountPage />
+          </RouteGuard>
+        ),
+      },
+      {
+        path: '/me/matches',
+        element: (
+          <RouteGuard>
+            <MyMatchesPage />
+          </RouteGuard>
+        ),
+      },
+      {
+        path: '/matches/:id',
+        element: (
+          <RouteGuard>
+            <MatchDetailPage />
           </RouteGuard>
         ),
       },
