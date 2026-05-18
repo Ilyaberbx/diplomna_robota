@@ -1,0 +1,59 @@
+.page {
+  max-width: 56rem;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.status {
+  margin: 2rem 0;
+}
+
+.error {
+  color: var(--urgent, #c2362b);
+}
+
+.grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+}
+
+.card {
+  border: 1px solid var(--border, #e7ded2);
+  border-radius: var(--radius-md, 12px);
+  padding: 1rem;
+}
+
+.card a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.badge {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.meta {
+  color: var(--text-muted, #7c7264);
+  font-size: 0.9rem;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}

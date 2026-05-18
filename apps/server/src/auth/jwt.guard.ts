@@ -10,7 +10,7 @@ import type { Request } from 'express';
 import jwt from 'jsonwebtoken';
 import { APP_CONFIG } from '../config/config.js';
 import type { AppConfig } from '../config/config.js';
-import { IS_PUBLIC_KEY } from './auth.decorators.js';
+import { IS_PUBLIC_KEY, OPTIONAL_USER_KEY } from './auth.decorators.js';
 import type { AuthenticatedUser, JwtPayload } from './auth.types.js';
 
 const BEARER_PREFIX = 'Bearer ';
@@ -27,16 +27,28 @@ export class JwtAuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
-    if (isPublic) return true;
+    const isOptional = this.reflector.getAllAndOverride<boolean>(
+      OPTIONAL_USER_KEY,
+      [context.getHandler(), context.getClass()],
+    );
 
     const req = context.switchToHttp().getRequest<Request>();
     const header = req.headers.authorization;
     const hasBearer =
       typeof header === 'string' && header.startsWith(BEARER_PREFIX);
+
+    const isAnonymousOptional = isOptional && !hasBearer;
+    if (isAnonymousOptional) return true;
+
+    const skipsAuth = isPublic && !isOptional;
+    if (skipsAuth) return true;
+
     if (!hasBearer) throw new UnauthorizedException('Missing bearer token');
 
-    const token = header.slice(BEARER_PREFIX.length);
+    const token = (header as string).slice(BEARER_PREFIX.length);
     const user = this.verify(token);
+    const isInvalidOptional = isOptional && !user;
+    if (isInvalidOptional) return true;
     if (!user) throw new UnauthorizedException('Invalid token');
 
     (req as Request & { user: AuthenticatedUser }).user = user;

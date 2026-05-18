@@ -1,0 +1,43 @@
+.page {
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.status {
+  margin: 2rem 0;
+}
+
+.error {
+  color: var(--urgent, #c2362b);
+}
+
+.badge {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1rem;
+  margin: 1.5rem 0;
+}
+
+.facts dt {
+  font-weight: 600;
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.contact {
+  border: 1px solid var(--success, #2f7d4f);
+  border-radius: var(--radius-md, 12px);
+  padding: 1rem;
+}
+
+.privacy {
+  color: var(--text-muted, #7c7264);
+}

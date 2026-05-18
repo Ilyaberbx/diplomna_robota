@@ -6,6 +6,11 @@ import {
   RegisterPage,
   RouteGuard,
 } from '@/modules/auth';
+import {
+  BrowsePage,
+  CreateReportPage,
+  ReportDetailPage,
+} from '@/modules/reports';
 import { ApiClientProvider } from '@/modules/shared/providers/api-client';
 import { ThemeProvider } from '@/modules/shared/providers/theme';
 import { apiClient } from './api-client.js';
@@ -18,6 +23,16 @@ const router = createBrowserRouter([
       { path: '/', element: <HealthPage /> },
       { path: '/login', element: <LoginPage /> },
       { path: '/register', element: <RegisterPage /> },
+      { path: '/browse', element: <BrowsePage /> },
+      { path: '/reports/:id', element: <ReportDetailPage /> },
+      {
+        path: '/report/new',
+        element: (
+          <RouteGuard>
+            <CreateReportPage />
+          </RouteGuard>
+        ),
+      },
       {
         path: '/me',
         element: (

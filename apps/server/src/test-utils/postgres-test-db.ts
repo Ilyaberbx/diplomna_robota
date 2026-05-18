@@ -28,6 +28,28 @@ export async function createPostgresTestDb(): Promise<TestDb> {
     )
   `);
 
+  await db.execute(sql`
+    create table if not exists reports (
+      id uuid primary key default gen_random_uuid(),
+      kind text not null,
+      reporter_id uuid not null references users(id),
+      status text not null,
+      species text not null,
+      breed text,
+      name text,
+      color text,
+      description text,
+      photo_key text,
+      contact_phone text,
+      contact_email text,
+      lat double precision not null,
+      lng double precision not null,
+      event_date timestamptz not null,
+      created_at timestamptz not null default now(),
+      updated_at timestamptz not null default now()
+    )
+  `);
+
   return {
     db,
     stop: async () => {

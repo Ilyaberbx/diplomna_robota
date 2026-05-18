@@ -1,4 +1,4 @@
-import { Body, Injectable, type PipeTransform } from '@nestjs/common';
+import { Body, Injectable, Query, type PipeTransform } from '@nestjs/common';
 import { err, ok, type Result } from 'neverthrow';
 import type { ZodTypeAny, infer as ZodInfer } from 'zod';
 import { parseError, type ParseError } from '../errors.js';
@@ -25,3 +25,7 @@ export class ZodBodyPipe<S extends ZodTypeAny>
 export const ZodBody = <S extends ZodTypeAny>(
   schema: S,
 ): ParameterDecorator => Body(new ZodBodyPipe(schema));
+
+export const ZodQuery = <S extends ZodTypeAny>(
+  schema: S,
+): ParameterDecorator => Query(new ZodBodyPipe(schema));

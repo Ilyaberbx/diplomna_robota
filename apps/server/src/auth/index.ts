@@ -1,6 +1,7 @@
 export { AuthModule } from './auth.module.js';
 export {
   CurrentUser,
+  OptionalUser,
   Public,
   RequireUser,
 } from './auth.decorators.js';

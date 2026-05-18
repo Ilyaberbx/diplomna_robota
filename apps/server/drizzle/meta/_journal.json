@@ -8,6 +8,13 @@
       "when": 1779112924705,
       "tag": "0000_empty_hawkeye",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1779114190816,
+      "tag": "0001_light_inertia",
+      "breakpoints": true
     }
   ]
 }

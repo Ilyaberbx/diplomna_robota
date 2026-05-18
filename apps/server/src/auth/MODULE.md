@@ -11,6 +11,7 @@ Self-hosted email/password authentication (ADR 0003): owns the `users` table, is
 - `AuthModule` — registers `JwtAuthGuard` as `APP_GUARD` (global) and mounts `AuthController`.
 - Routes: `POST /auth/register`, `POST /auth/login` (both `@Public()`), `GET /auth/me` (guarded).
 - `@Public()` — opts a route out of the guard.
+- `@OptionalUser()` — on a `@Public()` route, the guard still parses a present bearer token best-effort and attaches `req.user`, but never rejects a missing/invalid one (used by dual-projection GETs).
 - `@RequireUser()` — marks a route as requiring an existing user row.
 - `@CurrentUser()` — param decorator returning `AuthenticatedUser` (`{ id, email }`).
 - `AUTH_READER` token + `AuthReader` port — `me(actorId)` for cross-module user lookup.
