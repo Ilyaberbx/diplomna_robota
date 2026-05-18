@@ -1,37 +1,38 @@
 import { Link } from 'react-router-dom';
 import { ProposeMatchButton } from '@/modules/matches';
+import { useI18n } from '@/modules/shared/providers/i18n';
 import { ReportPhoto } from '../../components/report-photo/index.js';
 import { useCandidatesPage } from './use-candidates-page.js';
 import styles from './candidates-page.module.css';
 
 export function CandidatesPage() {
   const { reportId, state } = useCandidatesPage();
+  const { t } = useI18n();
 
   return (
     <main className={styles.page}>
       {reportId && (
         <Link className={styles.back} to={`/reports/${reportId}`}>
-          ← Back to the report
+          {t('candidates.back')}
         </Link>
       )}
-      <h1>Possible matches</h1>
+      <h1>{t('candidates.title')}</h1>
 
       {state.phase === 'loading' && (
         <p role="status" className={styles.status}>
-          Looking for possible matches…
+          {t('candidates.loading')}
         </p>
       )}
 
       {state.phase === 'empty' && (
         <p role="status" className={styles.status}>
-          No possible matches yet — we&apos;ll keep checking as new reports
-          come in.
+          {t('candidates.empty')}
         </p>
       )}
 
       {state.phase === 'error' && (
         <p role="alert" className={styles.error}>
-          Could not load candidates ({state.error.kind}).
+          {t('candidates.error', { kind: state.error.kind })}
         </p>
       )}
 
@@ -50,7 +51,8 @@ export function CandidatesPage() {
               <div>
                 <Link to={`/reports/${candidate.report.id}`}>
                   <strong>
-                    {candidate.report.name ?? candidate.report.species}
+                    {candidate.report.name ??
+                      t(`species.${candidate.report.species}`)}
                   </strong>
                 </Link>
                 <div className={styles.signal}>
@@ -62,18 +64,27 @@ export function CandidatesPage() {
                     }
                   >
                     {candidate.speciesMatch
-                      ? `Same species (${candidate.report.species})`
-                      : `Different species (${candidate.report.species})`}
+                      ? t('candidates.sameSpecies', {
+                          species: t(`species.${candidate.report.species}`),
+                        })
+                      : t('candidates.differentSpecies', {
+                          species: t(`species.${candidate.report.species}`),
+                        })}
                   </span>
                   <span className={styles.tag}>
                     {candidate.distanceKm < 1
-                      ? 'Under 1 km away'
-                      : `${candidate.distanceKm.toFixed(1)} km away`}
+                      ? t('candidates.underOneKm')
+                      : t('candidates.kmAway', {
+                          km: candidate.distanceKm.toFixed(1),
+                        })}
                   </span>
                   <span className={styles.tag}>
                     {candidate.daysApart === 0
-                      ? 'Same day'
-                      : `${candidate.daysApart} day(s) apart`}
+                      ? t('candidates.sameDay')
+                      : t('candidates.daysApart', {
+                          days: candidate.daysApart,
+                          count: candidate.daysApart,
+                        })}
                   </span>
                 </div>
                 {reportId && (

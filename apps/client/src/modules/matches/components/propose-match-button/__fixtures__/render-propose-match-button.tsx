@@ -2,6 +2,7 @@ import type { ReactElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { createApiClient } from '@/modules/shared/http/api-client';
 import { ApiClientProvider } from '@/modules/shared/providers/api-client';
+import { I18nProvider } from '@/modules/shared/providers/i18n';
 import { ProposeMatchButton } from '../ProposeMatchButton.js';
 
 export const TEST_BASE_URL = 'http://api.test';
@@ -12,7 +13,8 @@ export function renderableProposeMatchButton(): ReactElement {
     getAccessToken: async () => 'test-token',
   });
   return (
-    <ApiClientProvider client={client}>
+    <I18nProvider>
+      <ApiClientProvider client={client}>
       <MemoryRouter>
         <ProposeMatchButton
           lostReportId="lost-1"
@@ -20,5 +22,6 @@ export function renderableProposeMatchButton(): ReactElement {
         />
       </MemoryRouter>
     </ApiClientProvider>
+    </I18nProvider>
   );
 }

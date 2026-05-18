@@ -18,7 +18,6 @@ export type StatusTone =
   | 'muted';
 
 export type StatusDescriptor = {
-  label: string;
   tone: StatusTone;
   /** 24×24 stroke path(s) — see DESIGN.md status → icon map. */
   icon: string;

@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { createApiClient } from '@/modules/shared/http/api-client';
 import { ApiClientProvider } from '@/modules/shared/providers/api-client';
+import { I18nProvider } from '@/modules/shared/providers/i18n';
 import { AccountPage } from '../../../pages/account/AccountPage.js';
 import { LoginPage } from '../../../pages/login/LoginPage.js';
 import { RegisterPage } from '../../../pages/register/RegisterPage.js';
@@ -28,7 +29,8 @@ export function renderableAuthApp(initialPath: string): ReactElement {
     getAccessToken: async () => tokenStorage.get() ?? 'anonymous',
   });
   return (
-    <ApiClientProvider client={client}>
+    <I18nProvider>
+      <ApiClientProvider client={client}>
       <MemoryRouter initialEntries={[initialPath]}>
         <Routes>
           <Route element={shell}>
@@ -47,5 +49,6 @@ export function renderableAuthApp(initialPath: string): ReactElement {
         </Routes>
       </MemoryRouter>
     </ApiClientProvider>
+    </I18nProvider>
   );
 }

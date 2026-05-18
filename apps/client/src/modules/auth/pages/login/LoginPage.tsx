@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useI18n } from '@/modules/shared/providers/i18n';
 import { useLoginPage } from './use-login-page.js';
 import styles from './login-page.module.css';
 
@@ -12,13 +13,14 @@ export function LoginPage() {
     setPassword,
     onSubmit,
   } = useLoginPage();
+  const { t } = useI18n();
 
   return (
     <main className={styles.page}>
-      <h1>Log in</h1>
+      <h1>{t('login.title')}</h1>
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.field}>
-          <label htmlFor="login-email">Email</label>
+          <label htmlFor="login-email">{t('login.email')}</label>
           <input
             id="login-email"
             type="email"
@@ -30,7 +32,7 @@ export function LoginPage() {
           />
         </div>
         <div className={styles.field}>
-          <label htmlFor="login-password">Password</label>
+          <label htmlFor="login-password">{t('login.password')}</label>
           <input
             id="login-password"
             type="password"
@@ -43,15 +45,16 @@ export function LoginPage() {
         </div>
         {error ? (
           <p role="alert" className={styles.error}>
-            {error}
+            {t(error)}
           </p>
         ) : null}
         <button type="submit" disabled={submitting}>
-          {submitting ? 'Logging in…' : 'Log in'}
+          {submitting ? t('login.submitting') : t('login.submit')}
         </button>
       </form>
       <p>
-        No account? <Link to="/register">Register</Link>
+        {t('login.noAccount')}{' '}
+        <Link to="/register">{t('login.register')}</Link>
       </p>
     </main>
   );

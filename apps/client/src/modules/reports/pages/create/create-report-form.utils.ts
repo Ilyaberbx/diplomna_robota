@@ -1,8 +1,12 @@
 import { z } from 'zod';
 import type { CreateReportInput, ReportKind } from '../../reports.types.js';
 
-const requiredText = (label: string) =>
-  z.string().trim().min(1, `${label} is required`);
+// Messages are i18n catalog keys; the page resolves them through `t()`.
+// Zod's built-in messages (lat/lng range, max length) are passed through
+// `t()` unchanged because `translate()` falls back to the input string for
+// non-catalog keys.
+const dateRequired = () =>
+  z.string().trim().min(1, 'create.err.dateRequired');
 
 export const createReportFormSchema = z
   .object({
@@ -16,18 +20,18 @@ export const createReportFormSchema = z
     contactEmail: z
       .string()
       .trim()
-      .email('Enter a valid email')
+      .email('create.err.email')
       .optional()
       .or(z.literal('')),
     lat: z.coerce.number().min(-90).max(90),
     lng: z.coerce.number().min(-180).max(180),
-    eventDate: requiredText('Date'),
+    eventDate: dateRequired(),
   })
   .refine(
     (v) =>
       (v.contactPhone ?? '') !== '' || (v.contactEmail ?? '') !== '',
     {
-      message: 'Provide a phone or an email so you can be reached',
+      message: 'create.err.contactRequired',
       path: ['contactPhone'],
     },
   );

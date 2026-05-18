@@ -16,6 +16,7 @@ import {
 } from '@/modules/reports';
 import { MatchDetailPage, MyMatchesPage } from '@/modules/matches';
 import { ApiClientProvider } from '@/modules/shared/providers/api-client';
+import { I18nProvider } from '@/modules/shared/providers/i18n';
 import { ThemeProvider } from '@/modules/shared/providers/theme';
 import { apiClient } from './api-client.js';
 import { AppShell } from './AppShell.js';
@@ -85,10 +86,12 @@ const router = createBrowserRouter([
 
 export function App() {
   return (
-    <ThemeProvider>
-      <ApiClientProvider client={apiClient}>
-        <RouterProvider router={router} />
-      </ApiClientProvider>
-    </ThemeProvider>
+    <I18nProvider>
+      <ThemeProvider>
+        <ApiClientProvider client={apiClient}>
+          <RouterProvider router={router} />
+        </ApiClientProvider>
+      </ThemeProvider>
+    </I18nProvider>
   );
 }

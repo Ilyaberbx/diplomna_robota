@@ -3,67 +3,66 @@ import { EmptyState } from '@/modules/shared/components/empty-state';
 import { ErrorState } from '@/modules/shared/components/error-state';
 import { Spinner } from '@/modules/shared/components/spinner';
 import { StatusPill } from '@/modules/shared/components/status-pill';
+import { useI18n } from '@/modules/shared/providers/i18n';
 import { ReportPhoto } from '../../components/report-photo/index.js';
 import { useLandingPage } from './use-landing-page.js';
 import styles from './landing-page.module.css';
 
 export function LandingPage() {
   const { state } = useLandingPage();
+  const { t } = useI18n();
 
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <p className={styles.kicker}>PetFinder</p>
-        <h1 className={styles.title}>
-          Lost a pet? Found one? Let&apos;s get them home.
-        </h1>
-        <p className={styles.lede}>
-          Publish a report in under a minute. We watch for matches nearby and
-          only reveal contact details once both sides confirm.
-        </p>
+        <p className={styles.kicker}>{t('landing.kicker')}</p>
+        <h1 className={styles.title}>{t('landing.title')}</h1>
+        <p className={styles.lede}>{t('landing.lede')}</p>
         <div className={styles.ctaRow}>
           <Link
             to="/report/new?kind=lost"
             className={`${styles.cta} ${styles.ctaLost}`}
           >
-            <span className={styles.ctaTitle}>I lost a pet</span>
-            <span className={styles.ctaSub}>
-              File a Lost Report and start watching for matches
+            <span className={styles.ctaTitle}>
+              {t('landing.lostCtaTitle')}
             </span>
+            <span className={styles.ctaSub}>{t('landing.lostCtaSub')}</span>
           </Link>
           <Link
             to="/report/new?kind=found"
             className={`${styles.cta} ${styles.ctaFound}`}
           >
-            <span className={styles.ctaTitle}>I found a pet</span>
-            <span className={styles.ctaSub}>
-              File a Found Report so the owner can find you
+            <span className={styles.ctaTitle}>
+              {t('landing.foundCtaTitle')}
             </span>
+            <span className={styles.ctaSub}>{t('landing.foundCtaSub')}</span>
           </Link>
         </div>
       </section>
 
       <section className={styles.feed}>
         <div className={styles.feedHead}>
-          <h2>Active near you</h2>
-          <Link to="/browse">Browse all reports →</Link>
+          <h2>{t('landing.feedHead')}</h2>
+          <Link to="/browse">{t('landing.browseAll')}</Link>
         </div>
 
-        {state.phase === 'loading' && <Spinner label="Loading reports…" />}
+        {state.phase === 'loading' && (
+          <Spinner label={t('landing.loading')} />
+        )}
 
         {state.phase === 'error' && (
           <ErrorState
-            message={`We couldn't load reports right now (${state.error.kind}).`}
+            message={t('landing.error', { kind: state.error.kind })}
           />
         )}
 
         {state.phase === 'empty' && (
           <EmptyState
-            title="No active reports yet"
-            message="Be the first — file a report and we'll watch for matches as new ones come in."
+            title={t('landing.emptyTitle')}
+            message={t('landing.emptyMessage')}
           >
             <Link to="/report/new?kind=lost" className={styles.cardName}>
-              Report a pet
+              {t('landing.emptyCta')}
             </Link>
           </EmptyState>
         )}
@@ -88,10 +87,10 @@ export function LandingPage() {
                       <StatusPill status={report.status} />
                     </div>
                     <span className={styles.cardName}>
-                      {report.name ?? report.species}
+                      {report.name ?? t(`species.${report.species}`)}
                     </span>
                     <span className={styles.cardMeta}>
-                      {report.species}
+                      {t(`species.${report.species}`)}
                       {report.breed ? ` · ${report.breed}` : ''} ·{' '}
                       {report.eventDate.slice(0, 10)}
                     </span>

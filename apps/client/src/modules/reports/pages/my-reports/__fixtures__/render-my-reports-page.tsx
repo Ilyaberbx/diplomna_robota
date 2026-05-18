@@ -2,6 +2,7 @@ import type { ReactElement } from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { createApiClient } from '@/modules/shared/http/api-client';
 import { ApiClientProvider } from '@/modules/shared/providers/api-client';
+import { I18nProvider } from '@/modules/shared/providers/i18n';
 import { AuthSessionProvider } from '@/modules/auth';
 import { MyReportsPage } from '../MyReportsPage.js';
 
@@ -14,7 +15,8 @@ export function renderableMyReportsPage(): ReactElement {
     getAccessToken: async () => 'test-token',
   });
   return (
-    <ApiClientProvider client={client}>
+    <I18nProvider>
+      <ApiClientProvider client={client}>
       <AuthSessionProvider>
         <MemoryRouter initialEntries={['/me/reports']}>
           <Routes>
@@ -23,6 +25,7 @@ export function renderableMyReportsPage(): ReactElement {
         </MemoryRouter>
       </AuthSessionProvider>
     </ApiClientProvider>
+    </I18nProvider>
   );
 }
 

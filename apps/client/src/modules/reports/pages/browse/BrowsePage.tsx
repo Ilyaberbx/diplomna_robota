@@ -1,26 +1,28 @@
 import { Link } from 'react-router-dom';
+import { useI18n } from '@/modules/shared/providers/i18n';
 import { ReportPhoto } from '../../components/report-photo/index.js';
 import { useBrowsePage } from './use-browse-page.js';
 import styles from './browse-page.module.css';
 
 export function BrowsePage() {
   const { query, state, setKind, setSpecies, setPage } = useBrowsePage();
+  const { t } = useI18n();
 
   return (
     <main className={styles.page}>
-      <h1>Browse reports</h1>
+      <h1>{t('browse.title')}</h1>
       <div className={styles.filters}>
-        <label htmlFor="filter-kind">Kind</label>
+        <label htmlFor="filter-kind">{t('browse.kind')}</label>
         <select
           id="filter-kind"
           value={query.kind ?? ''}
           onChange={(e) => setKind(e.target.value as 'lost' | 'found' | '')}
         >
-          <option value="">All</option>
-          <option value="lost">Lost</option>
-          <option value="found">Found</option>
+          <option value="">{t('browse.all')}</option>
+          <option value="lost">{t('common.lost')}</option>
+          <option value="found">{t('common.found')}</option>
         </select>
-        <label htmlFor="filter-species">Species</label>
+        <label htmlFor="filter-species">{t('browse.species')}</label>
         <select
           id="filter-species"
           value={query.species ?? ''}
@@ -30,30 +32,29 @@ export function BrowsePage() {
             )
           }
         >
-          <option value="">All</option>
-          <option value="dog">Dog</option>
-          <option value="cat">Cat</option>
-          <option value="bird">Bird</option>
-          <option value="other">Other</option>
+          <option value="">{t('browse.all')}</option>
+          <option value="dog">{t('species.dog')}</option>
+          <option value="cat">{t('species.cat')}</option>
+          <option value="bird">{t('species.bird')}</option>
+          <option value="other">{t('species.other')}</option>
         </select>
       </div>
 
       {state.phase === 'loading' && (
         <p role="status" className={styles.status}>
-          Loading reports…
+          {t('browse.loading')}
         </p>
       )}
 
       {state.phase === 'empty' && (
         <p role="status" className={styles.status}>
-          No reports match these filters yet — file one and we&apos;ll watch
-          for matches.
+          {t('browse.empty')}
         </p>
       )}
 
       {state.phase === 'error' && (
         <p role="alert" className={styles.error}>
-          Could not load reports ({state.error.kind}).
+          {t('browse.error', { kind: state.error.kind })}
         </p>
       )}
 
@@ -70,27 +71,31 @@ export function BrowsePage() {
                     variant="card"
                   />
                   <span className={styles.badge}>
-                    {report.kind === 'lost' ? 'Lost' : 'Found'} ·{' '}
-                    {report.status}
+                    {t('browse.badge', {
+                      kind: t(`status.${report.kind}`),
+                      status: t(`status.${report.status}`),
+                    })}
                   </span>
-                  <strong>{report.name ?? report.species}</strong>
+                  <strong>
+                    {report.name ?? t(`species.${report.species}`)}
+                  </strong>
                   <span className={styles.meta}>
-                    {report.species}
+                    {t(`species.${report.species}`)}
                     {report.breed ? ` · ${report.breed}` : ''}
                   </span>
                 </Link>
               </li>
             ))}
           </ul>
-          <nav className={styles.pager} aria-label="Pagination">
+          <nav className={styles.pager} aria-label={t('browse.paginationAria')}>
             <button
               type="button"
               disabled={state.data.page <= 1}
               onClick={() => setPage(state.data.page - 1)}
             >
-              Previous
+              {t('browse.previous')}
             </button>
-            <span>Page {state.data.page}</span>
+            <span>{t('browse.page', { page: state.data.page })}</span>
             <button
               type="button"
               disabled={
@@ -98,7 +103,7 @@ export function BrowsePage() {
               }
               onClick={() => setPage(state.data.page + 1)}
             >
-              Next
+              {t('browse.next')}
             </button>
           </nav>
         </>

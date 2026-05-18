@@ -1,5 +1,7 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import { LocaleToggle } from '@/modules/shared/components/locale-toggle';
 import { ThemeToggle } from '@/modules/shared/components/theme-toggle';
+import { useI18n } from '@/modules/shared/providers/i18n';
 import type { AppShellProps } from './app-shell.types.js';
 import styles from './app-shell.module.css';
 
@@ -19,6 +21,7 @@ function mobileClass({ isActive }: { isActive: boolean }): string {
  * logout handler are wired by the composition root (`app/AppShell`).
  */
 export function AppShell({ userEmail, isLoading, onLogout }: AppShellProps) {
+  const { t } = useI18n();
   const isAuthed = userEmail !== null;
   const showAnonActions = !isLoading && !isAuthed;
   const showAuthedActions = !isLoading && isAuthed;
@@ -30,21 +33,22 @@ export function AppShell({ userEmail, isLoading, onLogout }: AppShellProps) {
           <span className={styles.brandMark} aria-hidden="true">
             🐾
           </span>
-          PetFinder
+          {t('nav.brand')}
         </Link>
 
-        <nav className={styles.nav} aria-label="Primary">
+        <nav className={styles.nav} aria-label={t('nav.primaryAria')}>
           <NavLink to="/browse" className={navClass}>
-            Browse
+            {t('nav.browse')}
           </NavLink>
           <Link to="/report/new?kind=lost" className={styles.cta}>
-            Report a pet
+            {t('nav.reportPet')}
           </Link>
         </nav>
 
         <span className={styles.spacer} />
 
         <div className={styles.actions}>
+          <LocaleToggle />
           <ThemeToggle />
           {showAuthedActions ? (
             <>
@@ -52,7 +56,7 @@ export function AppShell({ userEmail, isLoading, onLogout }: AppShellProps) {
                 to="/me/reports"
                 className={`${navClass({ isActive: false })} ${styles.desktopOnly}`}
               >
-                My reports
+                {t('nav.myReports')}
               </NavLink>
               <Link
                 to="/me"
@@ -66,13 +70,13 @@ export function AppShell({ userEmail, isLoading, onLogout }: AppShellProps) {
                 className={styles.logout}
                 onClick={onLogout}
               >
-                Log out
+                {t('nav.logout')}
               </button>
             </>
           ) : null}
           {showAnonActions ? (
             <Link to="/login" className={styles.cta}>
-              Log in
+              {t('nav.login')}
             </Link>
           ) : null}
         </div>
@@ -82,23 +86,23 @@ export function AppShell({ userEmail, isLoading, onLogout }: AppShellProps) {
         <Outlet />
       </main>
 
-      <nav className={styles.mobileBar} aria-label="Primary">
+      <nav className={styles.mobileBar} aria-label={t('nav.primaryAria')}>
         <NavLink to="/browse" className={mobileClass} end>
-          Browse
+          {t('nav.browse')}
         </NavLink>
         <Link
           to="/report/new?kind=lost"
           className={`${styles.mobileLink} ${styles.mobileCta}`}
         >
-          Report a pet
+          {t('nav.reportPet')}
         </Link>
         {isAuthed ? (
           <NavLink to="/me/reports" className={mobileClass}>
-            My reports
+            {t('nav.myReports')}
           </NavLink>
         ) : (
           <NavLink to="/login" className={mobileClass}>
-            Log in
+            {t('nav.login')}
           </NavLink>
         )}
       </nav>
