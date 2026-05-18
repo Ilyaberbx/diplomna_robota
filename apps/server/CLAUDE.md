@@ -20,7 +20,7 @@ The cross-cutting auth contract (canonical user identifier, credential on every 
 This is the canonical stack for `apps/server/`. Names + major versions only — `package.json` is the source of truth for exact versions; this list exists so neither a model nor a human has to re-derive *what kind of project this is* from the lockfile.
 
 - **Runtime / framework:** Node.js, NestJS (`@nestjs/common`, `@nestjs/core`, `@nestjs/platform-express`).
-- **Language / build:** TypeScript (strict). `tsc -p tsconfig.build.json` for the production build, `tsx` for dev/watch, SWC (via `unplugin-swc`) for vitest transpile.
+- **Language / build:** TypeScript (strict). `tsc -p tsconfig.build.json` for the production build, `@nestjs/cli` (`nest start --watch`) for dev/watch, SWC (via `unplugin-swc`) for vitest transpile. Dev/watch must use a transpiler that emits `emitDecoratorMetadata` — `tsx`/esbuild does not, which breaks all NestJS reflection-based DI (see `docs/adr/0006-dev-runtime-nestjs-cli.md`).
 - **Persistence:** PostgreSQL via the `postgres` driver, Drizzle ORM (`drizzle-orm` + `drizzle-kit` for migrations). Schema in `src/db/schema.ts`; migrations in `drizzle/`.
 - **Auth:** TBD. Pick an auth provider/token scheme and document it here and in `docs/adr/`. The structural auth rules above hold regardless of mechanism.
 - **Errors as values:** `neverthrow` (`Result` / `ResultAsync`) — see `.claude/rules/error-handling.md`.

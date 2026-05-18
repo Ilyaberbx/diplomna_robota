@@ -77,6 +77,14 @@ contact anywhere.
   columns and never selects from `reports`.
 - `ReportsReader.revealContact` was added for this slice; `reports`'
   `MODULE.md` lists it.
+- `reports` imports the leaf reader surface (`MATCHES_READER`/`MatchesReader`
+  from `matches.ports.ts`, `MatchesReaderModule` from
+  `matches-reader.module.ts`) **by concrete file path, not via this module's
+  `index.ts` barrel**. The barrel eagerly re-exports `MatchesModule` (which
+  imports `reports`), so a barrel import reintroduces the reports↔matches ESM
+  cycle at module-evaluation time (`Cannot access 'MATCHES_READER' before
+  initialization`). Deliberate, narrow exception to folder-structure rule 4 —
+  see ADR 0005. A boot smoke (`src/__tests__/app.boot.test.ts`) guards it.
 
 ## Out of scope
 

@@ -46,6 +46,37 @@ write path). `ReportsModule` imports `MatchesReaderModule` only — never
 A new error tag `InvalidTransition` is added to `src/shared/errors.ts` and
 wired into the exhaustive `error-status.ts` table as 409 `INVALID_TRANSITION`.
 
+## Import-path note (added after a boot crash)
+
+The module-level DAG above is acyclic, but the **ES-module** graph is not
+automatically so. The shared `matches/index.ts` barrel eagerly re-exports
+`MatchesModule` (a value), and `MatchesModule` imports `ReportsModule`. So if
+`reports` reaches the leaf reader surface *through the `matches` barrel*, the
+ESM evaluation order becomes:
+
+```
+reports.module → matches/index → matches.module → reports/index →
+reports.module (re-entered) → reports.service → matches/index (mid-eval) →
+MATCHES_READER in TDZ → ReferenceError at the @Inject decorator
+```
+
+This crashed the server on boot under `tsx` while `pnpm verify` stayed green
+(tsc/build never execute the graph; vitest imports modules per-file in test
+order, not the `main.ts → AppModule` order).
+
+**Rule:** `reports` imports the leaf reader surface **by concrete file
+path** — `MATCHES_READER`/`MatchesReader` from `matches.ports.ts`,
+`MatchesReaderModule` from `matches-reader.module.ts` — never from the
+`matches` barrel. Both leaf files are cycle-free (they import only the
+repository + `db`/`shared`), so this makes the runtime import graph exactly
+the acyclic DAG above. This is a deliberate, narrow exception to
+`folder-structure.md` rule 4 (barrel-only cross-module imports), of the same
+character as the deviation below and required by the same
+mutual-dependency. It is not lint-enforced on the server (server `lint` is a
+no-op), so no rule-config change is needed. A boot smoke
+(`apps/server/src/__tests__/app.boot.test.ts`) instantiates the full
+`AppModule` graph and fails the gate if this (or any) cycle returns.
+
 ## Consequence / accepted deviation
 
 This places **two `@Module` declarations in one context folder**

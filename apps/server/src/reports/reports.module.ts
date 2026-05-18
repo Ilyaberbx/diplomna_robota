@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
-import { MatchesReaderModule } from '../matches/index.js';
+// Leaf module imported by file path, not the `../matches` barrel — see the
+// note in reports.service.ts and ADR 0005 (avoids the reports↔matches cycle).
+import { MatchesReaderModule } from '../matches/matches-reader.module.js';
 import { StorageModule } from '../storage/index.js';
 import { ReportsController } from './reports.controller.js';
 import { ReportsRepository } from './reports.repository.js';

@@ -18,10 +18,14 @@ import {
   type PayloadTooLarge,
   type UnsupportedMediaType,
 } from './reports.errors.js';
+// Imported from the leaf files directly, NOT the `../matches` barrel: the
+// barrel eagerly re-exports `MatchesModule` (which imports `reports`),
+// reintroducing the reports↔matches ESM cycle this leaf exists to break.
+// See docs/adr/0005-matches-reader-leaf-module-for-reunited-rule.md.
 import {
   MATCHES_READER,
   type MatchesReader,
-} from '../matches/index.js';
+} from '../matches/matches.ports.js';
 import { ReportsRepository } from './reports.repository.js';
 import type {
   CreateReportInput,
