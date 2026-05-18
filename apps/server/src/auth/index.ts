@@ -4,4 +4,5 @@ export {
   Public,
   RequireUser,
 } from './auth.decorators.js';
-export type { AuthenticatedUser } from './auth.types.js';
+export { AUTH_READER, type AuthReader } from './auth.ports.js';
+export type { AuthenticatedUser, PublicUser } from './auth.types.js';

@@ -5,6 +5,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { AuthModule, CurrentUser } from '../../auth/index.js';
 import type { AuthenticatedUser } from '../../auth/index.js';
 import { ConfigModule } from '../../config/config.module.js';
+import { DbModule } from '../../db/db.module.js';
 import { DomainExceptionFilter } from '../../shared/http/domain-exception.filter.js';
 import { HealthModule } from '../index.js';
 
@@ -28,7 +29,13 @@ describe('HealthController (e2e)', () => {
     process.env.DATABASE_URL = 'postgres://u:p@localhost:5432/test';
     process.env.AUTH_JWT_SECRET = 'test-secret';
     const moduleRef = await Test.createTestingModule({
-      imports: [ConfigModule, AuthModule, HealthModule, ProtectedProbeModule],
+      imports: [
+        ConfigModule,
+        DbModule,
+        AuthModule,
+        HealthModule,
+        ProtectedProbeModule,
+      ],
     }).compile();
     app = moduleRef.createNestApplication();
     app.useGlobalFilters(new DomainExceptionFilter());

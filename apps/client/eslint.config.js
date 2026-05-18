@@ -39,6 +39,16 @@ export default tseslint.config(
               message:
                 'Import the connectivity module via its index.ts public API.',
             },
+            {
+              target: [
+                './src/app',
+                './src/modules/shared',
+                './src/modules/connectivity',
+              ],
+              from: './src/modules/auth',
+              except: ['./index.ts'],
+              message: 'Import the auth module via its index.ts public API.',
+            },
           ],
         },
       ],

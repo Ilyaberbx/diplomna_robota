@@ -35,6 +35,17 @@ export const parseError = (issues: Record<string, string>): ParseError => ({
   issues,
 });
 
+export type EmailTaken = { tag: 'EmailTaken'; email: string };
+export const emailTaken = (email: string): EmailTaken => ({
+  tag: 'EmailTaken',
+  email,
+});
+
+export type InvalidCredentials = { tag: 'InvalidCredentials' };
+export const invalidCredentials = (): InvalidCredentials => ({
+  tag: 'InvalidCredentials',
+});
+
 export function assertNever(x: never): never {
   throw new Error(`unhandled variant: ${JSON.stringify(x)}`);
 }

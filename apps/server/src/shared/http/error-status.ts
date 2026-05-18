@@ -2,7 +2,9 @@ import { assertNever } from '../errors.js';
 import type {
   Conflict,
   DbError,
+  EmailTaken,
   Forbidden,
+  InvalidCredentials,
   NotFound,
   ParseError,
   Unauthorized,
@@ -14,7 +16,9 @@ export type AppError =
   | Conflict
   | Unauthorized
   | DbError
-  | ParseError;
+  | ParseError
+  | EmailTaken
+  | InvalidCredentials;
 
 export type HttpErrorBody = {
   error: {
@@ -36,6 +40,10 @@ export function errorToStatus(err: AppError): number {
       return 401;
     case 'ParseError':
       return 400;
+    case 'EmailTaken':
+      return 409;
+    case 'InvalidCredentials':
+      return 401;
     case 'DbError':
       return 500;
     default:
@@ -60,6 +68,12 @@ export function errorToBody(err: AppError): HttpErrorBody {
           message: 'Validation failed',
           issues: err.issues,
         },
+      };
+    case 'EmailTaken':
+      return { error: { code: 'EMAIL_TAKEN', message: 'Email already registered' } };
+    case 'InvalidCredentials':
+      return {
+        error: { code: 'INVALID_CREDENTIALS', message: 'Invalid credentials' },
       };
     case 'DbError':
       return { error: { code: 'INTERNAL', message: 'Internal server error' } };
