@@ -11,3 +11,18 @@ body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
 }
+
+/* WCAG 2.1 AA baseline — applies app-wide so individual modules don't each
+   re-declare focus and target sizing (and silently drift out of compliance).
+   2.4.7 Focus Visible + 1.4.11 Non-text Contrast: a visible focus ring on
+   every interactive element. */
+:where(button, [role='button'], a, input, select, textarea, summary):focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* 2.5.5 Target Size: interactive controls are at least 44×44px. min-height
+   (not fixed height) so multi-line content still grows. */
+:where(button, [role='button'], input, select, textarea) {
+  min-height: var(--tap-min);
+}

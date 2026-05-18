@@ -9,7 +9,8 @@
     "build": "tsc -p tsconfig.build.json",
     "lint": "echo 'lint: no-op (see apps/server/CLAUDE.md)'",
     "verify": "pnpm typecheck && pnpm test && pnpm build",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.6",

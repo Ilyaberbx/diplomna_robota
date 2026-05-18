@@ -14,14 +14,14 @@
 .reject {
   padding: 0.5rem 1rem;
   border-radius: 6px;
-  border: 1px solid var(--color-border, #888);
+  border: 1px solid var(--border);
   font: inherit;
   cursor: pointer;
 }
 
 .confirm {
-  background: var(--color-success, #15803d);
-  color: #fff;
+  background: var(--success);
+  color: var(--success-contrast);
 }
 
 .reject {
@@ -29,16 +29,16 @@
 }
 
 .reveal {
-  border: 1px solid var(--color-success, #15803d);
+  border: 1px solid var(--success);
   border-radius: 8px;
   padding: 1rem;
   margin-top: 1rem;
 }
 
 .status {
-  color: var(--color-muted, #666);
+  color: var(--text-muted);
 }
 
 .error {
-  color: var(--color-error, #b91c1c);
+  color: var(--urgent);
 }

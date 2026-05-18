@@ -16,15 +16,15 @@
 }
 
 .card {
-  border: 1px solid var(--color-border, #ddd);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 0.75rem 1rem;
 }
 
 .status {
-  color: var(--color-muted, #666);
+  color: var(--text-muted);
 }
 
 .error {
-  color: var(--color-error, #b91c1c);
+  color: var(--urgent);
 }
