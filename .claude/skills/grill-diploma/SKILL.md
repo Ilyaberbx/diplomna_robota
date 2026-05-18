@@ -1,9 +1,9 @@
 ---
-name: grill-with-docs
+name: grill-diploma
 description: Rigorously audit a generated diploma/qualification document against the Odesa Polytechnic formatting rules in docs/diploma-rules/RULES.md. Use when the user asks to check, verify, validate, "grill", or review a thesis/diploma chapter, section, or full document for compliance with the kvalifikaciyna robota formatting standard.
 ---
 
-# Grill With Docs — аудит дипломної проти правил оформлення
+# Grill Diploma — аудит дипломної проти правил оформлення
 
 Перевіряє згенерований документ кваліфікаційної роботи проти офіційних правил
 оформлення (`docs/diploma-rules/RULES.md`). Мета — не "переглянути", а
