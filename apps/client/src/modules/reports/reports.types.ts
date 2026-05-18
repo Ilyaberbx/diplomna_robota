@@ -75,6 +75,19 @@ export type DetailState =
   | { phase: 'ready'; report: ReportProjection }
   | { phase: 'error'; error: HttpError };
 
+export type Candidate = {
+  report: PublicReport;
+  distanceKm: number;
+  speciesMatch: boolean;
+  daysApart: number;
+};
+
+export type CandidatesState =
+  | { phase: 'loading' }
+  | { phase: 'empty' }
+  | { phase: 'ready'; candidates: Candidate[] }
+  | { phase: 'error'; error: HttpError };
+
 export type CreateReportFn = (
   input: CreateReportInput,
 ) => ResultAsync<ReportProjection, HttpError>;

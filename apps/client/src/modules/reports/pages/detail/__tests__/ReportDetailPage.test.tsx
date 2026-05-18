@@ -45,6 +45,9 @@ describe('ReportDetailPage projection switch', () => {
       ).toBeInTheDocument(),
     );
     expect(screen.queryByText(/Your contact details/)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: /View candidates/ }),
+    ).not.toBeInTheDocument();
   });
 
   it('shows the contact panel for the owner projection', async () => {
@@ -63,6 +66,9 @@ describe('ReportDetailPage projection switch', () => {
       expect(screen.getByText('me@owner.com', { exact: false })).toBeInTheDocument(),
     );
     expect(screen.getByText(/Your contact details/)).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /View candidates/ }),
+    ).toHaveAttribute('href', '/reports/r1/candidates');
   });
 
   it('renders the error state on a 404', async () => {

@@ -152,6 +152,50 @@ describe('ReportsController (HTTP, real Postgres)', () => {
       .expect(404);
   });
 
+  it('GET /reports/:id/candidates by the reporter returns ranked opposite-kind', async () => {
+    await request(app.getHttpServer())
+      .post('/reports')
+      .set('Authorization', `Bearer ${tokenFor(otherId)}`)
+      .send({
+        kind: 'found',
+        species: 'dog',
+        contactPhone: '+1888',
+        lat: 50.451,
+        lng: 30.521,
+        eventDate: '2026-05-01T00:00:00.000Z',
+      })
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .get(`/reports/${createdId}/candidates`)
+      .set('Authorization', `Bearer ${tokenFor(reporterId)}`)
+      .expect(200)
+      .expect((res) => {
+        expect(Array.isArray(res.body)).toBe(true);
+        expect(res.body.length).toBeGreaterThan(0);
+        for (const c of res.body) {
+          expect(c.report.kind).toBe('found');
+          expect(c.report).not.toHaveProperty('contactPhone');
+          expect(typeof c.distanceKm).toBe('number');
+          expect(typeof c.speciesMatch).toBe('boolean');
+        }
+      });
+  });
+
+  it('GET /reports/:id/candidates by a non-reporter returns 403 FORBIDDEN', async () => {
+    await request(app.getHttpServer())
+      .get(`/reports/${createdId}/candidates`)
+      .set('Authorization', `Bearer ${tokenFor(otherId)}`)
+      .expect(403)
+      .expect((res) => expect(res.body.error.code).toBe('FORBIDDEN'));
+  });
+
+  it('GET /reports/:id/candidates without a token is rejected', async () => {
+    await request(app.getHttpServer())
+      .get(`/reports/${createdId}/candidates`)
+      .expect(401);
+  });
+
   it('PATCH /reports/:id by the reporter edits mutable fields', async () => {
     await request(app.getHttpServer())
       .patch(`/reports/${createdId}`)

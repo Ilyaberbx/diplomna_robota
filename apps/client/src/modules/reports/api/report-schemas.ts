@@ -37,3 +37,12 @@ export const reportPageSchema = z.object({
   pageSize: z.number(),
   total: z.number(),
 });
+
+export const candidateSchema = z.object({
+  report: publicReportSchema,
+  distanceKm: z.number(),
+  speciesMatch: z.boolean(),
+  daysApart: z.number(),
+});
+
+export const candidatesSchema = z.array(candidateSchema);

@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { and, desc, eq, gte, lte, sql, type SQL } from 'drizzle-orm';
+import { and, desc, eq, gte, lte, ne, sql, type SQL } from 'drizzle-orm';
 import { ResultAsync } from 'neverthrow';
 import { DRIZZLE, type Database } from '../db/db.module.js';
 import { reports } from '../db/schema.js';
 import { dbError, type DbError } from '../shared/errors.js';
 import type {
   BrowseFilters,
+  CandidateRecord,
   CreateReportData,
   ReportRecord,
   UpdateReportData,
@@ -167,5 +168,48 @@ export class ReportsRepository {
         + sin(radians(${lat})) * sin(radians(${reports.lat}))
       ))
     ) <= ${radiusKm}`;
+  }
+
+  private haversineKm(lat: number, lng: number): SQL<number> {
+    return sql<number>`${EARTH_RADIUS_KM} * acos(
+      least(1, greatest(-1,
+        cos(radians(${lat})) * cos(radians(${reports.lat}))
+          * cos(radians(${reports.lng}) - radians(${lng}))
+        + sin(radians(${lat})) * sin(radians(${reports.lat}))
+      ))
+    )`;
+  }
+
+  findCandidates(
+    subject: ReportRecord,
+  ): ResultAsync<CandidateRecord[], DbError> {
+    const oppositeKind: ReportRecord['kind'] =
+      subject.kind === 'lost' ? 'found' : 'lost';
+    const distanceKm = this.haversineKm(subject.lat, subject.lng);
+    const speciesMatch = sql<boolean>`${reports.species} = ${subject.species}`;
+    const subjectDateIso = subject.eventDate.toISOString();
+    const daysApart = sql<number>`abs(extract(epoch from
+      (${reports.eventDate} - ${subjectDateIso}::timestamptz)) / 86400)`;
+
+    const query = this.db
+      .select({ row: reports, distanceKm, speciesMatch, daysApart })
+      .from(reports)
+      .where(
+        and(
+          eq(reports.kind, oppositeKind),
+          ne(reports.id, subject.id),
+        ),
+      )
+      .orderBy(desc(speciesMatch), distanceKm, daysApart);
+
+    return ResultAsync.fromPromise(query, (cause) => dbError(cause)).map(
+      (rows) =>
+        rows.map((r) => ({
+          report: toRecord(r.row),
+          distanceKm: Number(r.distanceKm),
+          speciesMatch: r.speciesMatch,
+          daysApart: Math.round(Number(r.daysApart)),
+        })),
+    );
   }
 }

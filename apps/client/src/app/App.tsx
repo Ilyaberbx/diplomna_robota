@@ -8,6 +8,7 @@ import {
 } from '@/modules/auth';
 import {
   BrowsePage,
+  CandidatesPage,
   CreateReportPage,
   ReportDetailPage,
 } from '@/modules/reports';
@@ -25,6 +26,14 @@ const router = createBrowserRouter([
       { path: '/register', element: <RegisterPage /> },
       { path: '/browse', element: <BrowsePage /> },
       { path: '/reports/:id', element: <ReportDetailPage /> },
+      {
+        path: '/reports/:id/candidates',
+        element: (
+          <RouteGuard>
+            <CandidatesPage />
+          </RouteGuard>
+        ),
+      },
       {
         path: '/report/new',
         element: (

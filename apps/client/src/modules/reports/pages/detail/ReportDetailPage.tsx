@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { ReportPhoto } from '../../components/report-photo/index.js';
 import { useReportDetailPage } from './use-report-detail-page.js';
 import styles from './report-detail-page.module.css';
@@ -53,6 +54,9 @@ export function ReportDetailPage() {
               <h2>Your contact details</h2>
               <p>Phone: {state.report.contactPhone ?? '—'}</p>
               <p>Email: {state.report.contactEmail ?? '—'}</p>
+              <Link to={`/reports/${state.report.id}/candidates`}>
+                View candidates
+              </Link>
             </section>
           ) : (
             <p className={styles.privacy}>

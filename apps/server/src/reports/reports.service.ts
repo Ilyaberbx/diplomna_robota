@@ -26,6 +26,7 @@ import { ALLOWED_PHOTO_MIME, PHOTO_MAX_BYTES } from './reports.types.js';
 import type { ReportsReader, ReportsWriter } from './reports.ports.js';
 import type {
   BrowseFilters,
+  Candidate,
   OwnerReport,
   PublicReport,
   ReportPage,
@@ -136,6 +137,27 @@ export class ReportsService implements ReportsReader, ReportsWriter {
     return this.getRecord(id).andThen(() =>
       this.repo.updateStatus(id, status),
     );
+  }
+
+  getCandidates(
+    actorId: string,
+    id: string,
+  ): ResultAsync<Candidate[], Forbidden | NotFound | DbError> {
+    return this.getRecord(id).andThen((record) => {
+      const isReporter = record.reporterId === actorId;
+      if (!isReporter)
+        return errAsync(
+          forbidden('only the reporter may view this report’s candidates'),
+        );
+      return this.repo.findCandidates(record).map((candidates) =>
+        candidates.map((c) => ({
+          report: toPublic(c.report),
+          distanceKm: c.distanceKm,
+          speciesMatch: c.speciesMatch,
+          daysApart: c.daysApart,
+        })),
+      );
+    });
   }
 
   create(

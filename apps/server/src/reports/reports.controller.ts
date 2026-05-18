@@ -29,6 +29,7 @@ import {
 import { ReportsService } from './reports.service.js';
 import { unsupportedMediaType } from './reports.errors.js';
 import type {
+  Candidate,
   MultipartFile,
   OwnerReport,
   ReportPage,
@@ -73,6 +74,14 @@ export class ReportsController {
     const actor = (req as Request & { user?: AuthenticatedUser }).user ?? null;
     const actorId = actor ? actor.id : null;
     return toHttp(await this.svc.getOne(actorId, id));
+  }
+
+  @Get(':id/candidates')
+  async candidates(
+    @CurrentUser() actor: AuthenticatedUser,
+    @Param('id') id: string,
+  ): Promise<Candidate[]> {
+    return toHttp(await this.svc.getCandidates(actor.id, id));
   }
 
   @Patch(':id')

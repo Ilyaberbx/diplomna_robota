@@ -112,6 +112,24 @@ export type MultipartFile = {
   size: number;
 };
 
+// A Candidate is a computed same-animal suggestion for a given report: the
+// opposite-kind public report plus the legible match signal that ranked it
+// (species equality, Haversine distance, date-window proximity). Never
+// stored (CONTEXT.md "Candidate").
+export type Candidate = {
+  report: PublicReport;
+  distanceKm: number;
+  speciesMatch: boolean;
+  daysApart: number;
+};
+
+export type CandidateRecord = {
+  report: ReportRecord;
+  distanceKm: number;
+  speciesMatch: boolean;
+  daysApart: number;
+};
+
 export type BrowseFilters = {
   kind?: ReportKind;
   species?: ReportSpecies;

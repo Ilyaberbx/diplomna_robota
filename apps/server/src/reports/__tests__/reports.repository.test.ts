@@ -151,4 +151,85 @@ describe('ReportsRepository (ephemeral Postgres)', () => {
     expect(ids).toContain(near.id);
     expect(ids).not.toContain(far.id);
   });
+
+  it('findCandidates ranks opposite-kind by species, distance and date window', async () => {
+    const subject = (
+      await repo.insert(
+        makeData(reporterId, {
+          kind: 'lost',
+          species: 'dog',
+          lat: 50.45,
+          lng: 30.52,
+          eventDate: new Date('2026-05-10T00:00:00Z'),
+        }),
+      )
+    )._unsafeUnwrap();
+
+    // Best: opposite kind, species match, very close, same day.
+    const best = (
+      await repo.insert(
+        makeData(otherId, {
+          kind: 'found',
+          species: 'dog',
+          lat: 50.451,
+          lng: 30.521,
+          eventDate: new Date('2026-05-10T00:00:00Z'),
+        }),
+      )
+    )._unsafeUnwrap();
+    // Same species but ~5 km away and 3 days apart.
+    const mid = (
+      await repo.insert(
+        makeData(otherId, {
+          kind: 'found',
+          species: 'dog',
+          lat: 50.49,
+          lng: 30.58,
+          eventDate: new Date('2026-05-13T00:00:00Z'),
+        }),
+      )
+    )._unsafeUnwrap();
+    // Different species, close — ranked below same-species ones.
+    const wrongSpecies = (
+      await repo.insert(
+        makeData(otherId, {
+          kind: 'found',
+          species: 'cat',
+          lat: 50.451,
+          lng: 30.521,
+          eventDate: new Date('2026-05-10T00:00:00Z'),
+        }),
+      )
+    )._unsafeUnwrap();
+    // Same kind as subject — must be excluded.
+    const sameKind = (
+      await repo.insert(
+        makeData(otherId, {
+          kind: 'lost',
+          species: 'dog',
+          lat: 50.451,
+          lng: 30.521,
+          eventDate: new Date('2026-05-10T00:00:00Z'),
+        }),
+      )
+    )._unsafeUnwrap();
+
+    const candidates = (
+      await repo.findCandidates(subject)
+    )._unsafeUnwrap();
+    const ids = candidates.map((c) => c.report.id);
+
+    expect(ids).not.toContain(sameKind.id);
+    expect(ids).not.toContain(subject.id);
+    expect(ids).toContain(best.id);
+    expect(ids.indexOf(best.id)).toBeLessThan(ids.indexOf(mid.id));
+    expect(ids.indexOf(mid.id)).toBeLessThan(ids.indexOf(wrongSpecies.id));
+
+    const bestC = candidates.find((c) => c.report.id === best.id);
+    expect(bestC?.speciesMatch).toBe(true);
+    expect(bestC?.distanceKm).toBeLessThan(1);
+    expect(bestC?.daysApart).toBe(0);
+    const wrongC = candidates.find((c) => c.report.id === wrongSpecies.id);
+    expect(wrongC?.speciesMatch).toBe(false);
+  });
 });

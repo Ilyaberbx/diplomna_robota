@@ -4,6 +4,7 @@ import { dbError, type DbError } from '../../shared/errors.js';
 import { ReportsService } from '../reports.service.js';
 import type { CreateReportInput } from '../reports.dto.js';
 import type {
+  CandidateRecord,
   CreateReportData,
   ReportRecord,
   UpdateReportData,
@@ -35,6 +36,14 @@ type RepoBehaviour = {
   updateFails?: boolean;
   found?: ReportRecord | null;
   findFails?: boolean;
+  candidatesFails?: boolean;
+};
+
+const CANDIDATE: CandidateRecord = {
+  report: { ...RECORD, id: 'cand-1', kind: 'found' },
+  distanceKm: 1.2,
+  speciesMatch: true,
+  daysApart: 0,
 };
 
 class FakeRepo {
@@ -70,6 +79,13 @@ class FakeRepo {
   ): ResultAsync<{ items: ReportRecord[]; total: number }, DbError> {
     if (this.b.browseFails) return errAsync(dbError('browse'));
     return okAsync({ items: [RECORD], total: 1 });
+  }
+
+  findCandidates(
+    _subject: ReportRecord,
+  ): ResultAsync<CandidateRecord[], DbError> {
+    if (this.b.candidatesFails) return errAsync(dbError('candidates'));
+    return okAsync([CANDIDATE]);
   }
 }
 
@@ -282,5 +298,50 @@ describe('ReportsService', () => {
   it('getPhoto returns NotFound when the report is missing', async () => {
     const res = await svc({ found: null }).getPhoto('nope');
     expect(res.isErr() && res.error.tag).toBe('NotFound');
+  });
+
+  it('getCandidates returns ranked public candidates to the reporter (Ok)', async () => {
+    const res = await svc({ found: RECORD }).getCandidates('user-1', 'rep-1');
+    expect(res.isOk()).toBe(true);
+    if (res.isOk()) {
+      expect(res.value).toHaveLength(1);
+      expect(res.value[0].report.id).toBe('cand-1');
+      expect(res.value[0].speciesMatch).toBe(true);
+      expect(
+        Object.prototype.hasOwnProperty.call(
+          res.value[0].report,
+          'contactPhone',
+        ),
+      ).toBe(false);
+    }
+  });
+
+  it('getCandidates returns Forbidden for a non-reporter', async () => {
+    const res = await svc({ found: RECORD }).getCandidates(
+      'intruder',
+      'rep-1',
+    );
+    expect(res.isErr() && res.error.tag).toBe('Forbidden');
+  });
+
+  it('getCandidates returns NotFound when the report is missing', async () => {
+    const res = await svc({ found: null }).getCandidates('user-1', 'nope');
+    expect(res.isErr() && res.error.tag).toBe('NotFound');
+  });
+
+  it('getCandidates surfaces DbError from the lookup', async () => {
+    const res = await svc({ findFails: true }).getCandidates(
+      'user-1',
+      'rep-1',
+    );
+    expect(res.isErr() && res.error.tag).toBe('DbError');
+  });
+
+  it('getCandidates surfaces DbError from the candidate query', async () => {
+    const res = await svc({
+      found: RECORD,
+      candidatesFails: true,
+    }).getCandidates('user-1', 'rep-1');
+    expect(res.isErr() && res.error.tag).toBe('DbError');
   });
 });
