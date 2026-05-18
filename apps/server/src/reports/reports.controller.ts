@@ -147,6 +147,11 @@ export class ReportsController {
     const blob = result.value;
     res.setHeader('content-type', blob.contentType);
     res.setHeader('cache-control', 'private, max-age=60');
+    // This stream is embedded by anonymous browsers as a plain cross-origin
+    // <img src> (ADR 0004). Helmet's global default CORP is `same-origin`,
+    // which the browser would enforce by blocking that image. Relax CORP for
+    // this one public, intentionally-embeddable response only.
+    res.setHeader('cross-origin-resource-policy', 'cross-origin');
     blob.stream.pipe(res);
   }
 }

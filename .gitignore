@@ -15,3 +15,6 @@ dist
 
 # Playwright MCP snapshot artifacts
 .playwright-mcp/
+
+# Thesis Python virtualenv (local tooling, not source)
+thesis/.venv/

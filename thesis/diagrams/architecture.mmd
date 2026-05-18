@@ -1,0 +1,32 @@
+flowchart TB
+    subgraph CLIENT["Клієнтська частина (Vite + React)"]
+        direction LR
+        cAuth["Модуль auth<br/>(сесія, вхід)"]
+        cReports["Модуль reports<br/>(стрічка, форма, кандидати)"]
+        cMatches["Модуль matches<br/>(зв'язки, підтвердження)"]
+        cConn["Модуль connectivity<br/>(стан, тема)"]
+    end
+    HTTP{{"HTTP / JSON<br/>(JWT-автентифікація)"}}
+    subgraph SERVER["Серверна частина (NestJS, порти та адаптери)"]
+        direction LR
+        sAuth["auth<br/>(таблиця users)"]
+        sReports["reports<br/>(таблиця reports,<br/>кандидати)"]
+        sMatches["matches<br/>(таблиця matches)"]
+        sReader["matches-reader<br/>(листовий модуль)"]
+        sStorage["storage<br/>(адаптер сховища)"]
+        sHealth["health"]
+    end
+    DB[("PostgreSQL")]
+    FS[("Файлове сховище")]
+
+    CLIENT -->|запити| HTTP
+    HTTP -->|відповіді| CLIENT
+    HTTP --> SERVER
+    sAuth --> DB
+    sReports --> DB
+    sMatches --> DB
+    sReader --> DB
+    sReports -. порт MATCHES_READER .-> sReader
+    sMatches -. порт REPORTS_READER .-> sReports
+    sStorage --> FS
+    sReports -. порт STORAGE .-> sStorage

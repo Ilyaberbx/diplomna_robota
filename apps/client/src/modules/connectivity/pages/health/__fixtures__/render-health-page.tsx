@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 import { createApiClient } from '@/modules/shared/http/api-client';
 import { ApiClientProvider } from '@/modules/shared/providers/api-client';
+import { I18nProvider } from '@/modules/shared/providers/i18n';
 import { ThemeProvider } from '@/modules/shared/providers/theme';
 import { HealthPage } from '../HealthPage.js';
 
@@ -13,9 +14,11 @@ export function renderableHealthPage(): ReactElement {
   });
   return (
     <ThemeProvider>
+      <I18nProvider>
       <ApiClientProvider client={client}>
         <HealthPage />
       </ApiClientProvider>
+    </I18nProvider>
     </ThemeProvider>
   );
 }

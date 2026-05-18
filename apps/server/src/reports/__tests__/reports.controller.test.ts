@@ -265,6 +265,9 @@ describe('ReportsController (HTTP, real Postgres)', () => {
       .responseType('blob')
       .expect(200)
       .expect('content-type', /image\/png/)
+      // CORP must be relaxed so the client can embed this as a cross-origin
+      // <img src> despite Helmet's global same-origin default.
+      .expect('cross-origin-resource-policy', 'cross-origin')
       .expect((res) => {
         expect(Buffer.compare(res.body as Buffer, pngBytes)).toBe(0);
       });

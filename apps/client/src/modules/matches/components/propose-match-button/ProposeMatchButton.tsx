@@ -1,17 +1,19 @@
 import { Link } from 'react-router-dom';
+import { useI18n } from '@/modules/shared/providers/i18n';
 import { useProposeMatchButton } from './use-propose-match-button.js';
 import type { ProposeMatchButtonProps } from './propose-match-button.types.js';
 import styles from './propose-match-button.module.css';
 
 export function ProposeMatchButton(props: ProposeMatchButtonProps) {
   const { state, propose } = useProposeMatchButton(props);
+  const { t } = useI18n();
 
   if (state.phase === 'proposed')
     return (
       <p className={styles.proposed}>
-        Match proposed —{' '}
+        {t('propose.proposedPrefix')}
         <Link to={`/me/matches?reportId=${props.lostReportId}`}>
-          view it
+          {t('propose.viewIt')}
         </Link>
       </p>
     );
@@ -25,12 +27,12 @@ export function ProposeMatchButton(props: ProposeMatchButtonProps) {
         disabled={state.phase === 'submitting'}
       >
         {state.phase === 'submitting'
-          ? 'Proposing…'
-          : 'Propose a match'}
+          ? t('propose.submitting')
+          : t('propose.label')}
       </button>
       {state.phase === 'error' && (
         <p role="alert" className={styles.error}>
-          Could not propose this match ({state.error.kind}).
+          {t('propose.error', { kind: state.error.kind })}
         </p>
       )}
     </div>

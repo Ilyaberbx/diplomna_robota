@@ -99,7 +99,7 @@ export function useCreateReportPage(): {
         },
         () => {
           setSubmitting(false);
-          setErrors({ form: 'Could not publish the report. Try again.' });
+          setErrors({ form: 'create.err.publishFailed' });
         },
       );
     },

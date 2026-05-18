@@ -1,32 +1,38 @@
 import { Link } from 'react-router-dom';
+import { useI18n } from '@/modules/shared/providers/i18n';
 import { ReportPhoto } from '../../components/report-photo/index.js';
 import { useReportDetailPage } from './use-report-detail-page.js';
 import styles from './report-detail-page.module.css';
 
 export function ReportDetailPage() {
   const { state } = useReportDetailPage();
+  const { t } = useI18n();
 
   return (
     <main className={styles.page}>
       {state.phase === 'loading' && (
         <p role="status" className={styles.status}>
-          Loading report…
+          {t('detail.loading')}
         </p>
       )}
 
       {state.phase === 'error' && (
         <p role="alert" className={styles.error}>
-          Could not load this report ({state.error.kind}).
+          {t('detail.error', { kind: state.error.kind })}
         </p>
       )}
 
       {state.phase === 'ready' && (
         <article>
           <span className={styles.badge}>
-            {state.report.kind === 'lost' ? 'Lost' : 'Found'} ·{' '}
-            {state.report.status}
+            {t('browse.badge', {
+              kind: t(`status.${state.report.kind}`),
+              status: t(`status.${state.report.status}`),
+            })}
           </span>
-          <h1>{state.report.name ?? state.report.species}</h1>
+          <h1>
+            {state.report.name ?? t(`species.${state.report.species}`)}
+          </h1>
           <ReportPhoto
             reportId={state.report.id}
             photoKey={state.report.photoKey}
@@ -34,34 +40,46 @@ export function ReportDetailPage() {
             variant="detail"
           />
           <dl className={styles.facts}>
-            <dt>Species</dt>
-            <dd>{state.report.species}</dd>
-            <dt>Breed</dt>
-            <dd>{state.report.breed ?? '—'}</dd>
-            <dt>Color</dt>
-            <dd>{state.report.color ?? '—'}</dd>
-            <dt>Description</dt>
-            <dd>{state.report.description ?? '—'}</dd>
-            <dt>Last seen / found</dt>
+            <dt>{t('detail.species')}</dt>
+            <dd>{t(`species.${state.report.species}`)}</dd>
+            <dt>{t('detail.breed')}</dt>
+            <dd>{state.report.breed ?? t('common.dash')}</dd>
+            <dt>{t('detail.color')}</dt>
+            <dd>{state.report.color ?? t('common.dash')}</dd>
+            <dt>{t('detail.description')}</dt>
+            <dd>{state.report.description ?? t('common.dash')}</dd>
+            <dt>{t('detail.lastSeen')}</dt>
             <dd>
-              {state.report.lat.toFixed(4)}, {state.report.lng.toFixed(4)} on{' '}
-              {state.report.eventDate.slice(0, 10)}
+              {t('detail.coords', {
+                lat: state.report.lat.toFixed(4),
+                lng: state.report.lng.toFixed(4),
+                date: state.report.eventDate.slice(0, 10),
+              })}
             </dd>
           </dl>
 
           {state.report.viewer === 'owner' ? (
-            <section className={styles.contact} aria-label="Contact details">
-              <h2>Your contact details</h2>
-              <p>Phone: {state.report.contactPhone ?? '—'}</p>
-              <p>Email: {state.report.contactEmail ?? '—'}</p>
+            <section
+              className={styles.contact}
+              aria-label={t('detail.contactAria')}
+            >
+              <h2>{t('detail.yourContact')}</h2>
+              <p>
+                {t('common.phone', {
+                  value: state.report.contactPhone ?? t('common.dash'),
+                })}
+              </p>
+              <p>
+                {t('common.email', {
+                  value: state.report.contactEmail ?? t('common.dash'),
+                })}
+              </p>
               <Link to={`/reports/${state.report.id}/candidates`}>
-                View candidates
+                {t('detail.viewCandidates')}
               </Link>
             </section>
           ) : (
-            <p className={styles.privacy}>
-              Contact details are hidden until a match is confirmed.
-            </p>
+            <p className={styles.privacy}>{t('detail.privacy')}</p>
           )}
         </article>
       )}

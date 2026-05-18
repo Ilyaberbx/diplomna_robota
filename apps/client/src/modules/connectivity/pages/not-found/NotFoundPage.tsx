@@ -1,17 +1,16 @@
 import { Link } from 'react-router-dom';
+import { useI18n } from '@/modules/shared/providers/i18n';
 import styles from './not-found-page.module.css';
 
 export function NotFoundPage() {
+  const { t } = useI18n();
   return (
     <main className={styles.page}>
-      <p className={styles.code}>404</p>
-      <h1 className={styles.title}>This page wandered off</h1>
-      <p className={styles.message}>
-        The page you&apos;re looking for doesn&apos;t exist or has moved.
-        Let&apos;s get you back on track.
-      </p>
+      <p className={styles.code}>{t('notFound.code')}</p>
+      <h1 className={styles.title}>{t('notFound.title')}</h1>
+      <p className={styles.message}>{t('notFound.message')}</p>
       <Link to="/" className={styles.home}>
-        Back to home
+        {t('notFound.home')}
       </Link>
     </main>
   );

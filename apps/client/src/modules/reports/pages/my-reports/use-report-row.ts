@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import type { TKey } from '@/modules/shared/providers/i18n';
 import { actionsFor } from './report-row.utils.js';
 import { rowErrorMessage } from './report-row-error.utils.js';
 import type {
@@ -13,7 +14,7 @@ export function useReportRow(
   onChangeStatus: ChangeStatusFn,
 ): ReportRowValue {
   const [pending, setPending] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<TKey | null>(null);
 
   const actions = useMemo(
     () => actionsFor(entry.report),

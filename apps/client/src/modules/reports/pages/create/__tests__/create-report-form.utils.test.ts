@@ -34,7 +34,8 @@ describe('validateCreateReportForm', () => {
       contactEmail: '',
     });
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.errors.contactPhone).toMatch(/phone or an email/);
+    if (!result.ok)
+      expect(result.errors.contactPhone).toBe('create.err.contactRequired');
   });
 
   it('rejects an out-of-range latitude', () => {
@@ -46,7 +47,8 @@ describe('validateCreateReportForm', () => {
   it('rejects a missing date', () => {
     const result = validateCreateReportForm({ ...base, eventDate: '' });
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.errors.eventDate).toMatch(/required/);
+    if (!result.ok)
+      expect(result.errors.eventDate).toBe('create.err.dateRequired');
   });
 
   it('rejects a malformed email', () => {
@@ -55,6 +57,7 @@ describe('validateCreateReportForm', () => {
       contactEmail: 'not-an-email',
     });
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.errors.contactEmail).toMatch(/valid email/);
+    if (!result.ok)
+      expect(result.errors.contactEmail).toBe('create.err.email');
   });
 });

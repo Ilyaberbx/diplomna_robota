@@ -1,12 +1,13 @@
 import { useCallback, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { StatusCodes } from 'http-status-codes';
+import type { TKey } from '@/modules/shared/providers/i18n';
 import { useAuthSession } from '../../providers/auth-session/index.js';
 
 export function useRegisterPage(): {
   email: string;
   password: string;
-  error: string | null;
+  error: TKey | null;
   submitting: boolean;
   setEmail: (v: string) => void;
   setPassword: (v: string) => void;
@@ -17,7 +18,7 @@ export function useRegisterPage(): {
   const [searchParams] = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<TKey | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = useCallback(
@@ -36,8 +37,8 @@ export function useRegisterPage(): {
             err.kind === 'api' && err.status === StatusCodes.CONFLICT;
           setError(
             isEmailTaken
-              ? 'That email is already registered.'
-              : 'Could not create the account. Check the form and try again.',
+              ? 'register.err.emailTaken'
+              : 'register.err.generic',
           );
         },
       );

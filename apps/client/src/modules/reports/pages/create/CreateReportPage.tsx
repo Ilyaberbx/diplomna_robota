@@ -1,3 +1,5 @@
+import { useI18n } from '@/modules/shared/providers/i18n';
+import type { TKey } from '@/modules/shared/providers/i18n';
 import { useCreateReportPage } from './use-create-report-page.js';
 import styles from './create-report-page.module.css';
 
@@ -12,41 +14,48 @@ export function CreateReportPage() {
     skipPhoto,
     onSubmit,
   } = useCreateReportPage();
+  const { t } = useI18n();
+  // Error values are i18n keys; Zod's built-in messages pass through t()
+  // unchanged (translate() falls back to the input for non-catalog keys).
+  const err = (message?: string) =>
+    message ? t(message as TKey) : null;
 
   return (
     <main className={styles.page}>
       <h1 className={styles.title}>
-        Report a {fields.kind === 'lost' ? 'lost' : 'found'} pet
+        {fields.kind === 'lost'
+          ? t('create.titleLost')
+          : t('create.titleFound')}
       </h1>
       <form className={styles.form} onSubmit={onSubmit} noValidate>
         <fieldset className={styles.section}>
-          <legend>1 — Kind &amp; core facts</legend>
+          <legend>{t('create.section1')}</legend>
           <div className={styles.field}>
-            <label htmlFor="report-kind">Kind</label>
+            <label htmlFor="report-kind">{t('create.kind')}</label>
             <select
               id="report-kind"
               value={fields.kind}
               onChange={(e) => setField('kind', e.target.value)}
             >
-              <option value="lost">Lost</option>
-              <option value="found">Found</option>
+              <option value="lost">{t('common.lost')}</option>
+              <option value="found">{t('common.found')}</option>
             </select>
           </div>
           <div className={styles.field}>
-            <label htmlFor="report-species">Species</label>
+            <label htmlFor="report-species">{t('create.species')}</label>
             <select
               id="report-species"
               value={fields.species}
               onChange={(e) => setField('species', e.target.value)}
             >
-              <option value="dog">Dog</option>
-              <option value="cat">Cat</option>
-              <option value="bird">Bird</option>
-              <option value="other">Other</option>
+              <option value="dog">{t('species.dog')}</option>
+              <option value="cat">{t('species.cat')}</option>
+              <option value="bird">{t('species.bird')}</option>
+              <option value="other">{t('species.other')}</option>
             </select>
           </div>
           <div className={styles.field}>
-            <label htmlFor="report-name">Name</label>
+            <label htmlFor="report-name">{t('create.name')}</label>
             <input
               id="report-name"
               value={fields.name}
@@ -54,7 +63,7 @@ export function CreateReportPage() {
             />
           </div>
           <div className={styles.field}>
-            <label htmlFor="report-breed">Breed</label>
+            <label htmlFor="report-breed">{t('create.breed')}</label>
             <input
               id="report-breed"
               value={fields.breed}
@@ -62,7 +71,7 @@ export function CreateReportPage() {
             />
           </div>
           <div className={styles.field}>
-            <label htmlFor="report-color">Color</label>
+            <label htmlFor="report-color">{t('create.color')}</label>
             <input
               id="report-color"
               value={fields.color}
@@ -70,7 +79,9 @@ export function CreateReportPage() {
             />
           </div>
           <div className={styles.field}>
-            <label htmlFor="report-description">Description</label>
+            <label htmlFor="report-description">
+              {t('create.description')}
+            </label>
             <textarea
               id="report-description"
               value={fields.description}
@@ -80,9 +91,9 @@ export function CreateReportPage() {
         </fieldset>
 
         <fieldset className={styles.section}>
-          <legend>2 — Location &amp; date</legend>
+          <legend>{t('create.section2')}</legend>
           <div className={styles.field}>
-            <label htmlFor="report-lat">Latitude</label>
+            <label htmlFor="report-lat">{t('create.latitude')}</label>
             <input
               id="report-lat"
               inputMode="decimal"
@@ -91,12 +102,12 @@ export function CreateReportPage() {
             />
             {errors.lat ? (
               <p role="alert" className={styles.error}>
-                {errors.lat}
+                {err(errors.lat)}
               </p>
             ) : null}
           </div>
           <div className={styles.field}>
-            <label htmlFor="report-lng">Longitude</label>
+            <label htmlFor="report-lng">{t('create.longitude')}</label>
             <input
               id="report-lng"
               inputMode="decimal"
@@ -105,12 +116,12 @@ export function CreateReportPage() {
             />
             {errors.lng ? (
               <p role="alert" className={styles.error}>
-                {errors.lng}
+                {err(errors.lng)}
               </p>
             ) : null}
           </div>
           <div className={styles.field}>
-            <label htmlFor="report-date">Date last seen / found</label>
+            <label htmlFor="report-date">{t('create.date')}</label>
             <input
               id="report-date"
               type="date"
@@ -119,20 +130,17 @@ export function CreateReportPage() {
             />
             {errors.eventDate ? (
               <p role="alert" className={styles.error}>
-                {errors.eventDate}
+                {err(errors.eventDate)}
               </p>
             ) : null}
           </div>
         </fieldset>
 
         <fieldset className={styles.section}>
-          <legend>3 — Photo (optional)</legend>
-          <p className={styles.hint}>
-            A clear photo helps people recognise the pet. You can skip this
-            and add one later.
-          </p>
+          <legend>{t('create.section3')}</legend>
+          <p className={styles.hint}>{t('create.photoHint')}</p>
           <div className={styles.field}>
-            <label htmlFor="report-photo">Photo</label>
+            <label htmlFor="report-photo">{t('create.photo')}</label>
             <input
               id="report-photo"
               type="file"
@@ -142,26 +150,24 @@ export function CreateReportPage() {
           </div>
           {photoName ? (
             <p className={styles.photoChosen}>
-              Selected: {photoName}{' '}
+              {t('create.selected', { name: photoName })}{' '}
               <button
                 type="button"
                 className={styles.linkButton}
                 onClick={skipPhoto}
               >
-                Remove
+                {t('create.remove')}
               </button>
             </p>
           ) : (
-            <p className={styles.hint}>
-              No photo selected — you can add one later.
-            </p>
+            <p className={styles.hint}>{t('create.noPhoto')}</p>
           )}
         </fieldset>
 
         <fieldset className={styles.section}>
-          <legend>4 — Contact</legend>
+          <legend>{t('create.section4')}</legend>
           <div className={styles.field}>
-            <label htmlFor="report-phone">Contact phone</label>
+            <label htmlFor="report-phone">{t('create.contactPhone')}</label>
             <input
               id="report-phone"
               value={fields.contactPhone}
@@ -169,12 +175,12 @@ export function CreateReportPage() {
             />
             {errors.contactPhone ? (
               <p role="alert" className={styles.error}>
-                {errors.contactPhone}
+                {err(errors.contactPhone)}
               </p>
             ) : null}
           </div>
           <div className={styles.field}>
-            <label htmlFor="report-email">Contact email</label>
+            <label htmlFor="report-email">{t('create.contactEmail')}</label>
             <input
               id="report-email"
               value={fields.contactEmail}
@@ -182,7 +188,7 @@ export function CreateReportPage() {
             />
             {errors.contactEmail ? (
               <p role="alert" className={styles.error}>
-                {errors.contactEmail}
+                {err(errors.contactEmail)}
               </p>
             ) : null}
           </div>
@@ -190,11 +196,11 @@ export function CreateReportPage() {
 
         {errors.form ? (
           <p role="alert" className={styles.error}>
-            {errors.form}
+            {err(errors.form)}
           </p>
         ) : null}
         <button type="submit" disabled={submitting}>
-          {submitting ? 'Publishing…' : 'Publish report'}
+          {submitting ? t('create.publishing') : t('create.publish')}
         </button>
       </form>
     </main>

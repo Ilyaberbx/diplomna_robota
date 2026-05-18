@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import type { HttpError } from '@/modules/shared/http/http.types';
+import type { TKey } from '@/modules/shared/providers/i18n';
 
 function apiErrorCode(body: unknown): string | null {
   const isObject = typeof body === 'object' && body !== null;
@@ -11,15 +12,15 @@ function apiErrorCode(body: unknown): string | null {
   return typeof code === 'string' ? code : null;
 }
 
-export function rowErrorMessage(error: HttpError): string {
+/** Returns an i18n catalog key; the row resolves it through `t()`. */
+export function rowErrorMessage(error: HttpError): TKey {
   const isApi = error.kind === 'api';
-  if (!isApi) return 'Something went wrong. Please try again.';
+  if (!isApi) return 'rowError.generic';
   const isInvalidTransition =
     error.status === StatusCodes.CONFLICT &&
     apiErrorCode(error.body) === 'INVALID_TRANSITION';
-  if (isInvalidTransition)
-    return 'This change is not allowed yet — marking reunited needs a confirmed match.';
+  if (isInvalidTransition) return 'rowError.invalidTransition';
   const isForbidden = error.status === StatusCodes.FORBIDDEN;
-  if (isForbidden) return 'Only the reporter can change this report.';
-  return 'Something went wrong. Please try again.';
+  if (isForbidden) return 'rowError.forbidden';
+  return 'rowError.generic';
 }

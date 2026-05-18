@@ -1,5 +1,6 @@
 import type { ResultAsync } from 'neverthrow';
 import type { HttpError } from '@/modules/shared/http/http.types';
+import type { TKey } from '@/modules/shared/providers/i18n';
 
 export type ReportKind = 'lost' | 'found';
 export type ReportSpecies = 'dog' | 'cat' | 'bird' | 'other';
@@ -128,11 +129,11 @@ export type ReportRowProps = {
   onChangeStatus: ChangeStatusFn;
 };
 
-export type RowAction = { label: string; target: StatusTarget };
+export type RowAction = { labelKey: TKey; target: StatusTarget };
 
 export type ReportRowValue = {
   actions: RowAction[];
   pending: boolean;
-  errorMessage: string | null;
+  errorMessage: TKey | null;
   run: (target: StatusTarget) => void;
 };

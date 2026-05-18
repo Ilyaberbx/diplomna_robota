@@ -1,11 +1,12 @@
 import { useCallback, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import type { TKey } from '@/modules/shared/providers/i18n';
 import { useAuthSession } from '../../providers/auth-session/index.js';
 
 export function useLoginPage(): {
   email: string;
   password: string;
-  error: string | null;
+  error: TKey | null;
   submitting: boolean;
   setEmail: (v: string) => void;
   setPassword: (v: string) => void;
@@ -16,7 +17,7 @@ export function useLoginPage(): {
   const [searchParams] = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<TKey | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = useCallback(
@@ -31,7 +32,7 @@ export function useLoginPage(): {
         },
         () => {
           setSubmitting(false);
-          setError('Invalid email or password.');
+          setError('login.err.invalid');
         },
       );
     },

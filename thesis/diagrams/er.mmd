@@ -1,0 +1,36 @@
+erDiagram
+    users ||--o{ reports : "reporter_id"
+    users ||--o{ matches : "proposed_by"
+    reports ||--o{ matches : "lost_report_id"
+    reports ||--o{ matches : "found_report_id"
+
+    users {
+        uuid id PK
+        text email UK
+        text password_hash
+        timestamptz created_at
+    }
+    reports {
+        uuid id PK
+        text kind "lost|found"
+        uuid reporter_id FK
+        text status "active|reunited|resolved|closed"
+        text species "dog|cat|bird|other"
+        text breed_name_color_description
+        text photo_key
+        text contact_phone_email
+        double lat
+        double lng
+        timestamptz event_date
+        timestamptz created_at
+        timestamptz updated_at
+    }
+    matches {
+        uuid id PK
+        uuid lost_report_id FK
+        uuid found_report_id FK
+        uuid proposed_by FK
+        text status "proposed|confirmed|rejected"
+        timestamptz created_at
+        timestamptz resolved_at
+    }

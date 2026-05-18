@@ -1,7 +1,9 @@
+import type { TKey } from '@/modules/shared/providers/i18n';
 import type { MyReportsGroupKey } from '../../reports.types.js';
 
-export const MY_REPORTS_GROUP_LABELS: Record<MyReportsGroupKey, string> = {
-  active: 'Active',
-  recovered: 'Reunited / Resolved',
-  closed: 'Closed',
+/** Group → i18n catalog key; the page resolves it through `t()`. */
+export const MY_REPORTS_GROUP_LABEL_KEYS: Record<MyReportsGroupKey, TKey> = {
+  active: 'myReports.group.active',
+  recovered: 'myReports.group.recovered',
+  closed: 'myReports.group.closed',
 } as const;

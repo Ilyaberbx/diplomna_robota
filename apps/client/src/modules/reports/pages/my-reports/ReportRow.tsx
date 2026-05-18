@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useI18n } from '@/modules/shared/providers/i18n';
 import { ReportPhoto } from '../../components/report-photo/index.js';
 import { useReportRow } from './use-report-row.js';
 import styles from './my-reports-page.module.css';
@@ -9,6 +10,7 @@ export function ReportRow({ entry, onChangeStatus }: ReportRowProps) {
     entry,
     onChangeStatus,
   );
+  const { t } = useI18n();
   const { report, candidateCount } = entry;
   const showBadge = candidateCount !== null && candidateCount > 0;
 
@@ -24,17 +26,19 @@ export function ReportRow({ entry, onChangeStatus }: ReportRowProps) {
       </Link>
       <div className={styles.body}>
         <Link to={`/reports/${report.id}`}>
-          <strong>{report.name ?? report.species}</strong>
+          <strong>{report.name ?? t(`species.${report.species}`)}</strong>
         </Link>
         <div className={styles.meta}>
-          <span className={styles.tag}>{report.kind}</span>
-          <span className={styles.tag}>{report.status}</span>
+          <span className={styles.tag}>{t(`status.${report.kind}`)}</span>
+          <span className={styles.tag}>{t(`status.${report.status}`)}</span>
           {showBadge && (
             <Link
               className={`${styles.tag} ${styles.badge}`}
               to={`/reports/${report.id}/candidates`}
             >
-              {candidateCount} candidate{candidateCount === 1 ? '' : 's'}
+              {t('row.candidate', {
+                count: candidateCount ?? 0,
+              })}
             </Link>
           )}
         </div>
@@ -48,7 +52,7 @@ export function ReportRow({ entry, onChangeStatus }: ReportRowProps) {
                 disabled={pending}
                 onClick={() => run(action.target)}
               >
-                {action.label}
+                {t(action.labelKey)}
               </button>
             ))}
           </div>
@@ -56,7 +60,7 @@ export function ReportRow({ entry, onChangeStatus }: ReportRowProps) {
 
         {errorMessage && (
           <p role="alert" className={styles.rowError}>
-            {errorMessage}
+            {t(errorMessage)}
           </p>
         )}
       </div>

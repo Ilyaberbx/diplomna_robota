@@ -1,33 +1,35 @@
 import { Link } from 'react-router-dom';
+import { useI18n } from '@/modules/shared/providers/i18n';
 import { useAccountPage } from './use-account-page.js';
 import styles from './account-page.module.css';
 
 export function AccountPage() {
   const { user, onLogout } = useAccountPage();
-  const email = user ? user.email : 'unknown';
+  const { t } = useI18n();
+  const email = user ? user.email : t('account.unknown');
   const initial = email.charAt(0).toUpperCase();
 
   return (
     <main className={styles.page}>
       <section className={styles.card}>
-        <h1 className={styles.title}>Account</h1>
+        <h1 className={styles.title}>{t('account.title')}</h1>
 
         <div className={styles.identity}>
           <span className={styles.avatar} aria-hidden="true">
             {initial}
           </span>
           <div className={styles.who}>
-            <p className={styles.label}>Signed in as</p>
+            <p className={styles.label}>{t('account.signedInAs')}</p>
             <p className={styles.email}>{email}</p>
           </div>
         </div>
 
         <div className={styles.links}>
           <Link to="/me/reports" className={styles.link}>
-            My reports
+            {t('account.myReports')}
           </Link>
           <Link to="/browse" className={styles.link}>
-            Browse reports
+            {t('account.browseReports')}
           </Link>
         </div>
 
@@ -37,7 +39,7 @@ export function AccountPage() {
           className={styles.logout}
           onClick={onLogout}
         >
-          Log out
+          {t('account.logout')}
         </button>
       </section>
     </main>
