@@ -22,17 +22,27 @@ This installs every workspace (`apps/server`, `apps/client`) in one pass.
 
 ## 2. Start Postgres (Docker)
 
-The server defaults to `postgres://postgres:postgres@localhost:5432/petfinder`.
-Start a matching container:
+The server's default `DATABASE_URL` uses host port `5432`. If you already run
+another Postgres (`docker ps` shows something on `0.0.0.0:5432->5432`), pick a
+free **host** port instead — the container's internal port stays `5432`, only
+the left side of `-p` changes. Set it once here and reuse it in step 3:
 
 ```bash
+# Pick any free host port. 5432 is the default; use another if it's taken.
+PG_PORT=5432
+
 docker run --name petfinder-pg \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=postgres \
   -e POSTGRES_DB=petfinder \
-  -p 5432:5432 \
+  -p "${PG_PORT}":5432 \
   -d postgres:16-alpine
 ```
+
+If `docker run` fails with **"port is already allocated"**, that host port is
+taken — re-run with a different `PG_PORT` (e.g. `5434`). If it fails with
+**"container name ... already in use"**, a previous attempt left a stopped
+container behind: `docker rm -f petfinder-pg`, then re-run.
 
 Stop/restart it later with `docker stop petfinder-pg` / `docker start
 petfinder-pg`. Remove it (wipes all data) with `docker rm -f petfinder-pg`.
@@ -43,12 +53,19 @@ petfinder-pg`. Remove it (wipes all data) with `docker rm -f petfinder-pg`.
 
 ## 3. Configure environment
 
-Each app ships an `.env.example`. Copy them as-is — the defaults point at the
-local container and need no edits:
+Each app ships an `.env.example`. Copy them:
 
 ```bash
 cp apps/server/.env.example apps/server/.env
 cp apps/client/.env.example apps/client/.env
+```
+
+If you used the default `PG_PORT=5432` in step 2, the copied files need **no
+edits**. If you chose a different host port, edit `apps/server/.env` so
+`DATABASE_URL`'s port matches — e.g. for `PG_PORT=5434`:
+
+```
+DATABASE_URL=postgres://postgres:postgres@localhost:5434/petfinder
 ```
 
 Server (`apps/server/.env`):
@@ -56,7 +73,7 @@ Server (`apps/server/.env`):
 | Variable | Default | Notes |
 |---|---|---|
 | `PORT` | `3000` | Server HTTP port. |
-| `DATABASE_URL` | `postgres://postgres:postgres@localhost:5432/petfinder` | Matches the Docker container above. |
+| `DATABASE_URL` | `postgres://postgres:postgres@localhost:5432/petfinder` | Host port must match `PG_PORT` from step 2. |
 | `AUTH_JWT_SECRET` | `change-me-in-production` | Fine for local; must be changed for any deployed env. |
 | `AUTH_JWT_TTL` | `7d` | Access-token lifetime. |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:5173` | The Vite dev origin. |
@@ -121,8 +138,14 @@ Postgres; it does **not** reuse the `pnpm dev` container).
 
 ## Troubleshooting
 
-- **`ECONNREFUSED 127.0.0.1:5432`** — the Postgres container isn't running.
-  `docker start petfinder-pg`.
+- **`docker run` → "port is already allocated"** — another process holds that
+  host port (`docker ps` to see what). Re-run step 2 with a different
+  `PG_PORT` and update `DATABASE_URL` to match (step 3).
+- **`docker run` → "container name ... already in use"** — a previous attempt
+  left a container behind. `docker rm -f petfinder-pg`, then re-run.
+- **`ECONNREFUSED` / connection refused on the DB port** — the container isn't
+  running (`docker start petfinder-pg`), or `DATABASE_URL`'s port doesn't match
+  the `PG_PORT` you started it on.
 - **Server boots but every query 500s** — migrations not applied. Run step 4.
 - **CORS error in the browser console** — the client isn't on
   `http://localhost:5173`, or `CORS_ALLOWED_ORIGINS` was changed. Keep them in
