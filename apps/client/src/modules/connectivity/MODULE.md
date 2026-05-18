@@ -4,11 +4,12 @@
 
 ## Purpose
 
-The walking-skeleton tracer page: calls the server `GET /health` through the shared HTTP client and renders loading / ok / error, plus a light/dark theme toggle.
+The walking-skeleton tracer page (calls `GET /health` through the shared HTTP client, renders loading / ok / error, plus a light/dark theme toggle) and the app-level not-found page. Neither owns a business domain.
 
 ## Public surface
 
-- `HealthPage` — route-addressable page (mounted at `/` by `app/`).
+- `HealthPage` — route-addressable page (mounted at `/health` by `app/`; the connectivity diagnostic surface).
+- `NotFoundPage` — the `*` catch-all 404 page (mounted by `app/`), styled, with a link back to `/`.
 
 ## Owns
 
@@ -29,4 +30,4 @@ The health route is `@Public()` server-side; the client still sends a placeholde
 
 ## Out of scope
 
-Authenticated data, routing beyond `/`. This module exists only to prove the client↔server wire.
+Authenticated data; any business domain. `HealthPage` exists only to prove the client↔server wire; `NotFoundPage` is presentational only (no data).

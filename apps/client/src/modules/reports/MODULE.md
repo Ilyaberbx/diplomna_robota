@@ -14,6 +14,7 @@ guessing). A report is never blocked by the absence of a photo.
 
 `index.ts` exports:
 
+- `LandingPage` — `/` (public). Hybrid hero: two primary CTAs ("I lost a pet" / "I found a pet" → the create wizard deep-linked by `kind`) plus the live feed of recent **active** reports (read-only, no URL sync — `/browse` owns search). Loading/empty/error states via the shared primitives.
 - `CreateReportPage` — `/report/new?kind=lost|found` (guarded by auth `RouteGuard` in `app/`).
 - `BrowsePage` — `/browse`, public, filters + pagination synced to the URL query.
 - `ReportDetailPage` — `/reports/:id`, public; switches projection on the response. Renders a reporter-only "View candidates" link (shown only on the `viewer: 'owner'` projection).
@@ -30,6 +31,7 @@ guessing). A report is never blocked by the absence of a photo.
 
 ## Depends on
 
+- `shared/components` primitives (`StatusPill`, `EmptyState`, `ErrorState`, `Spinner`) — used by `LandingPage` for the feed cards and resilient states.
 - `shared/http` `ApiClient` + `useApiClient()` provider (transport, token attach).
 - `react-router-dom` (`useSearchParams` for URL-synced filters, `useParams`, `useNavigate`).
 - `auth` module's `RouteGuard` — wired in `app/App.tsx`, not imported here. Also `auth`'s `useAuthSession()` (public API) — `MyReportsPage` reads the current user id to filter the feed to the reporter's own reports.
@@ -48,4 +50,4 @@ guessing). A report is never blocked by the absence of a photo.
 
 ## Out of scope
 
-The Match propose/confirm loop itself (owned by the client `matches` module; this module only renders its `ProposeMatchButton` on the candidates surface), landing/hybrid feed (later slices). A server-side "my reports" endpoint / pagination of one user's own reports (the dashboard filters a single generous browse page client-side for now). Multi-photo is out (single photo by PRD).
+The Match propose/confirm loop itself (owned by the client `matches` module; this module only renders its `ProposeMatchButton` on the candidates surface). A server-side "my reports" endpoint / pagination of one user's own reports (the dashboard filters a single generous browse page client-side for now). Multi-photo is out (single photo by PRD).

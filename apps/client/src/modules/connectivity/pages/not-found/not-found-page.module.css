@@ -1,0 +1,39 @@
+.page {
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-5);
+  text-align: center;
+}
+
+.code {
+  margin: 0;
+  font-size: var(--text-3xl);
+  color: var(--accent);
+  font-weight: var(--weight-bold);
+}
+
+.title {
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.message {
+  margin: 0 0 var(--space-6);
+  color: var(--text-secondary);
+}
+
+.home {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  padding: 0 var(--space-5);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: var(--weight-semibold);
+  border-radius: var(--radius-md);
+}
+
+.home:hover {
+  background: var(--accent-hover);
+  color: var(--accent-contrast);
+  text-decoration: none;
+}

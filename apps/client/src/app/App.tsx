@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { HealthPage } from '@/modules/connectivity';
+import { HealthPage, NotFoundPage } from '@/modules/connectivity';
 import {
   AccountPage,
   LoginPage,
@@ -10,6 +10,7 @@ import {
   BrowsePage,
   CandidatesPage,
   CreateReportPage,
+  LandingPage,
   MyReportsPage,
   ReportDetailPage,
 } from '@/modules/reports';
@@ -23,7 +24,8 @@ const router = createBrowserRouter([
   {
     element: <AppShell />,
     children: [
-      { path: '/', element: <HealthPage /> },
+      { path: '/', element: <LandingPage /> },
+      { path: '/health', element: <HealthPage /> },
       { path: '/login', element: <LoginPage /> },
       { path: '/register', element: <RegisterPage /> },
       { path: '/browse', element: <BrowsePage /> },
@@ -76,6 +78,7 @@ const router = createBrowserRouter([
           </RouteGuard>
         ),
       },
+      { path: '*', element: <NotFoundPage /> },
     ],
   },
 ]);
