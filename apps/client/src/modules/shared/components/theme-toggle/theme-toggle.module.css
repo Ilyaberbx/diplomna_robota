@@ -1,0 +1,21 @@
+.toggle {
+  min-height: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+
+.toggle:hover {
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+}

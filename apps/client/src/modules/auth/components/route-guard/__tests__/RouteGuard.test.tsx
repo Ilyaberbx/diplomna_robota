@@ -45,7 +45,7 @@ describe('auth route guard + session', () => {
 
     await waitFor(() =>
       expect(
-        screen.getByText('Signed in as owner@example.com.'),
+        screen.getByText('owner@example.com'),
       ).toBeInTheDocument(),
     );
     expect(window.localStorage.getItem('petfinder.auth.token')).toBe(
@@ -63,7 +63,7 @@ describe('auth route guard + session', () => {
     render(renderableAuthApp('/me'));
     await waitFor(() =>
       expect(
-        screen.getByText('Signed in as owner@example.com.'),
+        screen.getByText('owner@example.com'),
       ).toBeInTheDocument(),
     );
   });
@@ -90,7 +90,7 @@ describe('auth route guard + session', () => {
 
     await waitFor(() =>
       expect(
-        screen.getByText('Signed in as finder@example.com.'),
+        screen.getByText('finder@example.com'),
       ).toBeInTheDocument(),
     );
     expect(window.localStorage.getItem('petfinder.auth.token')).toBe(

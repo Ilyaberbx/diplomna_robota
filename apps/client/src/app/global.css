@@ -1,7 +1,19 @@
 @import '../modules/shared/design/tokens.css';
 
+/* ─────────────────────────────────────────────────────────────────────────
+   PetFinder global base layer — "Warm Humane".
+   Token-driven base styling for native elements so every page is designed
+   even before it adopts a shared primitive. Components reference tokens,
+   never hex literals (see DESIGN.md). No raw px outside the token scale.
+   ───────────────────────────────────────────────────────────────────────── */
+
 * {
   box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
@@ -10,19 +22,264 @@ body {
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: var(--text-base);
+  line-height: var(--text-base-lh);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  min-height: 100%;
+}
+
+/* Typography ramp ─────────────────────────────────────────────────────── */
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 var(--space-4);
+  color: var(--text-primary);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl-lh);
+}
+
+h2 {
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl-lh);
+}
+
+h3 {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl-lh);
+  font-weight: var(--weight-semibold);
+}
+
+h4 {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg-lh);
+  font-weight: var(--weight-semibold);
+}
+
+p {
+  margin: 0 0 var(--space-4);
+  color: var(--text-secondary);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+strong {
+  color: var(--text-primary);
+  font-weight: var(--weight-semibold);
+}
+
+small {
+  font-size: var(--text-sm);
+}
+
+a {
+  color: var(--accent);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color 120ms ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+/* Definition lists (report facts) ─────────────────────────────────────── */
+
+dl {
+  display: grid;
+  grid-template-columns: minmax(8rem, max-content) 1fr;
+  gap: var(--space-2) var(--space-5);
+  margin: var(--space-5) 0;
+}
+
+dt {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+dd {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+/* Forms ───────────────────────────────────────────────────────────────── */
+
+label {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  color: var(--text-primary);
+  font: inherit;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+textarea {
+  min-height: calc(var(--tap-min) * 2);
+  resize: vertical;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: var(--text-muted);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+input[type='file'] {
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+}
+
+fieldset {
+  margin: 0;
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+legend {
+  padding: 0 var(--space-2);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Buttons ─────────────────────────────────────────────────────────────── */
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-5);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    transform 120ms ease,
+    opacity 120ms ease;
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+button[data-variant='secondary'] {
+  background: var(--surface);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+button[data-variant='secondary']:hover {
+  background: var(--surface-raised);
+  border-color: var(--text-muted);
+}
+
+button[data-variant='danger'] {
+  background: var(--urgent);
+  color: var(--urgent-contrast);
+}
+
+button[data-variant='danger']:hover {
+  background: var(--urgent);
+  filter: brightness(0.92);
+}
+
+button[data-variant='link'] {
+  min-height: 0;
+  padding: 0;
+  background: none;
+  color: var(--accent);
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+button[data-variant='link']:hover {
+  background: none;
+  color: var(--accent-hover);
 }
 
 /* WCAG 2.1 AA baseline — applies app-wide so individual modules don't each
    re-declare focus and target sizing (and silently drift out of compliance).
-   2.4.7 Focus Visible + 1.4.11 Non-text Contrast: a visible focus ring on
-   every interactive element. */
+   2.4.7 Focus Visible + 1.4.11 Non-text Contrast. */
 :where(button, [role='button'], a, input, select, textarea, summary):focus-visible {
   outline: var(--focus-width) solid var(--focus-ring);
   outline-offset: var(--focus-offset);
 }
 
-/* 2.5.5 Target Size: interactive controls are at least 44×44px. min-height
-   (not fixed height) so multi-line content still grows. */
+/* 2.5.5 Target Size: interactive controls are at least 44×44px. */
 :where(button, [role='button'], input, select, textarea) {
   min-height: var(--tap-min);
+}
+
+/* Page content rhythm ─────────────────────────────────────────────────── */
+
+main {
+  display: block;
+}
+
+ul,
+ol {
+  color: var(--text-secondary);
 }
