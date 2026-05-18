@@ -107,13 +107,28 @@ class FakeStorage {
   }
 }
 
+type MatchesBehaviour = { hasConfirmed?: boolean; matchesFails?: boolean };
+
+class FakeMatchesReader {
+  constructor(private readonly b: MatchesBehaviour = {}) {}
+
+  hasConfirmedMatchForLost(
+    _lostReportId: string,
+  ): ResultAsync<boolean, DbError> {
+    if (this.b.matchesFails) return errAsync(dbError('matches'));
+    return okAsync(this.b.hasConfirmed ?? false);
+  }
+}
+
 function svc(
   b: RepoBehaviour = {},
   sb: StorageBehaviour = {},
+  mb: MatchesBehaviour = {},
 ): ReportsService {
   return new ReportsService(
     new FakeRepo(b) as unknown as never,
     new FakeStorage(sb) as unknown as never,
+    new FakeMatchesReader(mb) as unknown as never,
   );
 }
 
@@ -342,6 +357,105 @@ describe('ReportsService', () => {
       found: RECORD,
       candidatesFails: true,
     }).getCandidates('user-1', 'rep-1');
+    expect(res.isErr() && res.error.tag).toBe('DbError');
+  });
+
+  const LOST_ACTIVE: ReportRecord = { ...RECORD, kind: 'lost', status: 'active' };
+  const FOUND_ACTIVE: ReportRecord = {
+    ...RECORD,
+    kind: 'found',
+    status: 'active',
+  };
+
+  it('markStatus closes an active Lost report for the reporter (Ok)', async () => {
+    const res = await svc({ found: LOST_ACTIVE }).markStatus(
+      'user-1',
+      'rep-1',
+      'closed',
+    );
+    expect(res.isOk()).toBe(true);
+    if (res.isOk()) {
+      expect(res.value.status).toBe('closed');
+      expect(res.value.viewer).toBe('owner');
+    }
+  });
+
+  it('markStatus resolves an active Found report for the reporter (Ok)', async () => {
+    const res = await svc({ found: FOUND_ACTIVE }).markStatus(
+      'user-1',
+      'rep-1',
+      'resolved',
+    );
+    expect(res.isOk() && res.value.status).toBe('resolved');
+  });
+
+  it('markStatus rejects an illegal target with InvalidTransition', async () => {
+    const res = await svc({ found: LOST_ACTIVE }).markStatus(
+      'user-1',
+      'rep-1',
+      'resolved',
+    );
+    expect(res.isErr() && res.error.tag).toBe('InvalidTransition');
+  });
+
+  it('markStatus rejects a transition from a terminal state', async () => {
+    const res = await svc({
+      found: { ...LOST_ACTIVE, status: 'closed' },
+    }).markStatus('user-1', 'rep-1', 'reunited');
+    expect(res.isErr() && res.error.tag).toBe('InvalidTransition');
+  });
+
+  it('markStatus rejects reunited without a confirmed Match', async () => {
+    const res = await svc(
+      { found: LOST_ACTIVE },
+      {},
+      { hasConfirmed: false },
+    ).markStatus('user-1', 'rep-1', 'reunited');
+    expect(res.isErr() && res.error.tag).toBe('InvalidTransition');
+  });
+
+  it('markStatus allows reunited with a confirmed Match (Ok)', async () => {
+    const res = await svc(
+      { found: LOST_ACTIVE },
+      {},
+      { hasConfirmed: true },
+    ).markStatus('user-1', 'rep-1', 'reunited');
+    expect(res.isOk() && res.value.status).toBe('reunited');
+  });
+
+  it('markStatus by a non-reporter returns Forbidden', async () => {
+    const res = await svc({ found: LOST_ACTIVE }).markStatus(
+      'intruder',
+      'rep-1',
+      'closed',
+    );
+    expect(res.isErr() && res.error.tag).toBe('Forbidden');
+  });
+
+  it('markStatus returns NotFound when the report is missing', async () => {
+    const res = await svc({ found: null }).markStatus(
+      'user-1',
+      'nope',
+      'closed',
+    );
+    expect(res.isErr() && res.error.tag).toBe('NotFound');
+  });
+
+  it('markStatus surfaces DbError from the lookup', async () => {
+    const res = await svc({ findFails: true }).markStatus(
+      'user-1',
+      'rep-1',
+      'closed',
+    );
+    expect(res.isErr() && res.error.tag).toBe('DbError');
+  });
+
+  it('markStatus surfaces DbError from the confirmed-match check', async () => {
+    const res = await svc(
+      { found: LOST_ACTIVE },
+      {},
+      { matchesFails: true },
+    ).markStatus('user-1', 'rep-1', 'reunited');
     expect(res.isErr() && res.error.tag).toBe('DbError');
   });
 });

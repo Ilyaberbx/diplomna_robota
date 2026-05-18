@@ -4,6 +4,16 @@ export type ReportSpecies = 'dog' | 'cat' | 'bird' | 'other';
 
 export type ReportStatus = 'active' | 'reunited' | 'resolved' | 'closed';
 
+// The terminal statuses a reporter may transition each kind's report to from
+// `active`. Lost → reunited|closed, Found → resolved|closed (PRD #2). The
+// table is the single source of truth for the lifecycle state machine.
+export const LIFECYCLE_TRANSITIONS: Record<ReportKind, ReportStatus[]> = {
+  lost: ['reunited', 'closed'],
+  found: ['resolved', 'closed'],
+};
+
+export type TransitionTarget = 'reunited' | 'resolved' | 'closed';
+
 export type ReportRecord = {
   id: string;
   kind: ReportKind;

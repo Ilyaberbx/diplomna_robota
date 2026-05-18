@@ -62,6 +62,7 @@ export type BrowseQuery = {
   from?: string;
   to?: string;
   page: number;
+  pageSize?: number;
 };
 
 export type FeedState =
@@ -91,3 +92,47 @@ export type CandidatesState =
 export type CreateReportFn = (
   input: CreateReportInput,
 ) => ResultAsync<ReportProjection, HttpError>;
+
+export type StatusTarget = 'reunited' | 'resolved' | 'closed';
+
+// A report the current user authored, plus its computed candidate count for
+// the dashboard badge. `candidateCount` is null until the per-report
+// candidates lookup resolves (or if it failed — the badge is then hidden).
+export type MyReport = {
+  report: PublicReport;
+  candidateCount: number | null;
+};
+
+export type MyReportsGroupKey = 'active' | 'recovered' | 'closed';
+
+export type MyReportsGroups = Record<MyReportsGroupKey, MyReport[]>;
+
+export type MyReportsState =
+  | { phase: 'loading' }
+  | { phase: 'empty' }
+  | { phase: 'ready'; groups: MyReportsGroups }
+  | { phase: 'error'; error: HttpError };
+
+export type ChangeStatusFn = (
+  reportId: string,
+  target: StatusTarget,
+) => ResultAsync<ReportProjection, HttpError>;
+
+export type MyReportsPageValue = {
+  state: MyReportsState;
+  onChangeStatus: ChangeStatusFn;
+};
+
+export type ReportRowProps = {
+  entry: MyReport;
+  onChangeStatus: ChangeStatusFn;
+};
+
+export type RowAction = { label: string; target: StatusTarget };
+
+export type ReportRowValue = {
+  actions: RowAction[];
+  pending: boolean;
+  errorMessage: string | null;
+  run: (target: StatusTarget) => void;
+};

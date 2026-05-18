@@ -84,6 +84,24 @@ export class MatchesRepository {
     ).map((rows) => rows.map(toRecord));
   }
 
+  countConfirmedForLost(
+    lostReportId: string,
+  ): ResultAsync<number, DbError> {
+    return ResultAsync.fromPromise(
+      this.db
+        .select()
+        .from(matches)
+        .where(
+          and(
+            eq(matches.lostReportId, lostReportId),
+            eq(matches.status, 'confirmed'),
+          ),
+        )
+        .limit(1),
+      (cause) => dbError(cause),
+    ).map((rows) => rows.length);
+  }
+
   resolve(
     id: string,
     status: Extract<MatchStatus, 'confirmed' | 'rejected'>,

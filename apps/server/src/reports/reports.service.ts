@@ -8,21 +8,32 @@ import {
 } from '../storage/index.js';
 import {
   forbidden,
+  invalidTransition,
   notFound,
   payloadTooLarge,
   unsupportedMediaType,
   type Forbidden,
+  type InvalidTransition,
   type NotFound,
   type PayloadTooLarge,
   type UnsupportedMediaType,
 } from './reports.errors.js';
+import {
+  MATCHES_READER,
+  type MatchesReader,
+} from '../matches/index.js';
 import { ReportsRepository } from './reports.repository.js';
 import type {
   CreateReportInput,
   UpdateReportInput,
   BrowseQueryInput,
 } from './reports.dto.js';
-import { ALLOWED_PHOTO_MIME, PHOTO_MAX_BYTES } from './reports.types.js';
+import {
+  ALLOWED_PHOTO_MIME,
+  LIFECYCLE_TRANSITIONS,
+  PHOTO_MAX_BYTES,
+  type TransitionTarget,
+} from './reports.types.js';
 import type { ReportsReader, ReportsWriter } from './reports.ports.js';
 import type {
   BrowseFilters,
@@ -69,6 +80,7 @@ export class ReportsService implements ReportsReader, ReportsWriter {
   constructor(
     private readonly repo: ReportsRepository,
     @Inject(STORAGE_CLIENT) private readonly storage: StoragePort,
+    @Inject(MATCHES_READER) private readonly matches: MatchesReader,
   ) {}
 
   attachPhoto(
@@ -135,12 +147,40 @@ export class ReportsService implements ReportsReader, ReportsWriter {
   }
 
   markStatus(
+    actorId: string,
     id: string,
-    status: ReportRecord['status'],
-  ): ResultAsync<ReportRecord, NotFound | DbError> {
-    return this.getRecord(id).andThen(() =>
-      this.repo.updateStatus(id, status),
-    );
+    target: TransitionTarget,
+  ): ResultAsync<
+    OwnerReport,
+    Forbidden | NotFound | InvalidTransition | DbError
+  > {
+    return this.getRecord(id).andThen((record) => {
+      const isReporter = record.reporterId === actorId;
+      if (!isReporter)
+        return errAsync(
+          forbidden('only the reporter may change this report’s status'),
+        );
+
+      const isActive = record.status === 'active';
+      const allowedTargets: readonly string[] =
+        LIFECYCLE_TRANSITIONS[record.kind];
+      const isAllowedTarget = allowedTargets.includes(target);
+      const isLegalTransition = isActive && isAllowedTarget;
+      if (!isLegalTransition)
+        return errAsync(invalidTransition(record.status, target));
+
+      const requiresConfirmedMatch = target === 'reunited';
+      if (!requiresConfirmedMatch)
+        return this.repo.updateStatus(id, target).map(toOwner);
+
+      return this.matches
+        .hasConfirmedMatchForLost(id)
+        .andThen((hasConfirmedMatch) =>
+          hasConfirmedMatch
+            ? this.repo.updateStatus(id, target).map(toOwner)
+            : errAsync(invalidTransition(record.status, target)),
+        );
+    });
   }
 
   getCandidates(

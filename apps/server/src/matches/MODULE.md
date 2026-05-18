@@ -25,13 +25,20 @@ re-projects the `reports` table.
   - `POST /matches/:id/reject` — only the *non-proposing* Reporter; returns
     the rejected match view (no contact).
 - Types: `MatchStatus`, `MatchView`, `RevealedMatchView`.
-
-No reader/writer port is exported — nothing consumes `matches` cross-module
-yet (the Slice 9 lifecycle route reads it via its own surface when added).
+- `MatchesReaderModule` — a leaf NestModule (folder-structure rule 2 deviation,
+  ADR 0005) that owns the single `MatchesRepository` and exports the
+  `MATCHES_READER` / `MatchesReader` port (`hasConfirmedMatchForLost`). It
+  imports nothing but the global `DbModule`, so `ReportsModule` can depend on
+  it without a cycle (`MatchesModule` imports `ReportsModule`).
+- `MATCHES_READER` / `MatchesReader` — `hasConfirmedMatchForLost(lostReportId)`:
+  whether the Lost Report has at least one `confirmed` Match. Consumed by
+  `reports` for the reunited lifecycle rule.
 
 ## Owns
 
-- The `matches` table (`src/db/schema.ts`; migration `drizzle/0002_*`):
+- The `matches` table (provided via `MatchesRepository`, owned by the leaf
+  `MatchesReaderModule` so both the write path and the cross-module reader
+  share one repository instance) (`src/db/schema.ts`; migration `drizzle/0002_*`):
   uuid pk, `lost_report_id`/`found_report_id` FK `reports.id`, `proposed_by`
   FK `users.id`, `status` text (Zod-validated at the boundary, no PG enum),
   `created_at`, `resolved_at`. `unique(lost_report_id, found_report_id)`
@@ -73,6 +80,8 @@ contact anywhere.
 
 ## Out of scope
 
-Marking a Lost Report `reunited` after confirm (Slice 9 — report lifecycle).
-Notifications/email. Re-proposing a rejected pair (the unique constraint
-keeps one row per pair; lifecycle re-open is a later concern).
+The `reunited` transition itself (the `reports` module owns the lifecycle
+route + state machine; `matches` only answers "is there a confirmed Match?"
+via `MATCHES_READER`). Notifications/email. Re-proposing a rejected pair (the
+unique constraint keeps one row per pair; lifecycle re-open is a later
+concern).

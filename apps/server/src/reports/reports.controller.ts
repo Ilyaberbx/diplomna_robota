@@ -21,9 +21,11 @@ import type { ParseError } from '../shared/errors.js';
 import {
   browseQuerySchema,
   createReportSchema,
+  statusTransitionSchema,
   updateReportSchema,
   type BrowseQueryInput,
   type CreateReportInput,
+  type StatusTransitionInput,
   type UpdateReportInput,
 } from './reports.dto.js';
 import { ReportsService } from './reports.service.js';
@@ -92,6 +94,20 @@ export class ReportsController {
   ): Promise<OwnerReport> {
     return toHttp(
       await input.asyncAndThen((i) => this.svc.update(actor.id, id, i)),
+    );
+  }
+
+  @Post(':id/status')
+  async changeStatus(
+    @CurrentUser() actor: AuthenticatedUser,
+    @Param('id') id: string,
+    @ZodBody(statusTransitionSchema)
+    input: Result<StatusTransitionInput, ParseError>,
+  ): Promise<OwnerReport> {
+    return toHttp(
+      await input.asyncAndThen((i) =>
+        this.svc.markStatus(actor.id, id, i.status),
+      ),
     );
   }
 

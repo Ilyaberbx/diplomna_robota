@@ -10,6 +10,7 @@ import {
   BrowsePage,
   CandidatesPage,
   CreateReportPage,
+  MyReportsPage,
   ReportDetailPage,
 } from '@/modules/reports';
 import { MatchDetailPage, MyMatchesPage } from '@/modules/matches';
@@ -48,6 +49,14 @@ const router = createBrowserRouter([
         element: (
           <RouteGuard>
             <AccountPage />
+          </RouteGuard>
+        ),
+      },
+      {
+        path: '/me/reports',
+        element: (
+          <RouteGuard>
+            <MyReportsPage />
           </RouteGuard>
         ),
       },

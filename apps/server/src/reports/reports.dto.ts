@@ -86,3 +86,11 @@ export const browseQuerySchema = z
   );
 
 export type BrowseQueryInput = z.infer<typeof browseQuerySchema>;
+
+// Status route accepts only the reporter-initiated terminal targets; the
+// service validates the transition is legal for the report's kind/state.
+export const statusTransitionSchema = z.object({
+  status: z.enum(['reunited', 'resolved', 'closed']),
+});
+
+export type StatusTransitionInput = z.infer<typeof statusTransitionSchema>;

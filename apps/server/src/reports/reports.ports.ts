@@ -1,11 +1,17 @@
 import type { ResultAsync } from 'neverthrow';
-import type { DbError, NotFound } from '../shared/errors.js';
+import type {
+  DbError,
+  Forbidden,
+  InvalidTransition,
+  NotFound,
+} from '../shared/errors.js';
 import type {
   PublicReport,
   OwnerReport,
   ReportRecord,
   ReportPage,
   BrowseFilters,
+  TransitionTarget,
 } from './reports.types.js';
 
 export const REPORTS_READER = Symbol('REPORTS_READER');
@@ -28,7 +34,11 @@ export interface ReportsReader {
 
 export interface ReportsWriter {
   markStatus(
+    actorId: string,
     id: string,
-    status: ReportRecord['status'],
-  ): ResultAsync<ReportRecord, NotFound | DbError>;
+    target: TransitionTarget,
+  ): ResultAsync<
+    OwnerReport,
+    Forbidden | NotFound | InvalidTransition | DbError
+  >;
 }

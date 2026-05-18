@@ -20,6 +20,11 @@ import {
 } from '../../test-utils/postgres-test-db.js';
 import { AuthRepository } from '../../auth/auth.repository.js';
 import { DRIZZLE } from '../../db/db.module.js';
+import { MatchesRepository } from '../../matches/matches.repository.js';
+import {
+  MATCHES_READER,
+  MatchConfirmationReader,
+} from '../../matches/matches.ports.js';
 import request from 'supertest';
 
 function tokenFor(id: string): string {
@@ -53,6 +58,8 @@ describe('ReportsController (HTTP, real Postgres)', () => {
       providers: [
         ReportsService,
         ReportsRepository,
+        MatchesRepository,
+        { provide: MATCHES_READER, useClass: MatchConfirmationReader },
         { provide: DRIZZLE, useValue: testDb.db },
         { provide: STORAGE_CLIENT, useClass: LocalFsStorageClient },
         { provide: APP_GUARD, useClass: JwtAuthGuard },
@@ -261,5 +268,70 @@ describe('ReportsController (HTTP, real Postgres)', () => {
       .expect((res) => {
         expect(Buffer.compare(res.body as Buffer, pngBytes)).toBe(0);
       });
+  });
+
+  async function freshLostId(): Promise<string> {
+    const res = await request(app.getHttpServer())
+      .post('/reports')
+      .set('Authorization', `Bearer ${tokenFor(reporterId)}`)
+      .send(body);
+    return res.body.id as string;
+  }
+
+  it('POST /reports/:id/status closes a Lost report for the reporter', async () => {
+    const id = await freshLostId();
+    await request(app.getHttpServer())
+      .post(`/reports/${id}/status`)
+      .set('Authorization', `Bearer ${tokenFor(reporterId)}`)
+      .send({ status: 'closed' })
+      .expect(201)
+      .expect((res) => {
+        expect(res.body.status).toBe('closed');
+        expect(res.body.viewer).toBe('owner');
+      });
+  });
+
+  it('POST /reports/:id/status by a non-reporter is 403 FORBIDDEN', async () => {
+    const id = await freshLostId();
+    await request(app.getHttpServer())
+      .post(`/reports/${id}/status`)
+      .set('Authorization', `Bearer ${tokenFor(otherId)}`)
+      .send({ status: 'closed' })
+      .expect(403)
+      .expect((res) => expect(res.body.error.code).toBe('FORBIDDEN'));
+  });
+
+  it('POST /reports/:id/status with an illegal target is 409 INVALID_TRANSITION', async () => {
+    const id = await freshLostId();
+    await request(app.getHttpServer())
+      .post(`/reports/${id}/status`)
+      .set('Authorization', `Bearer ${tokenFor(reporterId)}`)
+      .send({ status: 'resolved' })
+      .expect(409)
+      .expect((res) =>
+        expect(res.body.error.code).toBe('INVALID_TRANSITION'),
+      );
+  });
+
+  it('POST /reports/:id/status reunited without a confirmed Match is 409', async () => {
+    const id = await freshLostId();
+    await request(app.getHttpServer())
+      .post(`/reports/${id}/status`)
+      .set('Authorization', `Bearer ${tokenFor(reporterId)}`)
+      .send({ status: 'reunited' })
+      .expect(409)
+      .expect((res) =>
+        expect(res.body.error.code).toBe('INVALID_TRANSITION'),
+      );
+  });
+
+  it('POST /reports/:id/status with a bad body returns 400 VALIDATION', async () => {
+    const id = await freshLostId();
+    await request(app.getHttpServer())
+      .post(`/reports/${id}/status`)
+      .set('Authorization', `Bearer ${tokenFor(reporterId)}`)
+      .send({ status: 'active' })
+      .expect(400)
+      .expect((res) => expect(res.body.error.code).toBe('VALIDATION'));
   });
 });

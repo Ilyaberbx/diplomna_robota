@@ -15,6 +15,8 @@ export function browseQueryToSearch(query: BrowseQuery): string {
   if (query.from) params.set('from', query.from);
   if (query.to) params.set('to', query.to);
   params.set('page', String(query.page));
+  if (query.pageSize !== undefined)
+    params.set('pageSize', String(query.pageSize));
   return params.toString();
 }
 

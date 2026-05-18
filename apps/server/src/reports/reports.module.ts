@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { MatchesReaderModule } from '../matches/index.js';
 import { StorageModule } from '../storage/index.js';
 import { ReportsController } from './reports.controller.js';
 import { ReportsRepository } from './reports.repository.js';
@@ -6,7 +7,7 @@ import { ReportsService } from './reports.service.js';
 import { REPORTS_READER, REPORTS_WRITER } from './reports.ports.js';
 
 @Module({
-  imports: [StorageModule],
+  imports: [StorageModule, MatchesReaderModule],
   controllers: [ReportsController],
   providers: [
     ReportsService,

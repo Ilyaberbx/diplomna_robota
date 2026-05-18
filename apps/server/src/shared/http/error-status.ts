@@ -5,6 +5,7 @@ import type {
   EmailTaken,
   Forbidden,
   InvalidCredentials,
+  InvalidTransition,
   NotFound,
   ParseError,
   PayloadTooLarge,
@@ -22,7 +23,8 @@ export type AppError =
   | EmailTaken
   | InvalidCredentials
   | UnsupportedMediaType
-  | PayloadTooLarge;
+  | PayloadTooLarge
+  | InvalidTransition;
 
 export type HttpErrorBody = {
   error: {
@@ -52,6 +54,8 @@ export function errorToStatus(err: AppError): number {
       return 415;
     case 'PayloadTooLarge':
       return 413;
+    case 'InvalidTransition':
+      return 409;
     case 'DbError':
       return 500;
     default:
@@ -95,6 +99,13 @@ export function errorToBody(err: AppError): HttpErrorBody {
         error: {
           code: 'PAYLOAD_TOO_LARGE',
           message: 'Photo must be 5 MB or smaller',
+        },
+      };
+    case 'InvalidTransition':
+      return {
+        error: {
+          code: 'INVALID_TRANSITION',
+          message: `Cannot transition report from ${err.from} to ${err.to}`,
         },
       };
     case 'DbError':

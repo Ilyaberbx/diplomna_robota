@@ -21,6 +21,7 @@ import {
 import { MatchesController } from '../matches.controller.js';
 import { MatchesService } from '../matches.service.js';
 import { MatchesRepository } from '../matches.repository.js';
+import { MATCHES_READER, MatchConfirmationReader } from '../matches.ports.js';
 
 function tokenFor(id: string): string {
   return jwt.sign({ sub: id, email: `${id}@example.com` }, 'test-secret');
@@ -92,6 +93,7 @@ describe('MatchesController (HTTP, real Postgres)', () => {
       providers: [
         MatchesService,
         MatchesRepository,
+        { provide: MATCHES_READER, useClass: MatchConfirmationReader },
         ReportsService,
         ReportsRepository,
         { provide: REPORTS_READER, useExisting: ReportsService },
@@ -191,6 +193,8 @@ describe('MatchesController (HTTP, real Postgres)', () => {
       providers: [
         ReportsService,
         ReportsRepository,
+        MatchesRepository,
+        { provide: MATCHES_READER, useClass: MatchConfirmationReader },
         { provide: DRIZZLE, useValue: testDb.db },
         { provide: STORAGE_CLIENT, useClass: LocalFsStorageClient },
       ],

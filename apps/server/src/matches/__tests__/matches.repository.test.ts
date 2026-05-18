@@ -122,4 +122,17 @@ describe('MatchesRepository (ephemeral Postgres)', () => {
       expect(res.value.resolvedAt).not.toBeNull();
     }
   });
+
+  it('countConfirmedForLost counts confirmed matches for the lost report', async () => {
+    const res = await repo.countConfirmedForLost(lostId);
+    expect(res.isOk()).toBe(true);
+    if (res.isOk()) expect(res.value).toBe(1);
+  });
+
+  it('countConfirmedForLost is 0 for a lost report with no confirmed match', async () => {
+    const res = await repo.countConfirmedForLost(
+      '00000000-0000-0000-0000-000000000000',
+    );
+    expect(res.isOk() && res._unsafeUnwrap()).toBe(0);
+  });
 });

@@ -63,6 +63,16 @@ export const payloadTooLarge = (maxBytes: number): PayloadTooLarge => ({
   maxBytes,
 });
 
+export type InvalidTransition = {
+  tag: 'InvalidTransition';
+  from: string;
+  to: string;
+};
+export const invalidTransition = (
+  from: string,
+  to: string,
+): InvalidTransition => ({ tag: 'InvalidTransition', from, to });
+
 export function assertNever(x: never): never {
   throw new Error(`unhandled variant: ${JSON.stringify(x)}`);
 }

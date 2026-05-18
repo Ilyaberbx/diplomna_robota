@@ -18,11 +18,12 @@ guessing). A report is never blocked by the absence of a photo.
 - `BrowsePage` — `/browse`, public, filters + pagination synced to the URL query.
 - `ReportDetailPage` — `/reports/:id`, public; switches projection on the response. Renders a reporter-only "View candidates" link (shown only on the `viewer: 'owner'` projection).
 - `CandidatesPage` — `/reports/:id/candidates`, guarded by auth `RouteGuard` in `app/`; renders the server-ranked candidate list with the legible match signal (species, distance, date proximity, photo) and loading/empty/error states.
-- Types: `ReportKind`, `ReportSpecies`, `ReportStatus`, `PublicReport`, `ReportProjection`, `ReportPage`, `Candidate`.
+- `MyReportsPage` — `/me/reports`, guarded by auth `RouteGuard` in `app/`; the reporter's own reports grouped Active / Reunited|Resolved / Closed, each row with a candidate-count badge (active only) and quick lifecycle actions (close; mark reunited/resolved). Loading/empty/error states; per-row action error shown inline (reunited-needs-confirmed-match → 409 `INVALID_TRANSITION`).
+- Types: `ReportKind`, `ReportSpecies`, `ReportStatus`, `StatusTarget`, `PublicReport`, `ReportProjection`, `ReportPage`, `Candidate`.
 
 ## Owns
 
-- `api/` endpoint wrappers (`create-report`, `browse-reports`, `get-report`, `get-candidates`, `upload-photo`) over `shared/http`, each Zod-parsing the response to a `ResultAsync<_, HttpError>`.
+- `api/` endpoint wrappers (`create-report`, `browse-reports`, `get-report`, `get-candidates`, `upload-photo`, `change-report-status`, `get-my-reports`) over `shared/http`, each Zod-parsing the response to a `ResultAsync<_, HttpError>`. `get-my-reports` composes `browse-reports` (one generous page) filtered by reporter id — there is no server-side "mine" filter yet, and the candidate-count badge reuses `get-candidates` per active report.
 - Create-form validation (`create-report-form.utils.ts` — pure Zod helper).
 - `components/report-photo/` — dumb `ReportPhoto` (image or designed placeholder), used by the detail page and feed cards.
 - `reports.config.ts` — builds the public `GET /reports/:id/photo` URL for the `<img src>` (does not use the JSON transport; ADR 0004).
@@ -31,12 +32,12 @@ guessing). A report is never blocked by the absence of a photo.
 
 - `shared/http` `ApiClient` + `useApiClient()` provider (transport, token attach).
 - `react-router-dom` (`useSearchParams` for URL-synced filters, `useParams`, `useNavigate`).
-- `auth` module's `RouteGuard` — wired in `app/App.tsx`, not imported here.
+- `auth` module's `RouteGuard` — wired in `app/App.tsx`, not imported here. Also `auth`'s `useAuthSession()` (public API) — `MyReportsPage` reads the current user id to filter the feed to the reporter's own reports.
 - `matches` module's `ProposeMatchButton` (public API) — rendered per candidate on `CandidatesPage` to start the reunion loop.
 
 ## Cross-app contract
 
-`POST /reports` returns the owner projection (`viewer: 'owner'`, with contact). `GET /reports` returns `{ items, page, pageSize, total }`; items are the public projection (no contact). `GET /reports/:id` returns `viewer: 'public'` anonymously and `viewer: 'owner'` to the reporter (token attached by the shared client). Browse query params: `kind`, `species`, `page` (area/date params modelled in types for later slices). `POST /reports/:id/photo` is `multipart/form-data` with a single `photo` field (reporter-only); `GET /reports/:id/photo` is public and streams the image or 404s. `GET /reports/:id/candidates` is reporter-only (403 to others) and returns a server-ranked `Array<{ report: PublicReport, distanceKm, speciesMatch, daysApart }>`; the client renders the array order as-is (ranking is the server's job, never recomputed here).
+`POST /reports` returns the owner projection (`viewer: 'owner'`, with contact). `GET /reports` returns `{ items, page, pageSize, total }`; items are the public projection (no contact). `GET /reports/:id` returns `viewer: 'public'` anonymously and `viewer: 'owner'` to the reporter (token attached by the shared client). Browse query params: `kind`, `species`, `page`, `pageSize` (area/date params modelled in types for later slices). `POST /reports/:id/status` body `{ status: 'reunited' | 'resolved' | 'closed' }` (reporter-only) returns the owner projection; an illegal transition or reunited-without-confirmed-Match is 409 `INVALID_TRANSITION`, a non-reporter is 403. `POST /reports/:id/photo` is `multipart/form-data` with a single `photo` field (reporter-only); `GET /reports/:id/photo` is public and streams the image or 404s. `GET /reports/:id/candidates` is reporter-only (403 to others) and returns a server-ranked `Array<{ report: PublicReport, distanceKm, speciesMatch, daysApart }>`; the client renders the array order as-is (ranking is the server's job, never recomputed here).
 
 ## Gotchas
 
@@ -47,4 +48,4 @@ guessing). A report is never blocked by the absence of a photo.
 
 ## Out of scope
 
-My-reports dashboard (the candidates page is reachable from the report detail in this slice; the full `/me/reports` entrypoint lands in Slice 7), the Match propose/confirm loop itself (owned by the client `matches` module; this module only renders its `ProposeMatchButton` on the candidates surface), lifecycle status actions, landing/hybrid feed (later slices). Multi-photo is out (single photo by PRD).
+The Match propose/confirm loop itself (owned by the client `matches` module; this module only renders its `ProposeMatchButton` on the candidates surface), landing/hybrid feed (later slices). A server-side "my reports" endpoint / pagination of one user's own reports (the dashboard filters a single generous browse page client-side for now). Multi-photo is out (single photo by PRD).
