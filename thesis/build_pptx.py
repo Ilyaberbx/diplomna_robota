@@ -19,6 +19,7 @@ import uuid
 from copy import deepcopy
 from pathlib import Path
 
+from PIL import Image
 from pptx import Presentation
 from pptx.util import Pt, Emu
 from pptx.enum.shapes import PP_PLACEHOLDER
@@ -42,6 +43,9 @@ IMG_MAX_H = 5.4  # 1.70 + 5.40 = 7.10" of 7.50" → clears title, leaves bottom 
 # this is above PowerPoint's 220 PPI default, so PowerPoint Online may still
 # recompress on its side — view in Slideshow / desktop PowerPoint for full quality.
 TARGET_PPI = 300
+# Diagrams (Mermaid) keep full resolution, capped only on the longest side so
+# they stay sharp when zoomed (they're displayed small but read close-up).
+DIAGRAM_MAX_SIDE = 4000
 
 THEME = "Вебзастосунок для пошуку загублених домашніх тварин"
 
@@ -186,12 +190,16 @@ def fill_body(body, paragraphs: list[dict]) -> None:
         p.space_after = Pt(spec.get("space_after", 6))
 
 
-def fit_image(image: Path, box_w_in: float, box_h_in: float) -> Path:
-    """Downscale the image to its display box at TARGET_PPI (never upscale),
-    writing a copy into ASSETS so PowerPoint has no oversized pixels to
-    recompress. Originals in figures/ are left untouched."""
-    from PIL import Image
+def _save_resized(im, new_size, name: str) -> Path:
+    ASSETS.mkdir(exist_ok=True)
+    out = ASSETS / name
+    im.resize(new_size, Image.LANCZOS).save(out, "PNG", optimize=True)
+    return out
 
+
+def fit_screenshot(image: Path, box_w_in: float, box_h_in: float) -> Path:
+    """Screenshots: downscale to the display box at TARGET_PPI (never upscale),
+    so PowerPoint has no oversized pixels to recompress."""
     target_w = int(box_w_in * TARGET_PPI)
     target_h = int(box_h_in * TARGET_PPI)
     with Image.open(image) as im:
@@ -199,15 +207,23 @@ def fit_image(image: Path, box_w_in: float, box_h_in: float) -> Path:
         scale = min(target_w / nw, target_h / nh)
         if scale >= 1.0:
             return image
-        ASSETS.mkdir(exist_ok=True)
-        out = ASSETS / image.name
-        im.resize((max(1, round(nw * scale)), max(1, round(nh * scale))), Image.LANCZOS).save(
-            out, "PNG", optimize=True
-        )
-        return out
+        return _save_resized(im, (max(1, round(nw * scale)), max(1, round(nh * scale))), image.name)
 
 
-def add_image_slide(prs, title_text: str, image: Path, number: int):
+def fit_diagram(image: Path) -> Path:
+    """Diagrams (Mermaid line art + small text): keep maximum resolution so they
+    stay crisp when zoomed. Only cap the longest side to bound file size — do NOT
+    shrink to the small display box, which is what made them look blurry."""
+    with Image.open(image) as im:
+        nw, nh = im.size
+        longest = max(nw, nh)
+        if longest <= DIAGRAM_MAX_SIDE:
+            return image
+        scale = DIAGRAM_MAX_SIDE / longest
+        return _save_resized(im, (round(nw * scale), round(nh * scale)), image.name)
+
+
+def add_image_slide(prs, title_text: str, image: Path, number: int, *, kind: str = "screenshot"):
     slide = prs.slides.add_slide(layout(prs, "TITLE_ONLY"))
     slide.shapes.title.text = title_text
     w_px, h_px = png_size(image)
@@ -220,7 +236,7 @@ def add_image_slide(prs, title_text: str, image: Path, number: int):
     else:
         height = max_h
         width = Emu(int(max_h * ratio))
-    src = fit_image(image, width / EMU, height / EMU)
+    src = fit_diagram(image) if kind == "diagram" else fit_screenshot(image, width / EMU, height / EMU)
     left = Emu(int((prs.slide_width - width) / 2))
     # Center within the band below the title; never start above IMG_TOP.
     top = Emu(int(IMG_TOP * EMU + (max_h - height) / 2))
@@ -336,13 +352,13 @@ def build() -> None:
 
     # 5–7 — Діаграми --------------------------------------------------------- #
     n += 1
-    add_image_slide(prs, "Діаграма варіантів використання системи", FIG / "1-4.png", n)
+    add_image_slide(prs, "Діаграма варіантів використання системи", DEMO / "diagram-usecase.png", n, kind="diagram")
     set_notes(prs.slides[-1], NOTES["usecase"])
     n += 1
-    add_image_slide(prs, "Загальна архітектура вебзастосунку", FIG / "4-1.png", n)
+    add_image_slide(prs, "Загальна архітектура вебзастосунку", DEMO / "diagram-arch.png", n, kind="diagram")
     set_notes(prs.slides[-1], NOTES["arch"])
     n += 1
-    add_image_slide(prs, "Схема бази даних («сутність — зв'язок»)", FIG / "4-2.png", n)
+    add_image_slide(prs, "Схема бази даних («сутність — зв'язок»)", DEMO / "diagram-db.png", n, kind="diagram")
     set_notes(prs.slides[-1], NOTES["db"])
 
     # 8 — Стек технологій ---------------------------------------------------- #
