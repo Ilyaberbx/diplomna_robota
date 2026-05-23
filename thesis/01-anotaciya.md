@@ -1,8 +1,8 @@
 АНОТАЦІЯ
 
-Вербанов І. Г. Вебзастосунок для пошуку загублених домашніх тварин : кваліфікаційна робота бакалавра за спеціальністю «121 Інженерія програмного забезпечення» / Ілля Геннадійович Вербанов ; керівник Надія Миколаївна Беглова – Одеса : Нац. ун-т «Одес. політехніка», 2026. – 90 с.
+Вербанов І. Г. Вебзастосунок для пошуку загублених домашніх тварин : кваліфікаційна робота бакалавра за спеціальністю «121 Інженерія програмного забезпечення» / Ілля Геннадійович Вербанов ; керівник Надія Миколаївна Беглова – Одеса : Нац. ун-т «Одес. політехніка», 2026. – 59 с.
 
-Кваліфікаційна робота містить основну текстову частину на 74 сторінках, список використаних джерел з 13 найменувань на 2 сторінках, додатки на 9 сторінках.
+Кваліфікаційна робота містить основну текстову частину на 48 сторінках, список використаних джерел з 13 найменувань на 1 сторінці, додатки на 4 сторінках.
 
 Метою кваліфікаційної роботи є скорочення часу возз'єднання загублених домашніх тварин з власниками шляхом автоматизованого зіставлення оголошень про втрату та про знахідку за видом тварини, географічною відстанню та часовим вікном події.
 
@@ -16,9 +16,9 @@
 
 ABSTRACT
 
-Verbanov I. H. Web application for finding lost pets : Bachelor's qualification work in the specialty «121 Software Engineering» / Illia Hennadiiovych Verbanov ; supervisor Nadiia Mykolaivna Behlova – Odesa : Odesa Polytechnic Nat. Univ., 2026. – 90 pages.
+Verbanov I. H. Web application for finding lost pets : Bachelor's qualification work in the specialty «121 Software Engineering» / Illia Hennadiiovych Verbanov ; supervisor Nadiia Mykolaivna Behlova – Odesa : Odesa Polytechnic Nat. Univ., 2026. – 59 pages.
 
-The qualification work contains the main text part on 74 pages, a list of used sources with 13 titles on 2 pages, and appendices on 9 pages.
+The qualification work contains the main text part on 48 pages, a list of used sources with 13 titles on 1 page, and appendices on 4 pages.
 
 The aim of the qualification work is to reduce the time of reuniting lost pets with their owners through automated matching of lost and found reports by animal species, geographic distance, and the time window of the event.
 
