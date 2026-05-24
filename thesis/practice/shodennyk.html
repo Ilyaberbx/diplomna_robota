@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang='uk'><head><meta charset='utf-8'><style>
+@page {
+  size: A4;
+  margin: 20mm 10mm 20mm 25mm;
+  @top-right {
+    content: counter(page);
+    font-family: 'Liberation Serif', serif;
+    font-size: 14pt; color: #000;
+  }
+}
+@page :first { @top-right { content: normal; } }
+* { box-sizing: border-box; }
+body {
+  font-family: 'Liberation Serif', 'Times New Roman', serif;
+  font-size: 14pt; line-height: 1.5; color: #000;
+  text-align: justify; hyphens: auto;
+}
+h1.struct, h1.apx { page-break-before: always; }
+p.n { text-indent: 12.5mm; margin: 0; }
+ul.lst { margin: 0; padding-left: 12.5mm; list-style: none; }
+ul.lst li { text-indent: 0; margin: 0; }
+ul.lst li::before { content: "– "; }
+ul.lst li.num::before { content: ""; }
+h1.struct {
+  text-align: center; font-weight: bold; text-transform: uppercase;
+  font-size: 14pt; text-indent: 0; margin: 0 0 1.5em 0;
+  page-break-after: avoid;
+}
+hr.rule { border: 0; border-top: 0.25pt solid #000; margin: 0.3em 0; }
+h1.apx { margin-bottom: 0.2em; }
+p.appx-title {
+  text-align: center; text-indent: 0; margin: 0 0 1.5em 0;
+  page-break-after: avoid;
+}
+h2, h3 {
+  font-weight: bold; font-size: 14pt; text-align: left;
+  text-indent: 12.5mm; margin: 1.5em 0 1.5em 0; page-break-after: avoid;
+}
+h2.concl {
+  text-indent: 12.5mm; text-transform: none;
+}
+h3 { margin: 1em 0 0 0; }
+.toc-wrap { text-align: left; }
+.toc-row {
+  display: flex; align-items: baseline; margin: 0; line-height: 1.5;
+  text-indent: 0; hyphens: none;
+}
+.toc-row .t { white-space: nowrap; }
+.toc-row .dots {
+  flex: 1; margin: 0 3px; align-self: stretch;
+  border-bottom: 1px dotted #000; transform: translateY(-0.32em);
+}
+.toc-row .p { white-space: nowrap; }
+.toc-row.lvl0 { padding-left: 0; }
+.toc-row.lvl1 { padding-left: 5mm; }
+.toc-row.lvl2 { padding-left: 12.5mm; }
+figure.fig {
+  page-break-inside: avoid; text-align: center; margin: 1.5em 0;
+}
+figure.fig img.fig-img {
+  max-width: 165mm; max-height: 205mm; display: block;
+  margin: 0 auto 0.3em auto;
+}
+p.cap-fig, figcaption.cap-fig {
+  text-align: center; text-indent: 0; margin: 0.3em 0 1em 0;
+}
+p.cap-fig { margin: 1em 0; }
+p.ref { text-indent: 12.5mm; margin: 0; text-align: justify; }
+div.tbl-block { page-break-inside: avoid; margin: 1em 0; }
+div.tbl-block p.cap-tbl { margin: 0 0 0.1em 0; }
+div.tbl-block table { margin: 0; }
+p.cap-tbl { text-align: left; text-indent: 12.5mm; margin: 1em 0 0.3em 0; }
+p.formula {
+  position: relative; text-align: center; text-indent: 0;
+  margin: 1.5em 0; padding: 0 14mm;
+}
+p.formula .fnum { position: absolute; right: 0; }
+pre.code {
+  font-family: 'Liberation Mono', 'Courier New', monospace;
+  font-size: 10pt; line-height: 1.0; text-align: left;
+  white-space: pre-wrap; word-break: break-word;
+  border: 0.25pt solid #000; padding: 4pt; margin: 0.5em 0;
+}
+pre.code code { font-family: inherit; }
+table {
+  border-collapse: collapse; width: 100%; font-size: 12pt;
+  margin: 0.5em 0; page-break-inside: avoid;
+}
+th, td { border: 0.5pt solid #000; padding: 3pt 5pt; text-align: left;
+         vertical-align: top; }
+th { font-weight: bold; }
+/* title page */
+.title-page p { text-align: center; text-indent: 0; margin: 0; }
+.title-page .tp-gap { height: 1.5em; }
+.tp-min { font-size: 12pt; font-weight: bold; text-transform: uppercase; }
+.tp-uni { font-weight: bold; text-transform: uppercase; }
+.tp-qual { font-size: 16pt; font-weight: bold; text-transform: uppercase; }
+.tp-theme { font-weight: bold; }
+.tp-it { font-style: italic; }
+
+.shdoc { text-align: left; }
+.shdoc p { text-indent: 0; margin: 0.2em 0; }
+.shdoc h1.form-h {
+  text-align: center; font-weight: bold; text-transform: uppercase;
+  font-size: 14pt; margin: 0 0 1em 0; page-break-after: avoid;
+}
+.shdoc h2.form-h {
+  text-align: center; font-weight: bold; font-size: 14pt;
+  margin: 1.2em 0 0.6em 0; page-break-before: always; page-break-after: avoid;
+}
+.shdoc .center { text-align: center; }
+.shdoc .small { font-size: 11pt; color: #000; }
+.shdoc .muted { font-size: 10pt; color: #444; font-style: italic; }
+table.form { border-collapse: collapse; width: 100%; margin: 0.5em 0;
+             font-size: 13pt; }
+table.form td, table.form th {
+  border: 0.5pt solid #000; padding: 4pt 6pt; vertical-align: top;
+  text-align: left;
+}
+table.form th { font-weight: bold; text-align: center; }
+table.form.noborder td { border: 0; padding: 2pt 4pt; }
+.kalendar td, .kalendar th { text-align: center; }
+.kalendar td.work { text-align: left; }
+.kalendar .wk { width: 12mm; }
+.seal-box {
+  border: 0.5pt solid #000; min-height: 16mm; width: 38mm;
+  text-align: center; font-style: italic; color: #444; padding-top: 6mm;
+}
+.sig-line {
+  display: inline-block; min-width: 55mm; border-bottom: 0.5pt solid #000;
+  height: 1em;
+}
+.sig-cap { font-size: 10pt; color: #444; }
+.blank-line {
+  display: block; border-bottom: 0.5pt solid #000; height: 1.4em;
+  margin: 0.2em 0;
+}
+.review-blank { min-height: 60mm; }
+</style></head><body><section class="sheet shdoc"><p class="center">МІНІСТЕРСТВО ОСВІТИ І НАУКИ УКРАЇНИ</p><p class="center"><strong>Національний університет «Одеська політехніка»</strong></p><div class="tp-gap"></div><h1 class="form-h">Щоденник практики</h1><p class="center">переддипломна</p><p class="center muted">(вид і назва практики)</p><div class="tp-gap"></div><p class="center"><strong>Ілля ВЕРБАНОВ</strong></p><p class="center muted">(прізвище, ім’я, по батькові)</p><div class="tp-gap"></div><table class="form"><tr><td class="small">Інститут, факультет</td><td>Інститут комп&#x27;ютерних систем</td></tr><tr><td class="small">Кафедра, циклова комісія</td><td>Кафедра інженерії програмного забезпечення</td></tr><tr><td class="small">освітньо-кваліфікаційний рівень</td><td>Бакалавр</td></tr><tr><td class="small">спеціальність</td><td>121 Інженерія програмного забезпечення</td></tr><tr><td class="small">освітня програма</td><td>Інженерія програмного забезпечення</td></tr><tr><td class="small">курс, група</td><td>4  АС-222</td></tr></table><div class="tp-gap"></div><p>Підприємство, організація, установа: <strong>Кафедра інженерії програмного забезпечення Національного університету «Одеська політехніка»</strong></p><p>Період практики: 2026-02-02 – 2026-02-27</p></section><section class="sheet shdoc"><h2 class="form-h">Відмітки про прибуття та вибуття</h2><p>Прибув на підприємство, організацію, установу: <strong>Кафедра інженерії програмного забезпечення Національного університету «Одеська політехніка»</strong></p><table class="form noborder"><tr><td>« 2026-02-02 »</td><td><div class="seal-box">М.П.</div></td><td><div><span class="sig-line"></span><div class="sig-cap">посада, прізвище та ініціали відповідальної особи</div></div></td></tr></table><p>Вибув з підприємства, організації, установи: <strong>Кафедра інженерії програмного забезпечення Національного університету «Одеська політехніка»</strong></p><table class="form noborder"><tr><td>« 2026-02-27 »</td><td><div class="seal-box">М.П.</div></td><td><div><span class="sig-line"></span><div class="sig-cap">посада, прізвище та ініціали відповідальної особи</div></div></td></tr></table></section><section class="sheet shdoc"><h2 class="form-h">Індивідуальне завдання</h2><p>Розробити вебзастосунок для пошуку загублених домашніх тварин: проаналізувати предметну область і програмні аналоги, сформувати функціональні та нефункціональні вимоги, спроєктувати архітектуру, структуру бази даних і специфікації класів, реалізувати основний функціонал із сервісом автоматичного зіставлення оголошень та провести функціональне і нефункціональне тестування.
+</p></section><section class="sheet shdoc"><h2 class="form-h">Календарний графік проходження практики</h2><table class="form kalendar"><tr><th rowspan="2">№<br/>з/п</th><th rowspan="2">Назви робіт</th><th colspan="4">Тижні проходження практики</th><th rowspan="2">Відмітки про виконання</th></tr><tr><th class="wk">1</th><th class="wk">2</th><th class="wk">3</th><th class="wk">4</th></tr><tr><td>1</td><td class="work">Аналіз предметної області</td><td class="wk">х</td><td class="wk"></td><td class="wk"></td><td class="wk"></td><td></td></tr><tr><td>2</td><td class="work">Аналіз програмних аналогів</td><td class="wk">х</td><td class="wk"></td><td class="wk"></td><td class="wk"></td><td></td></tr><tr><td>3</td><td class="work">Формування вимог до програмного забезпечення</td><td class="wk">х</td><td class="wk">х</td><td class="wk"></td><td class="wk"></td><td></td></tr><tr><td>4</td><td class="work">Проєктування архітектури та структури бази даних</td><td class="wk"></td><td class="wk">х</td><td class="wk"></td><td class="wk"></td><td></td></tr><tr><td>5</td><td class="work">Специфікації класів предметної області</td><td class="wk"></td><td class="wk">х</td><td class="wk">х</td><td class="wk"></td><td></td></tr><tr><td>6</td><td class="work">Програмна реалізація вебзастосунку</td><td class="wk"></td><td class="wk"></td><td class="wk">х</td><td class="wk"></td><td></td></tr><tr><td>7</td><td class="work">Тестування функціональних і нефункціональних вимог</td><td class="wk"></td><td class="wk"></td><td class="wk"></td><td class="wk">х</td><td></td></tr><tr><td>8</td><td class="work">Оформлення звіту</td><td class="wk"></td><td class="wk"></td><td class="wk"></td><td class="wk">х</td><td></td></tr></table><div class="tp-gap"></div><table class="form noborder"><tr><td>Керівник практики від університету</td><td><div><span class="sig-line"></span><div class="sig-cap">підпис</div></div></td><td>Надія БЕГЛОВА</td></tr></table></section><section class="sheet shdoc"><h2 class="form-h">Робочі записи під час практики</h2><table class="form"><tr><th>Період</th><th>Зміст виконаних робіт</th></tr><tr><td style="width:42mm">2026-02-02 – 2026-02-08</td><td>Аналіз предметної області пошуку загублених тварин та програмних аналогів (PawBoost, Pet FBI, тематичні спільноти); формування функціональних і нефункціональних вимог до системи.</td></tr><tr><td style="width:42mm">2026-02-09 – 2026-02-15</td><td>Проєктування архітектури вебзастосунку за принципом портів та адаптерів, структури бази даних із трьох таблиць і специфікацій основних класів предметної області.</td></tr><tr><td style="width:42mm">2026-02-16 – 2026-02-22</td><td>Програмна реалізація вебзастосунку (Node.js, NestJS, React, Drizzle, PostgreSQL); реалізація сервісу автоматичного зіставлення та ранжування оголошень-кандидатів.</td></tr><tr><td style="width:42mm">2026-02-23 – 2026-02-27</td><td>Функціональне та нефункціональне тестування системи засобом Vitest; оформлення звіту з практики.</td></tr></table></section><section class="sheet shdoc"><h2 class="form-h">Відгук і оцінка роботи здобувача на практиці</h2><p>Кафедра інженерії програмного забезпечення Національного університету «Одеська політехніка»</p><p class="muted">(назва підприємства, організації, установи)</p><div class="blank-line review-blank"></div><div class="tp-gap"></div><table class="form noborder"><tr><td>Керівник практики від підприємства, організації, установи</td><td><div><span class="sig-line"></span><div class="sig-cap">підпис</div></div></td><td>Надія БЕГЛОВА</td></tr></table><div class="seal-box">М.П.</div></section><section class="sheet shdoc"><h2 class="form-h">Відгук керівника практики від університету</h2><p>Висновок керівника практики від університету про проходження практики:</p><div class="blank-line review-blank"></div><div class="tp-gap"></div><table class="form noborder"><tr><td>Керівник практики від університету</td><td><div><span class="sig-line"></span><div class="sig-cap">підпис</div></div></td><td>Надія БЕГЛОВА</td></tr></table></section><section class="sheet shdoc"><h2 class="form-h">Оцінка</h2><table class="form"><tr><td>Дата складання заліку</td><td>«___» __________ 20__ р.</td></tr><tr><td>Оцінка за національною шкалою</td><td></td></tr><tr><td>Кількість балів</td><td></td></tr><tr><td>За шкалою ECTS</td><td></td></tr></table><div class="tp-gap"></div><table class="form noborder"><tr><td>Керівник практики від університету</td><td><div><span class="sig-line"></span><div class="sig-cap">підпис</div></div></td><td>Надія БЕГЛОВА</td></tr></table></section></body></html>
