@@ -35,17 +35,17 @@ ASSETS = HERE / ".pptx_assets"  # right-sized image copies; figures/ stays immut
 OUT = HERE / "presentation.pptx"
 
 EMU = 914400
-# Geometry of TITLE_ONLY: title spans 0.60"–1.48". Keep a gap below it.
-IMG_TOP = 1.70
+# Image-slide titles are set to 28pt (vs the master's 40pt) so even the longest
+# "Контрольний приклад: …" stays on ONE line. IMG_TOP=1.9" still clears a 2-line
+# title as a safety margin, and IMG_MAX_H keeps the image off the bottom edge.
+TITLE_FONT_PT = 28
+IMG_TOP = 1.90
 IMG_MAX_W = 11.8
-IMG_MAX_H = 5.4  # 1.70 + 5.40 = 7.10" of 7.50" → clears title, leaves bottom margin
-# Embed images at ~300 PPI for maximum sharpness (incl. 4K projection). Note:
-# this is above PowerPoint's 220 PPI default, so PowerPoint Online may still
-# recompress on its side — view in Slideshow / desktop PowerPoint for full quality.
-TARGET_PPI = 300
-# Diagrams (Mermaid) keep full resolution, capped only on the longest side so
-# they stay sharp when zoomed (they're displayed small but read close-up).
-DIAGRAM_MAX_SIDE = 4000
+IMG_MAX_H = 5.10  # 1.90 + 5.10 = 7.00" of 7.50"
+# Keep full source resolution for every image (only cap the longest side to bound
+# file size). Quality over size — view in Slideshow / desktop PowerPoint, since
+# PowerPoint Online recompresses anything above ~220 PPI on its own side.
+IMG_MAX_SIDE = 4000
 
 THEME = "Вебзастосунок для пошуку загублених домашніх тварин"
 
@@ -190,42 +190,29 @@ def fill_body(body, paragraphs: list[dict]) -> None:
         p.space_after = Pt(spec.get("space_after", 6))
 
 
-def _save_resized(im, new_size, name: str) -> Path:
-    ASSETS.mkdir(exist_ok=True)
-    out = ASSETS / name
-    im.resize(new_size, Image.LANCZOS).save(out, "PNG", optimize=True)
-    return out
-
-
-def fit_screenshot(image: Path, box_w_in: float, box_h_in: float) -> Path:
-    """Screenshots: downscale to the display box at TARGET_PPI (never upscale),
-    so PowerPoint has no oversized pixels to recompress."""
-    target_w = int(box_w_in * TARGET_PPI)
-    target_h = int(box_h_in * TARGET_PPI)
-    with Image.open(image) as im:
-        nw, nh = im.size
-        scale = min(target_w / nw, target_h / nh)
-        if scale >= 1.0:
-            return image
-        return _save_resized(im, (max(1, round(nw * scale)), max(1, round(nh * scale))), image.name)
-
-
-def fit_diagram(image: Path) -> Path:
-    """Diagrams (Mermaid line art + small text): keep maximum resolution so they
-    stay crisp when zoomed. Only cap the longest side to bound file size — do NOT
-    shrink to the small display box, which is what made them look blurry."""
+def fit_image(image: Path) -> Path:
+    """Keep full source resolution; only downscale if the longest side exceeds
+    IMG_MAX_SIDE (bounds file size). Never upscale. Diagrams and screenshots both
+    stay crisp when zoomed — no shrinking to the small display box."""
     with Image.open(image) as im:
         nw, nh = im.size
         longest = max(nw, nh)
-        if longest <= DIAGRAM_MAX_SIDE:
+        if longest <= IMG_MAX_SIDE:
             return image
-        scale = DIAGRAM_MAX_SIDE / longest
-        return _save_resized(im, (round(nw * scale), round(nh * scale)), image.name)
+        ASSETS.mkdir(exist_ok=True)
+        out = ASSETS / image.name
+        scale = IMG_MAX_SIDE / longest
+        im.resize((round(nw * scale), round(nh * scale)), Image.LANCZOS).save(
+            out, "PNG", optimize=True
+        )
+        return out
 
 
-def add_image_slide(prs, title_text: str, image: Path, number: int, *, kind: str = "screenshot"):
+def add_image_slide(prs, title_text: str, image: Path, number: int):
     slide = prs.slides.add_slide(layout(prs, "TITLE_ONLY"))
     slide.shapes.title.text = title_text
+    for run in slide.shapes.title.text_frame.paragraphs[0].runs:
+        run.font.size = Pt(TITLE_FONT_PT)  # keep long titles on one line
     w_px, h_px = png_size(image)
     ratio = w_px / h_px
     max_w = Emu(int(IMG_MAX_W * EMU))
@@ -236,9 +223,9 @@ def add_image_slide(prs, title_text: str, image: Path, number: int, *, kind: str
     else:
         height = max_h
         width = Emu(int(max_h * ratio))
-    src = fit_diagram(image) if kind == "diagram" else fit_screenshot(image, width / EMU, height / EMU)
+    src = fit_image(image)
     left = Emu(int((prs.slide_width - width) / 2))
-    # Center within the band below the title; never start above IMG_TOP.
+    # Center within the band below the title.
     top = Emu(int(IMG_TOP * EMU + (max_h - height) / 2))
     slide.shapes.add_picture(str(src), left, top, width, height)
     add_slide_number(slide, number)
@@ -352,13 +339,13 @@ def build() -> None:
 
     # 5–7 — Діаграми --------------------------------------------------------- #
     n += 1
-    add_image_slide(prs, "Діаграма варіантів використання системи", DEMO / "diagram-usecase.png", n, kind="diagram")
+    add_image_slide(prs, "Діаграма варіантів використання системи", DEMO / "diagram-usecase.png", n)
     set_notes(prs.slides[-1], NOTES["usecase"])
     n += 1
-    add_image_slide(prs, "Загальна архітектура вебзастосунку", DEMO / "diagram-arch.png", n, kind="diagram")
+    add_image_slide(prs, "Загальна архітектура вебзастосунку", DEMO / "diagram-arch.png", n)
     set_notes(prs.slides[-1], NOTES["arch"])
     n += 1
-    add_image_slide(prs, "Схема бази даних («сутність — зв'язок»)", DEMO / "diagram-db.png", n, kind="diagram")
+    add_image_slide(prs, "Схема бази даних («сутність — зв'язок»)", DEMO / "diagram-db.png", n)
     set_notes(prs.slides[-1], NOTES["db"])
 
     # 8 — Стек технологій ---------------------------------------------------- #
