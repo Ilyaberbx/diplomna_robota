@@ -39,6 +39,12 @@ NUMITEM = re.compile(r"^\d+\.\s+\S")
 
 def inline(s: str) -> str:
     s = html.escape(s)
+    # Real sub/superscripts (RULES §9): author writes `_{...}` / `^{...}`.
+    # Done before strong/em so inner *italic* indices are still processed,
+    # e.g. `*s*_{*x*}` -> <em>s</em><sub><em>x</em></sub>. A bare `_`/`^`
+    # not followed by `{` (e.g. __drizzle_migrations, STORAGE_DIR) is left as-is.
+    s = re.sub(r"_\{([^{}]*)\}", r"<sub>\1</sub>", s)
+    s = re.sub(r"\^\{([^{}]*)\}", r"<sup>\1</sup>", s)
     s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
     s = re.sub(r"(?<!\*)\*(?!\s)(.+?)(?<!\s)\*(?!\*)", r"<em>\1</em>", s)
     return s
@@ -301,7 +307,10 @@ body {
   font-family: 'Liberation Serif', 'Times New Roman', serif;
   font-size: 14pt; line-height: 1.5; color: #000;
   text-align: justify; hyphens: auto;
+  orphans: 2; widows: 2;
 }
+sub { vertical-align: sub; font-size: 0.75em; line-height: 0; }
+sup { vertical-align: super; font-size: 0.75em; line-height: 0; }
 h1.struct, h1.apx { page-break-before: always; }
 p.n { text-indent: 12.5mm; margin: 0; }
 ul.lst { margin: 0; padding-left: 12.5mm; list-style: none; }
@@ -345,7 +354,7 @@ figure.fig {
   page-break-inside: avoid; text-align: center; margin: 1.5em 0;
 }
 figure.fig img.fig-img {
-  max-width: 165mm; max-height: 205mm; display: block;
+  max-width: 165mm; max-height: 130mm; display: block;
   margin: 0 auto 0.3em auto;
 }
 p.cap-fig, figcaption.cap-fig {

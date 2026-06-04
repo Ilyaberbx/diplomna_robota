@@ -59,32 +59,42 @@ def read(name: str) -> str:
 
 def extract_intro() -> dict[str, object]:
     vstup = read("03-vstup.md")
-    meta = re.search(r"Метою роботи є[\s\S]*?про знахідку\.", vstup).group(0).strip()
+    # Goal = the first sentence of the meta paragraph (the measurable goal itself);
+    # the operationalisation/metrics live on the experiment slide. Robust to wording:
+    # take the span from "Метою роботи є" up to the tasks connector, first sentence.
+    meta_region = vstup[vstup.index("Метою роботи є") : vstup.index("Для досягнення")]
+    meta = meta_region.split(". ")[0].strip() + "."
     connector = "Для досягнення поставленої мети необхідно вирішити такі задачі:"
     region = vstup[vstup.index("такі задачі:") + len("такі задачі:") : vstup.index("**Об")]
     tasks = [t.strip().rstrip(";.") for t in re.findall(r"–\s+(.+)", region) if t.strip()]
-    obj = re.search(r"Об.єктом роботи є[\s\S]*?про знахідку\.", vstup).group(0).strip()
-    subj = re.search(r"Предметом роботи є[\s\S]*?людиною\.", vstup).group(0).strip()
+    # Object / subject are single sentences (no internal periods) — match verbatim.
+    obj = re.search(r"Об.єктом роботи є[^.]*\.", vstup).group(0).strip()
+    subj = re.search(r"Предметом роботи є[^.]*\.", vstup).group(0).strip()
     return {"meta": meta, "connector": connector, "tasks": tasks, "obj": obj, "subj": subj}
 
 
 def extract_conclusions() -> list[str]:
-    v = read("11-zagalni-vysnovky.md")
-
-    def grab(pattern: str) -> str:
-        return re.search(pattern, v, re.S).group(0).strip()
-
-    bullets = [
-        grab(r"У кваліфікаційній роботі вирішено задачу[\s\S]*?про знахідку\."),
-        grab(r"Аналіз аналогів — сервісу PawBoost[\s\S]*?не приховує контактні дані до підтвердження\."),
-        grab(r"Для обчислення відстані застосовано формулу гаверсинуса[\s\S]*?природний пріоритет ознак\."),
-        grab(r"На основі проєктних рішень реалізовано вебзастосунок[\s\S]*?PostgreSQL\."),
-        grab(r"автоматизований набір із 130 серверних і 44 клієнтських тестів[\s\S]*?без помилок\."),
-        # Rule §3/§7: close with "задачі виконано, мету досягнуто". First clause
-        # is verbatim from the thesis; the "мету" clause is the mandated closing.
+    # Committee rule: «не виносити на слайди абзаци тексту роботи». PRESENTATION-RULES §3
+    # вимагає, щоб висновки ПЕРЕКАЗУВАЛИ роботу (не дослівні абзаци) і завершувалися
+    # формулою «задачі виконано, мету досягнуто». Тож це стислі тези, виведені з
+    # 11-zagalni-vysnovky.md, а не вирвані з нього повні речення.
+    return [
+        "Розроблено вебзастосунок для пошуку загублених тварин через автоматичне "
+        "зіставлення оголошень про втрату та про знахідку.",
+        "Аналіз аналогів (PawBoost, Pet FBI, спільноти): жоден не зіставляє "
+        "автоматично, не ранжує збіги й не приховує контакти до підтвердження.",
+        "Ключовий результат — алгоритм зіставлення: гаверсинус для відстані та "
+        "лексикографічне ранжування кандидатів; остаточне рішення про збіг — за людиною.",
+        "Реалізовано за принципом портів і адаптерів на Node.js, NestJS, React, "
+        "Drizzle та PostgreSQL; контакти приховано до підтвердження зв'язку.",
+        "Тестування: 130 серверних і 44 клієнтських тести проходять, єдиний конвеєр "
+        "перевірки завершується без помилок.",
+        "Досягнення мети підтверджено експериментально: істинний збіг у перших трьох "
+        "позиціях у всіх запитах (Hit@3 = 1,00), MRR = 0,91; час формування переліку "
+        "для 50 000 оголошень ≤ 50 мс, тобто в межах вимоги у 2 с.",
+        # Rule §3/§7: mandated closing.
         "Поставлені в роботі задачі виконано повністю, мету роботи досягнуто.",
     ]
-    return bullets
 
 
 # --------------------------------------------------------------------------- #
@@ -122,9 +132,33 @@ def remove_slide_number(slide) -> None:
             ph._element.getparent().remove(ph._element)
 
 
+# Official committee rule: page number lives in the TOP-RIGHT corner. The template
+# layout pins its sldNum placeholder bottom-right, so we override the position with
+# an explicit xfrm. top=0.15" clears the title band (titles start at ~0.6").
+NUM_LEFT_IN = 12.2
+NUM_TOP_IN = 0.15
+NUM_W_IN = 0.8
+NUM_H_IN = 0.4
+
+
+def _force_top_right(sp) -> None:
+    spPr = sp.find(qn("p:spPr"))
+    if spPr is None:
+        spPr = sp.makeelement(qn("p:spPr"), {})
+        sp.append(spPr)
+    old = spPr.find(qn("a:xfrm"))
+    if old is not None:
+        spPr.remove(old)
+    xfrm = spPr.makeelement(qn("a:xfrm"), {})
+    xfrm.append(xfrm.makeelement(qn("a:off"), {"x": str(int(NUM_LEFT_IN * EMU)), "y": str(int(NUM_TOP_IN * EMU))}))
+    xfrm.append(xfrm.makeelement(qn("a:ext"), {"cx": str(int(NUM_W_IN * EMU)), "cy": str(int(NUM_H_IN * EMU))}))
+    spPr.insert(0, xfrm)
+
+
 def add_slide_number(slide, number: int) -> None:
     """Attach an explicit sldNum placeholder (cloned from the layout) carrying a
-    slidenum field, so numbering is both rendered and machine-detectable."""
+    slidenum field, so numbering is both rendered and machine-detectable. The
+    placeholder is repositioned to the TOP-RIGHT corner per the committee rule."""
     src = None
     for ph in slide.slide_layout.placeholders:
         if ph.placeholder_format.type == PP_PLACEHOLDER.SLIDE_NUMBER:
@@ -133,10 +167,12 @@ def add_slide_number(slide, number: int) -> None:
     if src is None:
         return
     sp = deepcopy(src)
+    _force_top_right(sp)
     txBody = sp.find(qn("p:txBody"))
     for p in txBody.findall(qn("a:p")):
         txBody.remove(p)
     p = txBody.makeelement(qn("a:p"), {})
+    p.append(p.makeelement(qn("a:pPr"), {"algn": "r"}))
     fld = p.makeelement(qn("a:fld"), {"id": "{%s}" % str(uuid.uuid4()).upper(), "type": "slidenum"})
     t = fld.makeelement(qn("a:t"), {})
     t.text = str(number)
@@ -264,7 +300,7 @@ def build() -> None:
         p = sub.paragraphs[0] if i == 0 else sub.add_paragraph()
         p.text = line
         p.runs[0].font.bold = bold
-        p.runs[0].font.size = Pt(16 if bold else 14)
+        p.runs[0].font.size = Pt(22 if bold else 18)
     remove_slide_number(s)
     set_notes(s, NOTES["title"])
 
@@ -273,25 +309,38 @@ def build() -> None:
     s = prs.slides.add_slide(layout(prs, "TITLE_AND_BODY"))
     s.shapes.title.text = "Мета і задачі"
     paras = [
-        {"text": intro["meta"], "size": 15, "bold": True, "space_after": 8},
-        {"text": intro["connector"], "size": 14, "space_after": 6},
+        {"text": intro["meta"], "size": 18, "bold": True, "space_after": 4},
+        {"text": intro["connector"], "size": 18, "space_after": 2},
     ]
-    paras += [{"text": t, "size": 14, "bullet": True, "space_after": 4} for t in intro["tasks"]]
+    paras += [{"text": t, "size": 18, "bullet": True, "space_after": 2} for t in intro["tasks"]]
     fill_body(s.placeholders[1], paras)
+    # Goal + 9 tasks at the mandated ≥18 pt overrun the layout's 4.87" body box.
+    # Use the full content area (just under the title down to ~0.3" of the bottom)
+    # so everything fits at 18 pt without dropping any task. Single line spacing.
+    # Set ALL FOUR geometry fields: on an inherited placeholder, setting only
+    # top/height materializes an xfrm with left=width=0, collapsing the text box
+    # to zero width (one char per line). Reuse the layout's inherited left/width.
+    body = s.placeholders[1]
+    body.left = Emu(int(0.455 * EMU))
+    body.width = Emu(int(12.424 * EMU))
+    body.top = Emu(int(1.55 * EMU))
+    body.height = Emu(int(5.65 * EMU))
+    for para in body.text_frame.paragraphs:
+        para.line_spacing = 1.0
     add_slide_number(s, n)
     set_notes(s, NOTES["goal"])
 
     # 3 — Предмет та об'єкт --------------------------------------------------- #
     n += 1
     s = prs.slides.add_slide(layout(prs, "TITLE_AND_BODY"))
-    s.shapes.title.text = "Предмет та об'єкт"
+    s.shapes.title.text = "Об'єкт та предмет"
     fill_body(
         s.placeholders[1],
         [
-            {"text": "Об'єкт роботи", "size": 18, "bold": True, "space_after": 4},
-            {"text": intro["obj"], "size": 16, "space_after": 14},
-            {"text": "Предмет роботи", "size": 18, "bold": True, "space_after": 4},
-            {"text": intro["subj"], "size": 16, "space_after": 6},
+            {"text": "Об'єкт роботи", "size": 20, "bold": True, "space_after": 4},
+            {"text": intro["obj"], "size": 18, "space_after": 12},
+            {"text": "Предмет роботи", "size": 20, "bold": True, "space_after": 4},
+            {"text": intro["subj"], "size": 18, "space_after": 6},
         ],
     )
     add_slide_number(s, n)
@@ -302,13 +351,15 @@ def build() -> None:
     s = prs.slides.add_slide(layout(prs, "TITLE_ONLY"))
     s.shapes.title.text = "Аналіз аналогів"
     header = ["Критерій", "PawBoost", "Pet FBI", "Спільноти", "Власна розробка"]
+    # Criteria shortened so each fits ONE line at 18pt in the 4.7" first column
+    # (committee rule: шрифт ≥ 18 пт).
     rows = [
         ["Структурована модель оголошення", "+", "+", "–", "+"],
-        ["Автоматичне зіставлення втрати та знахідки", "–", "–", "–", "+"],
+        ["Автоматичне зіставлення оголошень", "–", "–", "–", "+"],
         ["Урахування відстані та дати", "частково", "частково", "–", "+"],
         ["Ранжування кандидатів", "–", "–", "–", "+"],
         ["Підтвердження збігу людиною", "–", "–", "–", "+"],
-        ["Приховування контактів до підтвердження", "–", "–", "–", "+"],
+        ["Контакти приховано до підтвердження", "–", "–", "–", "+"],
         ["Безкоштовність базових функцій", "частково", "+", "+", "+"],
     ]
     n_rows, n_cols = len(rows) + 1, len(header)
@@ -325,14 +376,14 @@ def build() -> None:
         cell.text = txt
         para = cell.text_frame.paragraphs[0]
         para.runs[0].font.bold = True
-        para.runs[0].font.size = Pt(13)
+        para.runs[0].font.size = Pt(18)
         para.alignment = PP_ALIGN.CENTER
     for r, row in enumerate(rows, start=1):
         for c, txt in enumerate(row):
             cell = table.cell(r, c)
             cell.text = txt
             para = cell.text_frame.paragraphs[0]
-            para.runs[0].font.size = Pt(12)
+            para.runs[0].font.size = Pt(18)
             para.alignment = PP_ALIGN.LEFT if c == 0 else PP_ALIGN.CENTER
     add_slide_number(s, n)
     set_notes(s, NOTES["analogs"])
@@ -364,7 +415,7 @@ def build() -> None:
     ]
     fill_body(
         s.placeholders[1],
-        [{"text": t, "size": 16, "bullet": True, "space_after": 6} for t in stack],
+        [{"text": t, "size": 18, "bullet": True, "space_after": 4} for t in stack],
     )
     add_slide_number(s, n)
     set_notes(s, NOTES["stack"])
@@ -382,14 +433,63 @@ def build() -> None:
         add_image_slide(prs, title_text, DEMO / fname, n)
         set_notes(prs.slides[-1], NOTES[note_key])
 
-    # 14 — Загальні висновки ------------------------------------------------- #
+    # 14 — Експериментальне дослідження (таблиця результатів, розділ 6) ------- #
+    n += 1
+    s = prs.slides.add_slide(layout(prs, "TITLE_ONLY"))
+    s.shapes.title.text = "Експериментальне дослідження ефективності зіставлення"
+    for run in s.shapes.title.text_frame.paragraphs[0].runs:
+        run.font.size = Pt(24)  # long title on one line
+    exp_header = ["Показник", "Значення"]
+    exp_rows = [
+        ["Hit@1 — істинний збіг на першій позиції", "0,82"],
+        ["Hit@3 / Hit@5 — у перших трьох / п'яти", "1,00 / 1,00"],
+        ["Середній обернений ранг (MRR)", "0,91"],
+        ["Медіанний ранг істинного збігу", "1"],
+        ["Час формування переліку (50 000 оголошень)", "≤ 50 мс"],
+        ["Скорочення обсягу перегляду vs хронологічний", "≈ 100×"],
+    ]
+    e_rows, e_cols = len(exp_rows) + 1, len(exp_header)
+    e_table = s.shapes.add_table(
+        e_rows, e_cols, Emu(int(2.4 * EMU)), Emu(int(1.7 * EMU)),
+        Emu(int(8.5 * EMU)), Emu(int(4.4 * EMU)),
+    ).table
+    e_table.columns[0].width = Emu(int(5.7 * EMU))
+    e_table.columns[1].width = Emu(int(2.8 * EMU))
+    for c, txt in enumerate(exp_header):
+        cell = e_table.cell(0, c)
+        cell.text = txt
+        para = cell.text_frame.paragraphs[0]
+        para.runs[0].font.bold = True
+        para.runs[0].font.size = Pt(18)
+        para.alignment = PP_ALIGN.CENTER
+    for r, row in enumerate(exp_rows, start=1):
+        for c, txt in enumerate(row):
+            cell = e_table.cell(r, c)
+            cell.text = txt
+            para = cell.text_frame.paragraphs[0]
+            para.runs[0].font.size = Pt(18)
+            para.alignment = PP_ALIGN.LEFT if c == 0 else PP_ALIGN.CENTER
+    add_slide_number(s, n)
+    set_notes(s, NOTES["experiment"])
+
+    # 15 — Загальні висновки ------------------------------------------------- #
     n += 1
     s = prs.slides.add_slide(layout(prs, "TITLE_AND_BODY"))
     s.shapes.title.text = "Загальні висновки"
     fill_body(
         s.placeholders[1],
-        [{"text": b, "size": 14, "bullet": True, "space_after": 6} for b in conclusions],
+        [{"text": b, "size": 18, "bullet": True, "space_after": 4} for b in conclusions],
     )
+    # Seven dense bullets at 18 pt overrun the layout's 4.87" body box. Use the full
+    # content area, and set ALL FOUR geometry fields (top/height alone would collapse
+    # an inherited placeholder to left=width=0 — see slide 2). Single line spacing.
+    c_body = s.placeholders[1]
+    c_body.left = Emu(int(0.455 * EMU))
+    c_body.width = Emu(int(12.424 * EMU))
+    c_body.top = Emu(int(1.55 * EMU))
+    c_body.height = Emu(int(5.65 * EMU))
+    for para in c_body.text_frame.paragraphs:
+        para.line_spacing = 1.0
     add_slide_number(s, n)
     set_notes(s, NOTES["conclusions"])
 
@@ -408,20 +508,23 @@ NOTES = {
         "Надія Беглова. Далі коротко розповім, навіщо цей застосунок і що саме зроблено."
     ),
     "goal": (
-        "Коли тварина губиться, все вирішують перші дні. Власники й ті, хто знайшов "
-        "тварину, шукають одне одного вручну — у різних чатах, групах, на OLX, і "
-        "оголошення ніяк не зіставляються між собою. Тому мета роботи — скоротити час "
-        "возз'єднання за рахунок автоматичного зіставлення оголошень про втрату та про "
-        "знахідку. Щоб цього досягти, я розбив роботу на вісім задач: від дослідження "
-        "області й аналізу аналогів до алгоритму зіставлення, проєктування, реалізації "
-        "та тестування."
+        "Коли тварина губиться, вирішують перші дні, а власник і той, хто знайшов "
+        "тварину, шукають одне одного вручну в різних чатах і на OLX — оголошення ніде "
+        "не зіставляються. Тому мета роботи — підвищити ефективність первинного "
+        "зіставлення: розробити вебзастосунок, що сам формує ранжований перелік "
+        "ймовірних збігів. Ефективність я міряю двома величинами — якістю ранжування і "
+        "часом формування переліку, і досягнення мети підтверджую експериментом. Щоб "
+        "дійти до цього, роботу розбито на дев'ять задач: від аналізу області й "
+        "аналогів до алгоритму зіставлення, проєктування, реалізації, тестування і "
+        "самого експерименту."
     ),
     "subject": (
-        "Якщо коротко: об'єкт — це сам процес пошуку й повернення тварин через "
-        "зіставлення втрати та знахідки. А предмет — те, що я безпосередньо будую: "
-        "моделі, алгоритм і програмні засоби, які структуровано подають оголошення й "
-        "формують ранжований перелік ймовірних збігів. Важливо, що остаточне рішення "
-        "про збіг приймає людина, а не система."
+        "Об'єкт роботи — це процес автоматизації зіставлення оголошень про загублених і "
+        "знайдених тварин засобами вебзастосунку, тобто інженерна задача, а не сам "
+        "пошук тварин. Предмет — те, що я безпосередньо будую: моделі, алгоритм і "
+        "програмні засоби, які структуровано подають оголошення й формують ранжований "
+        "перелік ймовірних збігів. Остаточне рішення про збіг приймає людина, а не "
+        "система."
     ),
     "analogs": (
         "Я подивився на три типові варіанти: PawBoost, базу Pet FBI і тематичні "
@@ -482,13 +585,25 @@ NOTES = {
         "прихованими. Так ми захищаємо персональні дані й водночас даємо людям зв'язок, "
         "коли збіг справді підтверджено."
     ),
+    "experiment": (
+        "Щоб показати, що мету досягнуто, я провів експеримент на модельному наборі: "
+        "шістдесят пар втрата–знахідка з відомими збігами плюс сто сорок сторонніх "
+        "оголошень, усе відтворюється за фіксованим сидом. Істинний збіг потрапляє в "
+        "перші три позиції в усіх запитах, на першу — у вісімдесяти двох відсотках, "
+        "середній обернений ранг дорівнює нуль цілих дев'яносто одна. Порівняно з "
+        "хронологічним переглядом це приблизно стократне скорочення обсягу перегляду. "
+        "Час формування переліку для п'ятдесяти тисяч оголошень — до п'ятдесяти "
+        "мілісекунд, тобто вимога у дві секунди виконується із запасом."
+    ),
     "conclusions": (
         "Підсумую. Я розробив вебзастосунок, який автоматизує найтрудомісткіший етап "
         "пошуку — виявлення ймовірного збігу, і захищає контакти до підтвердження. "
         "Ключовий результат — алгоритм зіставлення на формулі гаверсинуса з "
         "лексикографічним упорядкуванням. Систему перевірено: 130 серверних і 44 "
-        "клієнтських тести проходять, конвеєр зелений. Поставлені задачі виконано, "
-        "мету роботи досягнуто. Дякую за увагу, готовий відповісти на запитання."
+        "клієнтських тести проходять. А досягнення мети підтверджено експериментально — "
+        "істинний збіг у перших трьох позиціях у всіх запитах, час до п'ятдесяти "
+        "мілісекунд на п'ятдесяти тисячах оголошень. Поставлені задачі виконано, мету "
+        "роботи досягнуто. Дякую за увагу, готовий відповісти на запитання."
     ),
 }
 

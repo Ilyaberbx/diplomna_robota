@@ -14,7 +14,10 @@ body {
   font-family: 'Liberation Serif', 'Times New Roman', serif;
   font-size: 14pt; line-height: 1.5; color: #000;
   text-align: justify; hyphens: auto;
+  orphans: 2; widows: 2;
 }
+sub { vertical-align: sub; font-size: 0.75em; line-height: 0; }
+sup { vertical-align: super; font-size: 0.75em; line-height: 0; }
 h1.struct, h1.apx { page-break-before: always; }
 p.n { text-indent: 12.5mm; margin: 0; }
 ul.lst { margin: 0; padding-left: 12.5mm; list-style: none; }
@@ -58,7 +61,7 @@ figure.fig {
   page-break-inside: avoid; text-align: center; margin: 1.5em 0;
 }
 figure.fig img.fig-img {
-  max-width: 165mm; max-height: 205mm; display: block;
+  max-width: 165mm; max-height: 130mm; display: block;
   margin: 0 auto 0.3em auto;
 }
 p.cap-fig, figcaption.cap-fig {
@@ -134,68 +137,70 @@ th { font-weight: bold; }
 <p class="tp">Одеса – 2026</p>
 </section><section class="sheet" data-f="01-anotaciya.md">
 <h1 class="struct">АНОТАЦІЯ</h1>
-<p class="n">Вербанов І. Г. Вебзастосунок для пошуку загублених домашніх тварин : кваліфікаційна робота бакалавра за спеціальністю «121 Інженерія програмного забезпечення» / Ілля Геннадійович Вербанов ; керівник Надія Миколаївна Беглова – Одеса : Нац. ун-т «Одес. політехніка», 2026. – 59 с.</p>
-<p class="n">Кваліфікаційна робота містить основну текстову частину на 48 сторінках, список використаних джерел з 13 найменувань на 1 сторінці, додатки на 4 сторінках.</p>
-<p class="n">Метою кваліфікаційної роботи є скорочення часу возз&#x27;єднання загублених домашніх тварин з власниками шляхом автоматизованого зіставлення оголошень про втрату та про знахідку за видом тварини, географічною відстанню та часовим вікном події.</p>
+<p class="n">Вербанов І. Г. Вебзастосунок для пошуку загублених домашніх тварин : кваліфікаційна робота бакалавра за спеціальністю «121 Інженерія програмного забезпечення» / Ілля Геннадійович Вербанов ; керівник Надія Миколаївна Беглова – Одеса : Нац. ун-т «Одес. політехніка», 2026. – 70 с.</p>
+<p class="n">Кваліфікаційна робота містить основну текстову частину на 58 сторінках, список використаних джерел з 13 найменувань на 1 сторінці, додатки на 4 сторінках.</p>
+<p class="n">Метою кваліфікаційної роботи є підвищення ефективності первинного зіставлення оголошень про загублених і знайдених тварин шляхом розроблення вебзастосунку, що автоматично формує ранжований перелік ймовірних збігів за видом тварини, географічною відстанню та часовим вікном події. Ефективність оцінюється якістю ранжування (часткою випадків, коли істинний збіг потрапляє в перші позиції переліку, та середнім оберненим рангом істинного збігу) і часом формування переліку; досягнення мети підтверджується експериментально.</p>
 <p class="n">У роботі розроблено вебзастосунок, який дозволяє власникам публікувати оголошення про загублену тварину, а особам, які знайшли тварину, — оголошення про знахідку. Реалізовано алгоритм формування ранжованого переліку оголошень-кандидатів, що оцінює збіг за видом тварини, відстанню між місцями події за формулою гаверсинуса та різницею дат. Запропонований кандидат підтверджується людиною: після підтвердження зв&#x27;язку контактні дані сторін взаємно розкриваються, що дозволяє організувати повернення тварини.</p>
 <p class="n">Систему реалізовано із застосуванням платформи Node.js, фреймворку NestJS, бібліотеки React, ORM Drizzle та системи керування базами даних PostgreSQL. У процесі розробки проведено аналіз предметної області та аналогів, сформовано функціональні та нефункціональні вимоги, виконано планування проєкту, спроєктовано архітектуру системи, структуру бази даних і користувацький інтерфейс, проведено функціональне та нефункціональне тестування.</p>
-<p class="n">Результатом кваліфікаційної роботи є вебзастосунок для пошуку загублених тварин, який може бути використаний волонтерськими спільнотами та притулками для автоматизації первинного зіставлення оголошень. Проведене тестування підтвердило коректність роботи системи та її відповідність поставленим вимогам.</p>
+<p class="n">Результатом кваліфікаційної роботи є вебзастосунок для пошуку загублених тварин, який може бути використаний волонтерськими спільнотами та притулками для автоматизації первинного зіставлення оголошень. Проведене тестування підтвердило коректність роботи системи, а експериментальне дослідження на модельному наборі даних — досягнення мети: істинний збіг потрапляє у перші позиції ранжованого переліку, а час формування переліку задовольняє вимогу продуктивності.</p>
 <p class="n"><em>Ключові слова:</em> вебзастосунок, пошук загублених тварин, алгоритм зіставлення, формула гаверсинуса, ранжування кандидатів, база даних, NestJS, React.</p>
 <h1 class="struct">ABSTRACT</h1>
-<p class="n">Verbanov I. H. Web application for finding lost pets : Bachelor&#x27;s qualification work in the specialty «121 Software Engineering» / Illia Hennadiiovych Verbanov ; supervisor Nadiia Mykolaivna Behlova – Odesa : Odesa Polytechnic Nat. Univ., 2026. – 59 pages.</p>
-<p class="n">The qualification work contains the main text part on 48 pages, a list of used sources with 13 titles on 1 page, and appendices on 4 pages.</p>
-<p class="n">The aim of the qualification work is to reduce the time of reuniting lost pets with their owners through automated matching of lost and found reports by animal species, geographic distance, and the time window of the event.</p>
+<p class="n">Verbanov I. H. Web application for finding lost pets : Bachelor&#x27;s qualification work in the specialty «121 Software Engineering» / Illia Hennadiiovych Verbanov ; supervisor Nadiia Mykolaivna Behlova – Odesa : Odesa Polytechnic Nat. Univ., 2026. – 70 pages.</p>
+<p class="n">The qualification work contains the main text part on 58 pages, a list of used sources with 13 titles on 1 page, and appendices on 4 pages.</p>
+<p class="n">The aim of the qualification work is to improve the effectiveness of the initial matching of lost- and found-pet reports by developing a web application that automatically builds a ranked list of likely matches by animal species, geographic distance, and the time window of the event. Effectiveness is assessed by ranking quality (the share of cases in which the true match appears among the top positions of the list, and the mean reciprocal rank of the true match) and by the time to build the list; the achievement of the aim is confirmed experimentally.</p>
 <p class="n">The work presents a web application that allows owners to publish reports about a lost pet and finders to publish reports about a found animal. A matching algorithm is implemented that builds a ranked list of candidate reports, evaluating the match by species equality, the distance between event locations computed with the haversine formula, and the difference of dates. A proposed candidate is confirmed by a human: after the link is confirmed, the contact details of both parties are mutually revealed so that the return of the pet can be arranged.</p>
 <p class="n">The system is implemented using the Node.js platform, the NestJS framework, the React library, the Drizzle ORM, and the PostgreSQL database management system. During the development, the subject area and existing solutions were analyzed, functional and non-functional requirements were defined, project planning was carried out, the system architecture, database structure, and user interface were designed, and functional and non-functional testing was performed.</p>
-<p class="n">The result of the qualification work is a web application for finding lost pets that can be used by volunteer communities and shelters to automate the initial matching of reports. Testing confirmed the correctness of the system and its compliance with the specified requirements.</p>
+<p class="n">The result of the qualification work is a web application for finding lost pets that can be used by volunteer communities and shelters to automate the initial matching of reports. Testing confirmed the correctness of the system, and an experiment on a model dataset confirmed that the aim was achieved: the true match appears among the top positions of the ranked list, and the list is built within the performance requirement.</p>
 <p class="n"><em>Keywords:</em> web application, lost pet search, matching algorithm, haversine formula, candidate ranking, database, NestJS, React.</p>
 </section><section class="sheet" data-f="toc">
 <h1 class="struct">ЗМІСТ</h1>
 <div class="toc-wrap">
-<div class="toc-row lvl0"><span class="t">Вступ</span><span class="dots"></span><span class="p">7</span></div>
-<div class="toc-row lvl0"><span class="t">1 Специфікація вимог до вебзастосунку</span><span class="dots"></span><span class="p">10</span></div>
-<div class="toc-row lvl1"><span class="t">1.1 Опис предметної області</span><span class="dots"></span><span class="p">10</span></div>
-<div class="toc-row lvl1"><span class="t">1.2 Аналіз аналогів</span><span class="dots"></span><span class="p">11</span></div>
-<div class="toc-row lvl1"><span class="t">1.3 Функціональні вимоги</span><span class="dots"></span><span class="p">15</span></div>
-<div class="toc-row lvl1"><span class="t">1.4 Нефункціональні вимоги</span><span class="dots"></span><span class="p">16</span></div>
-<div class="toc-row lvl1"><span class="t">1.5 Вимоги до інтерфейсу користувача</span><span class="dots"></span><span class="p">17</span></div>
-<div class="toc-row lvl1"><span class="t">1.6 Варіанти використання системи</span><span class="dots"></span><span class="p">17</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 1</span><span class="dots"></span><span class="p">20</span></div>
-<div class="toc-row lvl0"><span class="t">2 Планування проєкту з розробки вебзастосунку</span><span class="dots"></span><span class="p">21</span></div>
-<div class="toc-row lvl1"><span class="t">2.1 Оцінка масштабів проєкту</span><span class="dots"></span><span class="p">21</span></div>
-<div class="toc-row lvl1"><span class="t">2.2 Оцінка ризиків</span><span class="dots"></span><span class="p">22</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 2</span><span class="dots"></span><span class="p">24</span></div>
-<div class="toc-row lvl0"><span class="t">3 Алгоритм зіставлення оголошень про загублених і знайдених тварин</span><span class="dots"></span><span class="p">25</span></div>
-<div class="toc-row lvl1"><span class="t">3.1 Основні положення</span><span class="dots"></span><span class="p">25</span></div>
-<div class="toc-row lvl1"><span class="t">3.2 Формування ознак оголошення</span><span class="dots"></span><span class="p">25</span></div>
-<div class="toc-row lvl1"><span class="t">3.3 Алгоритм попередньої фільтрації кандидатів</span><span class="dots"></span><span class="p">26</span></div>
-<div class="toc-row lvl1"><span class="t">3.4 Алгоритм оцінювання відповідності оголошень</span><span class="dots"></span><span class="p">26</span></div>
-<div class="toc-row lvl1"><span class="t">3.5 Алгоритм ранжування кандидатів</span><span class="dots"></span><span class="p">27</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 3</span><span class="dots"></span><span class="p">29</span></div>
-<div class="toc-row lvl0"><span class="t">4 Проєктування вебзастосунку</span><span class="dots"></span><span class="p">31</span></div>
-<div class="toc-row lvl1"><span class="t">4.1 Проєктування моделі оголошення та зв&#x27;язку</span><span class="dots"></span><span class="p">31</span></div>
-<div class="toc-row lvl1"><span class="t">4.2 Архітектура вебзастосунку</span><span class="dots"></span><span class="p">31</span></div>
-<div class="toc-row lvl1"><span class="t">4.3 Проєктування структури бази даних</span><span class="dots"></span><span class="p">33</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 4</span><span class="dots"></span><span class="p">36</span></div>
-<div class="toc-row lvl0"><span class="t">5 Програмна реалізація вебзастосунку</span><span class="dots"></span><span class="p">37</span></div>
-<div class="toc-row lvl1"><span class="t">5.1 Вибір інструментів розробки</span><span class="dots"></span><span class="p">37</span></div>
-<div class="toc-row lvl1"><span class="t">5.2 Реалізація сервісу зіставлення оголошень</span><span class="dots"></span><span class="p">38</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 5</span><span class="dots"></span><span class="p">39</span></div>
-<div class="toc-row lvl0"><span class="t">6 Тестування вебзастосунку</span><span class="dots"></span><span class="p">40</span></div>
-<div class="toc-row lvl1"><span class="t">6.1 Тестування функціональних вимог</span><span class="dots"></span><span class="p">40</span></div>
-<div class="toc-row lvl1"><span class="t">6.2 Тестування нефункціональних вимог</span><span class="dots"></span><span class="p">42</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 6</span><span class="dots"></span><span class="p">42</span></div>
-<div class="toc-row lvl0"><span class="t">7 Експлуатація застосунку</span><span class="dots"></span><span class="p">44</span></div>
-<div class="toc-row lvl1"><span class="t">7.1 Робота користувача з системою</span><span class="dots"></span><span class="p">44</span></div>
-<div class="toc-row lvl1"><span class="t">7.2 Приклад зіставлення оголошень про загублену тварину</span><span class="dots"></span><span class="p">49</span></div>
-<div class="toc-row lvl1"><span class="t">7.3 Розгортання застосунку адміністратором (розробником)</span><span class="dots"></span><span class="p">50</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 7</span><span class="dots"></span><span class="p">52</span></div>
-<div class="toc-row lvl0"><span class="t">Загальні висновки</span><span class="dots"></span><span class="p">53</span></div>
-<div class="toc-row lvl0"><span class="t">Список використаних джерел</span><span class="dots"></span><span class="p">55</span></div>
-<div class="toc-row lvl0"><span class="t">Додаток А Програмна реалізація схеми бази даних</span><span class="dots"></span><span class="p">56</span></div>
-<div class="toc-row lvl0"><span class="t">Додаток Б Програмна реалізація сервісу зіставлення оголошень</span><span class="dots"></span><span class="p">57</span></div>
-<div class="toc-row lvl0"><span class="t">Додаток В Програмна реалізація обчислення відстані за формулою гаверсинуса</span><span class="dots"></span><span class="p">58</span></div>
-<div class="toc-row lvl0"><span class="t">Додаток Г Програмна реалізація сервісу підтвердження зв&#x27;язку</span><span class="dots"></span><span class="p">59</span></div>
+<div class="toc-row lvl0"><span class="t">Вступ</span><span class="dots"></span><span class="p">8</span></div>
+<div class="toc-row lvl0"><span class="t">1 Специфікація вимог до вебзастосунку</span><span class="dots"></span><span class="p">11</span></div>
+<div class="toc-row lvl1"><span class="t">1.1 Опис предметної області</span><span class="dots"></span><span class="p">11</span></div>
+<div class="toc-row lvl1"><span class="t">1.2 Аналіз аналогів</span><span class="dots"></span><span class="p">12</span></div>
+<div class="toc-row lvl1"><span class="t">1.3 Функціональні вимоги</span><span class="dots"></span><span class="p">16</span></div>
+<div class="toc-row lvl1"><span class="t">1.4 Нефункціональні вимоги</span><span class="dots"></span><span class="p">17</span></div>
+<div class="toc-row lvl1"><span class="t">1.5 Вимоги до інтерфейсу користувача</span><span class="dots"></span><span class="p">18</span></div>
+<div class="toc-row lvl1"><span class="t">1.6 Варіанти використання системи</span><span class="dots"></span><span class="p">19</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 1</span><span class="dots"></span><span class="p">24</span></div>
+<div class="toc-row lvl0"><span class="t">2 Планування проєкту з розробки вебзастосунку</span><span class="dots"></span><span class="p">25</span></div>
+<div class="toc-row lvl1"><span class="t">2.1 Визначення масштабу проєкту</span><span class="dots"></span><span class="p">25</span></div>
+<div class="toc-row lvl1"><span class="t">2.2 Оцінка розміру проєкту</span><span class="dots"></span><span class="p">26</span></div>
+<div class="toc-row lvl1"><span class="t">2.3 Оцінка ризиків</span><span class="dots"></span><span class="p">30</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 2</span><span class="dots"></span><span class="p">32</span></div>
+<div class="toc-row lvl0"><span class="t">3 Проєктування вебзастосунку</span><span class="dots"></span><span class="p">33</span></div>
+<div class="toc-row lvl1"><span class="t">3.1 Проєктування моделі оголошення та зв&#x27;язку</span><span class="dots"></span><span class="p">33</span></div>
+<div class="toc-row lvl1"><span class="t">3.2 Архітектура вебзастосунку</span><span class="dots"></span><span class="p">34</span></div>
+<div class="toc-row lvl1"><span class="t">3.3 Проєктування структури бази даних</span><span class="dots"></span><span class="p">35</span></div>
+<div class="toc-row lvl1"><span class="t">3.4 Проєктування на рівні класів</span><span class="dots"></span><span class="p">38</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 3</span><span class="dots"></span><span class="p">40</span></div>
+<div class="toc-row lvl0"><span class="t">4 Програмна реалізація вебзастосунку</span><span class="dots"></span><span class="p">41</span></div>
+<div class="toc-row lvl1"><span class="t">4.1 Алгоритм зіставлення оголошень</span><span class="dots"></span><span class="p">41</span></div>
+<div class="toc-row lvl1"><span class="t">4.2 Ранжування кандидатів</span><span class="dots"></span><span class="p">43</span></div>
+<div class="toc-row lvl1"><span class="t">4.3 Вибір інструментів розробки</span><span class="dots"></span><span class="p">45</span></div>
+<div class="toc-row lvl1"><span class="t">4.4 Реалізація сервісу зіставлення оголошень</span><span class="dots"></span><span class="p">46</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 4</span><span class="dots"></span><span class="p">47</span></div>
+<div class="toc-row lvl0"><span class="t">5 Тестування вебзастосунку</span><span class="dots"></span><span class="p">49</span></div>
+<div class="toc-row lvl1"><span class="t">5.1 Тестування функціональних вимог</span><span class="dots"></span><span class="p">49</span></div>
+<div class="toc-row lvl1"><span class="t">5.2 Тестування нефункціональних вимог</span><span class="dots"></span><span class="p">51</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 5</span><span class="dots"></span><span class="p">52</span></div>
+<div class="toc-row lvl0"><span class="t">6 Експериментальне дослідження ефективності зіставлення</span><span class="dots"></span><span class="p">53</span></div>
+<div class="toc-row lvl1"><span class="t">6.1 Методика експерименту та модельний набір даних</span><span class="dots"></span><span class="p">53</span></div>
+<div class="toc-row lvl1"><span class="t">6.2 Оцінювання якості ранжування</span><span class="dots"></span><span class="p">54</span></div>
+<div class="toc-row lvl1"><span class="t">6.3 Порівняння з базовою лінією та час формування переліку</span><span class="dots"></span><span class="p">55</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 6</span><span class="dots"></span><span class="p">56</span></div>
+<div class="toc-row lvl0"><span class="t">7 Експлуатація застосунку</span><span class="dots"></span><span class="p">57</span></div>
+<div class="toc-row lvl1"><span class="t">7.1 Робота користувача з системою</span><span class="dots"></span><span class="p">57</span></div>
+<div class="toc-row lvl1"><span class="t">7.2 Приклад зіставлення оголошень про загублену тварину</span><span class="dots"></span><span class="p">59</span></div>
+<div class="toc-row lvl1"><span class="t">7.3 Розгортання застосунку адміністратором (розробником)</span><span class="dots"></span><span class="p">61</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 7</span><span class="dots"></span><span class="p">63</span></div>
+<div class="toc-row lvl0"><span class="t">Загальні висновки</span><span class="dots"></span><span class="p">64</span></div>
+<div class="toc-row lvl0"><span class="t">Список використаних джерел</span><span class="dots"></span><span class="p">66</span></div>
+<div class="toc-row lvl0"><span class="t">Додаток А Програмна реалізація схеми бази даних</span><span class="dots"></span><span class="p">67</span></div>
+<div class="toc-row lvl0"><span class="t">Додаток Б Програмна реалізація сервісу зіставлення оголошень</span><span class="dots"></span><span class="p">68</span></div>
+<div class="toc-row lvl0"><span class="t">Додаток В Програмна реалізація обчислення відстані</span><span class="dots"></span><span class="p">69</span></div>
+<div class="toc-row lvl0"><span class="t">Додаток Г Програмна реалізація сервісу підтвердження зв&#x27;язку</span><span class="dots"></span><span class="p">70</span></div>
 </div></section><section class="sheet" data-f="03-vstup.md">
 <h1 class="struct">ВСТУП</h1>
 <p class="n"><strong>Актуальність теми роботи.</strong> Втрата домашньої тварини є поширеною ситуацією, у якій вирішальне значення має час: чим довше тварина залишається ненайденою, тим менша ймовірність її повернення. За даними міжнародних досліджень (ASPCA, American Humane Association), протягом життя власника втрачає близько 14–15 % собак і близько 15 % котів; із них своїми силами або через сусідів повертаються близько 60 % собак, тоді як для котів цей показник не перевищує 30 %. У межах першого тижня після зникнення додому повертається лише близько третини тварин, після чого ймовірність повернення стрімко знижується. В умовах України ситуація додатково ускладнюється воєнним станом і вимушеною міграцією населення: за оцінками громадських організацій, що опікуються тваринами (UAnimals, «Сіріус», «Happy Paw»), кількість загублених і покинутих домашніх тварин у великих містах зросла у 2–3 рази порівняно з довоєнним періодом, а основними каналами пошуку залишаються неструктуровані дописи у Telegram-каналах, Facebook-групах і на класифайдах на кшталт OLX. Власник, який втратив тварину, і людина, яка її знайшла, зазвичай діють розрізнено: оголошення розміщуються в різних соціальних мережах, тематичних групах і дошках оголошень, не мають єдиної структури та не зіставляються між собою автоматично. Зіставлення оголошення про втрату з оголошенням про знахідку виконується людьми вручну, спирається на випадковий перегляд стрічки і значною мірою залежить від того, чи побачать обидві сторони допис одна одної. Це збільшує час пошуку і знижує шанси на возз&#x27;єднання тварини з власником.</p>
@@ -203,9 +208,9 @@ th { font-weight: bold; }
 <p class="n">Актуальність роботи зумовлена такими факторами:</p>
 <ul class="lst"><li>поширеністю випадків втрати домашніх тварин і високою соціальною значущістю їх повернення;</li><li>розрізненістю наявних каналів публікації оголошень і відсутністю єдиної структурованої моделі оголошення;</li><li>необхідністю скорочення часу пошуку за рахунок автоматичного зіставлення оголошень про втрату та про знахідку;</li><li>потребою у захисті персональних контактних даних до моменту підтвердження збігу;</li><li>розвитком вебтехнологій, які дозволяють реалізувати геопросторове зіставлення без спеціалізованих картографічних розширень бази даних.</li></ul>
 <p class="n">Темою кваліфікаційної роботи є розробка вебзастосунку, що забезпечує публікацію структурованих оголошень про загублених і знайдених домашніх тварин та автоматичне формування переліку ймовірних збігів між ними.</p>
-<p class="n"><strong>Мета і задачі роботи.</strong> Метою роботи є скорочення часу возз&#x27;єднання загублених домашніх тварин з власниками за рахунок автоматизації первинного зіставлення оголошень про втрату та про знахідку. Для досягнення поставленої мети необхідно вирішити такі задачі:</p>
-<ul class="lst"><li>дослідити предметну область пошуку загублених домашніх тварин;</li><li>провести аналіз існуючих рішень і підходів;</li><li>сформувати функціональні та нефункціональні вимоги до системи;</li><li>виконати планування проєкту та оцінювання ризиків;</li><li>розробити алгоритм зіставлення та ранжування оголошень-кандидатів;</li><li>спроєктувати архітектуру застосунку, структуру бази даних і користувацький інтерфейс;</li><li>реалізувати вебзастосунок із використанням сучасних технологій;</li><li>провести тестування функціональних і нефункціональних вимог системи.</li></ul>
-<p class="n"><strong>Об&#x27;єкт роботи.</strong> Об&#x27;єктом роботи є процес пошуку та повернення загублених домашніх тварин на основі зіставлення оголошень про втрату та про знахідку.</p>
+<p class="n"><strong>Мета і задачі роботи.</strong> Метою роботи є підвищення ефективності первинного зіставлення оголошень про загублених і знайдених домашніх тварин шляхом розроблення вебзастосунку, що автоматично формує ранжований перелік ймовірних збігів. Ефективність зіставлення оцінюється якістю ранжування (часткою випадків, коли істинний збіг потрапляє в перші позиції переліку, та середнім оберненим рангом істинного збігу) і часом формування переліку; досягнення мети підтверджується експериментально. Для досягнення поставленої мети необхідно вирішити такі задачі:</p>
+<ul class="lst"><li>дослідити предметну область пошуку загублених домашніх тварин;</li><li>провести аналіз існуючих рішень і підходів;</li><li>сформувати функціональні та нефункціональні вимоги до системи;</li><li>виконати планування проєкту та оцінювання ризиків;</li><li>розробити алгоритм зіставлення та ранжування оголошень-кандидатів;</li><li>спроєктувати архітектуру застосунку, структуру бази даних і користувацький інтерфейс;</li><li>реалізувати вебзастосунок із використанням сучасних технологій;</li><li>провести тестування функціональних і нефункціональних вимог системи;</li><li>провести експериментальне дослідження ефективності розробленого зіставлення на модельному наборі даних.</li></ul>
+<p class="n"><strong>Об&#x27;єкт роботи.</strong> Об&#x27;єктом роботи є процес автоматизації зіставлення оголошень про загублених і знайдених домашніх тварин засобами вебзастосунку.</p>
 <p class="n"><strong>Предмет роботи.</strong> Предметом роботи є моделі, алгоритм і програмні засоби вебзастосунку, що забезпечують структуроване подання оголошень і автоматичне формування ранжованого переліку ймовірних збігів із подальшим підтвердженням зв&#x27;язку людиною.</p>
 </section><section class="sheet" data-f="04-rozdil-1.md">
 <h1 class="struct">1 СПЕЦИФІКАЦІЯ ВИМОГ ДО ВЕБЗАСТОСУНКУ</h1>
@@ -246,7 +251,6 @@ th { font-weight: bold; }
 <th>PawBoost</th>
 <th>Pet FBI</th>
 <th>Спільноти</th>
-<th>Розроблений застосунок</th>
 </tr>
 </thead>
 <tbody>
@@ -255,56 +259,52 @@ th { font-weight: bold; }
 <td>+</td>
 <td>+</td>
 <td>–</td>
-<td>+</td>
 </tr>
 <tr>
 <td>Автоматичне зіставлення втрати та знахідки</td>
 <td>–</td>
 <td>–</td>
 <td>–</td>
-<td>+</td>
 </tr>
 <tr>
 <td>Урахування відстані та дати</td>
 <td>частково</td>
 <td>частково</td>
 <td>–</td>
-<td>+</td>
 </tr>
 <tr>
 <td>Ранжування кандидатів</td>
 <td>–</td>
 <td>–</td>
 <td>–</td>
-<td>+</td>
 </tr>
 <tr>
 <td>Підтвердження збігу людиною</td>
 <td>–</td>
 <td>–</td>
 <td>–</td>
-<td>+</td>
 </tr>
 <tr>
 <td>Приховування контактів до підтвердження</td>
 <td>–</td>
 <td>–</td>
 <td>–</td>
-<td>+</td>
 </tr>
 <tr>
 <td>Безкоштовність базових функцій</td>
 <td>частково</td>
 <td>+</td>
 <td>+</td>
-<td>+</td>
 </tr>
 </tbody>
 </table></div>
-<p class="n">Аналіз показує, що наявні рішення забезпечують публікацію оголошень, але не виконують автоматичного зіставлення втрати та знахідки, не ранжують ймовірні збіги і не приховують контактні дані до підтвердження. Це обґрунтовує доцільність розробки власної системи.</p>
+<p class="n">Аналіз показує, що наявні рішення забезпечують публікацію оголошень, але мають спільні прогалини: жодне з них не виконує автоматичного зіставлення оголошень про втрату та про знахідку, не ранжує ймовірні збіги і не приховує контактні дані до підтвердження. Саме ці прогалини визначають вимоги до розроблюваної системи: структурована модель оголошення; автоматичне зіставлення з урахуванням виду тварини, географічної відстані та дати події; ранжування кандидатів; підтвердження збігу людиною; приховування контактів до підтвердження. Сформульовані на цій основі вимоги конкретизовано в підрозділах 1.3–1.6.</p>
 <h2>1.3 Функціональні вимоги</h2>
-<p class="n">Функціональні вимоги визначають дії, які користувач може виконувати в системі. У розроблюваному вебзастосунку передбачається реалізація таких можливостей:</p>
-<ul class="lst"><li>реєстрація користувача та вхід за електронною поштою і паролем;</li><li>публікація оголошення про загублену тварину із зазначенням виду, місця та дати події;</li><li>публікація оголошення про знайдену тварину з аналогічним набором ознак;</li><li>долучення фотографії до оголошення;</li><li>перегляд і пошук публічної стрічки оголошень із фільтрацією за видом, статусом, місцем і періодом;</li><li>перегляд оголошення у публічному поданні (без контактних даних);</li><li>перегляд переліку ранжованих оголошень-кандидатів для власного оголошення;</li><li>пропонування зв&#x27;язку між оголошенням про втрату та оголошенням про знахідку;</li><li>підтвердження або відхилення запропонованого зв&#x27;язку другою стороною;</li><li>взаємне розкриття контактних даних після підтвердження зв&#x27;язку;</li><li>зміна стану оголошення (тварину повернуто, оголошення закрито).</li></ul>
+<p class="n">Функціональні вимоги до системи визначено у формі варіантів використання: кожна функціональна вимога відповідає окремому варіанту використання, що описує завершену взаємодію користувача із системою. Основним актором є зареєстрований користувач, який виступає у відносній ролі власника (автор оголошення про втрату) або особи, яка знайшла тварину (автор оголошення про знахідку); окремої ролі адміністратора в межах роботи не передбачено. Сукупність варіантів використання та їх зв&#x27;язок з актором подано на діаграмі варіантів використання (рис. 1.4).</p>
+<figure class="fig"><img class="fig-img" src="figures/1-4.png"/><figcaption class="cap-fig">Рисунок 1.4 – Діаграма варіантів використання системи</figcaption></figure>
+<p class="n">Систему визначають вісім варіантів використання:</p>
+<ul class="lst"><li>реєстрація та вхід користувача;</li><li>публікація оголошення про загублену тварину;</li><li>публікація оголошення про знайдену тварину;</li><li>перегляд і пошук публічної стрічки оголошень із фільтрацією за видом, станом, місцем і періодом;</li><li>перегляд ранжованого переліку оголошень-кандидатів для власного оголошення;</li><li>пропонування зв&#x27;язку між оголошенням про втрату та оголошенням про знахідку;</li><li>підтвердження або відхилення запропонованого зв&#x27;язку та взаємне розкриття контактних даних;</li><li>зміна стану оголошення (повернуто, вирішено, закрито).</li></ul>
+<p class="n">Кожен варіант використання деталізовано у вигляді сценарію в підрозділі 1.6.</p>
 <h2>1.4 Нефункціональні вимоги</h2>
 <p class="n">Нефункціональні вимоги визначають характеристики якості системи та умови її функціонування. До основних нефункціональних вимог належать:</p>
 <ul class="lst"><li>продуктивність: формування переліку кандидатів для одного оголошення має виконуватися не більше ніж за 2 секунди за обсягу до десятків тисяч активних оголошень;</li><li>зручність використання: інтерфейс має бути зрозумілим, придатним для роботи з мобільного пристрою та мінімізувати кількість дій для публікації оголошення;</li><li>безпека: паролі зберігаються лише у вигляді геш-значень за алгоритмом argon2id; доступ до даних за замовчуванням заборонено і надається лише автентифікованому користувачеві; контактні дані не потрапляють у публічні подання;</li><li>надійність: некоректні вхідні дані відхиляються на межі системи з повідомленням про помилку; неприпустимі переходи стану оголошення блокуються;</li><li>масштабованість: архітектура має допускати заміну сховища файлів і додавання нових ознак зіставлення без суттєвої переробки наявного коду;</li><li>підтримуваність: програмний код структурований за модулями з визначеними межами та публічним інтерфейсом;</li><li>цілісність даних: пара «оголошення про втрату — оголошення про знахідку» не може мати більше одного зв&#x27;язку.</li></ul>
@@ -312,32 +312,55 @@ th { font-weight: bold; }
 <p class="n">Інтерфейс вебзастосунку має бути зрозумілим, послідовним і придатним для роботи з мобільного пристрою, оскільки оголошення про знахідку часто публікують безпосередньо на місці події. Для цього в системі передбачено такі елементи інтерфейсу:</p>
 <ul class="lst"><li>публічна стрічка оголошень із фільтрами за видом тварини, станом, місцем і періодом події;</li><li>форма публікації оголошення з послідовними секціями і необов&#x27;язковим кроком долучення фотографії;</li><li>сторінка оголошення з двома поданнями: публічним (без контактів) та поданням власника;</li><li>сторінка кандидатів, що відображає для кожного запропонованого оголошення відстань у кілометрах, збіг за видом і різницю дат;</li><li>сторінка зв&#x27;язків користувача з можливістю підтвердити або відхилити запропонований зв&#x27;язок;</li><li>повідомлення про помилки введення зрозумілою мовою;</li><li>єдина система візуальних токенів (кольори, відступи, типографіка) зі світлою і темною темами;</li><li>подання стану оголошення одночасно піктограмою, підписом і кольором, а не лише кольором, для доступності.</li></ul>
 <h2>1.6 Варіанти використання системи</h2>
-<p class="n">Варіанти використання описують основні сценарії взаємодії користувача з вебзастосунком. Основним актором є зареєстрований користувач, який виступає у відносній ролі власника (автор оголошення про втрату) або особи, яка знайшла тварину (автор оголошення про знахідку). Окремої ролі адміністратора в межах роботи не передбачено.</p>
-<p class="n">Робота користувача із системою має послідовний характер: реєстрація, публікація оголошення, перегляд ранжованих кандидатів, пропонування зв&#x27;язку, підтвердження зв&#x27;язку другою стороною та повернення тварини. Зазначена послідовність детально представлена у сценаріях 1.1–1.3. На діаграмі варіантів використання представлено основні дії користувача та їх взаємозв&#x27;язок (рис. 1.4).</p>
-<figure class="fig"><img class="fig-img" src="figures/1-4.png"/><figcaption class="cap-fig">Рисунок 1.4 – Діаграма варіантів використання системи</figcaption></figure>
-<p class="cap-tbl">Сценарій 1.1 – Публікація оголошення про загублену тварину</p>
+<p class="n">Варіанти використання, визначені у підрозділі 1.3, деталізовано нижче у вигляді сценаріїв. Робота користувача із системою має послідовний характер: реєстрація, публікація оголошення, перегляд ранжованих кандидатів, пропонування зв&#x27;язку, підтвердження зв&#x27;язку другою стороною та переведення оголошення у завершальний стан.</p>
+<p class="cap-tbl">Сценарій 1.1 – Реєстрація та вхід користувача</p>
+<hr class="rule"/>
+<p class="n"><strong>Мета:</strong> отримати автентифікований доступ до системи. <strong>Основна діюча особа:</strong> користувач. <strong>Область дії:</strong> вебзастосунок пошуку загублених тварин. <strong>Рівень:</strong> користувацький. <strong>Передумови:</strong> користувач не автентифікований і має дійсну електронну пошту. <strong>Тригер:</strong> користувач обирає функцію «Зареєструватися» або «Увійти». <strong>Основний успішний сценарій:</strong></p>
+<ul class="lst"><li class="num">1. Користувач вводить електронну пошту і пароль.</li><li class="num">2. Система перевіряє коректність формату та унікальність пошти.</li><li class="num">3. Система створює обліковий запис, зберігаючи лише геш пароля за алгоритмом argon2id.</li><li class="num">4. Система видає токен автентифікації.</li><li class="num">5. Користувач отримує доступ до публікації та керування власними оголошеннями.</li></ul>
+<p class="n"><strong>Розширення (альтернативні сценарії):</strong> 2а. Якщо пошту вже зайнято, система відмовляє з повідомленням «пошту зайнято» і не створює запис. 2б. Якщо пошта або пароль некоректні за форматом, система відхиляє введення з повідомленням про помилку. 1а. Якщо обліковий запис уже існує, користувач натомість входить: система звіряє геш пароля, а за невірних даних відмовляє з повідомленням «невірні дані».</p>
+<p class="cap-tbl">Сценарій 1.2 – Публікація оголошення про загублену тварину</p>
 <hr class="rule"/>
 <p class="n"><strong>Мета:</strong> опублікувати структуроване оголошення про загублену тварину. <strong>Основна діюча особа:</strong> користувач (власник). <strong>Область дії:</strong> вебзастосунок пошуку загублених тварин. <strong>Рівень:</strong> користувацький. <strong>Передумови:</strong> користувач автентифікований. <strong>Тригер:</strong> користувач обирає функцію «Повідомити про тварину». <strong>Основний успішний сценарій:</strong></p>
 <ul class="lst"><li class="num">1. Користувач обирає тип оголошення «Загублено».</li><li class="num">2. Система відображає форму оголошення.</li><li class="num">3. Користувач вводить вид тварини, опис, місце та дату події.</li><li class="num">4. Користувач за бажанням долучає фотографію.</li><li class="num">5. Користувач вводить контактні дані.</li><li class="num">6. Користувач підтверджує публікацію.</li><li class="num">7. Система перевіряє коректність введених даних.</li><li class="num">8. Система зберігає оголошення зі станом «активне».</li></ul>
 <p class="n"><strong>Розширення (альтернативні сценарії):</strong> 7а. Якщо обов&#x27;язкові поля не заповнені або дані некоректні, система виводить повідомлення про помилку і не зберігає оголошення. 4а. Якщо завантаження фотографії не вдалося, оголошення зберігається без фотографії, а користувача повідомляють про це.</p>
-<p class="cap-tbl">Сценарій 1.2 – Перегляд кандидатів для оголошення</p>
+<p class="cap-tbl">Сценарій 1.3 – Публікація оголошення про знайдену тварину</p>
+<hr class="rule"/>
+<p class="n"><strong>Мета:</strong> опублікувати структуроване оголошення про знайдену тварину. <strong>Основна діюча особа:</strong> користувач (особа, яка знайшла тварину). <strong>Область дії:</strong> вебзастосунок пошуку загублених тварин. <strong>Рівень:</strong> користувацький. <strong>Передумови:</strong> користувач автентифікований. <strong>Тригер:</strong> користувач обирає функцію «Повідомити про тварину». <strong>Основний успішний сценарій:</strong></p>
+<ul class="lst"><li class="num">1. Користувач обирає тип оголошення «Знайдено».</li><li class="num">2. Система відображає форму оголошення.</li><li class="num">3. Користувач вводить вид тварини, опис, місце та дату події.</li><li class="num">4. Користувач за бажанням долучає фотографію.</li><li class="num">5. Користувач вводить контактні дані.</li><li class="num">6. Користувач підтверджує публікацію.</li><li class="num">7. Система перевіряє коректність введених даних.</li><li class="num">8. Система зберігає оголошення зі станом «активне».</li></ul>
+<p class="n"><strong>Розширення (альтернативні сценарії):</strong> 7а. Якщо обов&#x27;язкові поля не заповнені або дані некоректні, система виводить повідомлення про помилку і не зберігає оголошення. 4а. Якщо завантаження фотографії не вдалося, оголошення зберігається без фотографії, а користувача повідомляють про це.</p>
+<p class="cap-tbl">Сценарій 1.4 – Перегляд і пошук публічної стрічки оголошень</p>
+<hr class="rule"/>
+<p class="n"><strong>Мета:</strong> знайти релевантні оголошення в публічній стрічці. <strong>Основна діюча особа:</strong> користувач (зокрема неавтентифікований відвідувач). <strong>Область дії:</strong> вебзастосунок пошуку загублених тварин. <strong>Рівень:</strong> користувацький. <strong>Передумови:</strong> відсутні, оскільки стрічка публічна. <strong>Тригер:</strong> користувач відкриває публічну стрічку оголошень. <strong>Основний успішний сценарій:</strong></p>
+<ul class="lst"><li class="num">1. Система відображає перелік активних оголошень без контактних даних.</li><li class="num">2. Користувач задає фільтри за видом тварини, станом, місцем і періодом події.</li><li class="num">3. Система повертає відфільтрований перелік.</li><li class="num">4. Користувач відкриває обране оголошення у публічному поданні без контактних даних.</li></ul>
+<p class="n"><strong>Розширення (альтернативні сценарії):</strong> 3а. Якщо за заданими фільтрами оголошень немає, система повідомляє про відсутність результатів.</p>
+<p class="cap-tbl">Сценарій 1.5 – Перегляд кандидатів для оголошення</p>
 <hr class="rule"/>
 <p class="n"><strong>Мета:</strong> отримати перелік ймовірних збігів для власного оголошення. <strong>Основна діюча особа:</strong> користувач (автор оголошення). <strong>Область дії:</strong> вебзастосунок пошуку загублених тварин. <strong>Рівень:</strong> користувацький. <strong>Передумови:</strong> користувач автентифікований і є автором оголошення. <strong>Тригер:</strong> користувач відкриває сторінку кандидатів свого оголошення. <strong>Основний успішний сценарій:</strong></p>
 <ul class="lst"><li class="num">1. Користувач відкриває власне оголошення.</li><li class="num">2. Користувач обирає функцію перегляду кандидатів.</li><li class="num">3. Система перевіряє, що користувач є автором оголошення.</li><li class="num">4. Система формує перелік оголошень протилежного типу.</li><li class="num">5. Система обчислює для кожного оголошення відстань, збіг за видом і різницю дат.</li><li class="num">6. Система впорядковує перелік за ступенем відповідності.</li><li class="num">7. Система відображає ранжований перелік кандидатів.</li></ul>
 <p class="n"><strong>Розширення (альтернативні сценарії):</strong> 3а. Якщо користувач не є автором оголошення, система відмовляє у доступі. 6а. Якщо відповідних оголошень немає, система повідомляє про відсутність кандидатів.</p>
-<p class="cap-tbl">Сценарій 1.3 – Підтвердження зв&#x27;язку та розкриття контактів</p>
+<p class="cap-tbl">Сценарій 1.6 – Пропонування зв&#x27;язку між оголошеннями</p>
+<hr class="rule"/>
+<p class="n"><strong>Мета:</strong> запропонувати зв&#x27;язок між оголошенням про втрату та оголошенням про знахідку. <strong>Основна діюча особа:</strong> користувач (автор одного з оголошень). <strong>Область дії:</strong> вебзастосунок пошуку загублених тварин. <strong>Рівень:</strong> користувацький. <strong>Передумови:</strong> користувач автентифікований, є автором оголошення і переглядає перелік кандидатів. <strong>Тригер:</strong> користувач обирає кандидата і функцію «Запропонувати зв&#x27;язок». <strong>Основний успішний сценарій:</strong></p>
+<ul class="lst"><li class="num">1. Користувач обирає кандидата зі свого переліку кандидатів.</li><li class="num">2. Система перевіряє коректність пари (одне оголошення про втрату і одне про знахідку) та належність користувачу одного з оголошень.</li><li class="num">3. Система перевіряє відсутність наявного зв&#x27;язку для цієї пари.</li><li class="num">4. Система створює зв&#x27;язок у стані «запропоновано».</li><li class="num">5. Друга сторона отримує запропонований зв&#x27;язок у переліку своїх зв&#x27;язків.</li></ul>
+<p class="n"><strong>Розширення (альтернативні сценарії):</strong> 3а. Якщо для пари вже існує зв&#x27;язок, система відмовляє через обмеження унікальності. 2а. Якщо користувач не є автором жодного з оголошень пари, система відмовляє у доступі.</p>
+<p class="cap-tbl">Сценарій 1.7 – Підтвердження зв&#x27;язку та розкриття контактів</p>
 <hr class="rule"/>
 <p class="n"><strong>Мета:</strong> підтвердити збіг і отримати контактні дані другої сторони. <strong>Основна діюча особа:</strong> користувач (друга сторона зв&#x27;язку). <strong>Область дії:</strong> вебзастосунок пошуку загублених тварин. <strong>Рівень:</strong> користувацький. <strong>Передумови:</strong> для пари оголошень запропоновано зв&#x27;язок; користувач є автором другого оголошення. <strong>Тригер:</strong> користувач відкриває запропонований зв&#x27;язок. <strong>Основний успішний сценарій:</strong></p>
 <ul class="lst"><li class="num">1. Користувач переглядає перелік своїх зв&#x27;язків.</li><li class="num">2. Користувач обирає запропонований зв&#x27;язок.</li><li class="num">3. Система перевіряє, що користувач не є ініціатором зв&#x27;язку.</li><li class="num">4. Користувач підтверджує зв&#x27;язок.</li><li class="num">5. Система переводить зв&#x27;язок у стан «підтверджено».</li><li class="num">6. Система взаємно розкриває контактні дані обох оголошень.</li></ul>
 <p class="n"><strong>Розширення (альтернативні сценарії):</strong> 3а. Якщо рішення намагається ухвалити ініціатор зв&#x27;язку, система відмовляє у доступі. 4а. Якщо користувач відхиляє зв&#x27;язок, система переводить його у стан «відхилено» і контакти не розкриває.</p>
+<p class="cap-tbl">Сценарій 1.8 – Зміна стану оголошення</p>
+<hr class="rule"/>
+<p class="n"><strong>Мета:</strong> перевести власне оголошення у завершальний стан. <strong>Основна діюча особа:</strong> користувач (автор оголошення). <strong>Область дії:</strong> вебзастосунок пошуку загублених тварин. <strong>Рівень:</strong> користувацький. <strong>Передумови:</strong> користувач автентифікований і є автором оголошення. <strong>Тригер:</strong> користувач на сторінці власного оголошення обирає зміну стану. <strong>Основний успішний сценарій:</strong></p>
+<ul class="lst"><li class="num">1. Користувач відкриває власне оголошення.</li><li class="num">2. Користувач обирає новий стан: для оголошення про втрату — «повернуто» або «закрито», для оголошення про знахідку — «вирішено» або «закрито».</li><li class="num">3. Система перевіряє припустимість переходу.</li><li class="num">4. Для переходу оголошення про втрату у стан «повернуто» система перевіряє наявність підтвердженого зв&#x27;язку.</li><li class="num">5. Система зберігає новий стан.</li></ul>
+<p class="n"><strong>Розширення (альтернативні сценарії):</strong> 4а. Якщо перехід у стан «повернуто» виконується без підтвердженого зв&#x27;язку, система блокує неприпустимий перехід. 3а. Якщо користувач не є автором оголошення, система відмовляє у доступі.</p>
 <h2 class="concl">Висновки до розділу 1</h2>
 <p class="n">У першому розділі виконано аналіз предметної області пошуку загублених домашніх тварин. Показано, що наявні канали публікації оголошень розрізнені, оголошення не структуровані, а зіставлення втрати та знахідки виконується вручну, що збільшує час повернення тварини.</p>
 <p class="n">Проведено аналіз аналогів — сервісу PawBoost, бази Pet FBI та тематичних спільнот. Аналіз показав, що жодне з рішень не виконує автоматичного зіставлення оголошень про втрату та про знахідку, не ранжує ймовірні збіги і не приховує контактні дані до підтвердження збігу.</p>
-<p class="n">На основі аналізу сформовано функціональні та нефункціональні вимоги, вимоги до інтерфейсу користувача і визначено основні варіанти використання системи. Отримані вимоги є підставою для планування проєкту та проєктування системи в наступних розділах.</p>
+<p class="n">На основі аналізу сформовано функціональні та нефункціональні вимоги, вимоги до інтерфейсу користувача; функціональні вимоги визначено у формі восьми варіантів використання системи. Отримані вимоги є підставою для планування проєкту та проєктування системи в наступних розділах.</p>
 </section><section class="sheet" data-f="05-rozdil-2.md">
 <h1 class="struct">2 ПЛАНУВАННЯ ПРОЄКТУ З РОЗРОБКИ ВЕБЗАСТОСУНКУ</h1>
-<h2>2.1 Оцінка масштабів проєкту</h2>
-<p class="n">Планування проєкту дозволяє визначити обсяг робіт, їх послідовність і орієнтовну тривалість, а також виявити критичні етапи. Розробку вебзастосунку поділено на укрупнені етапи, кожен з яких має визначений результат.</p>
+<h2>2.1 Визначення масштабу проєкту</h2>
+<p class="n">Масштаб проєкту визначається переліком робіт за проєктом та їх результатами (deliverables); планування полягає у структуруванні цих робіт, визначенні їх послідовності, орієнтовної тривалості та критичних етапів. Розробку вебзастосунку поділено на укрупнені етапи, кожен з яких має визначений результат.</p>
 <p class="n">Перелік етапів розробки:</p>
 <ul class="lst"><li>аналіз предметної області та аналогів, формування вимог;</li><li>планування проєкту та оцінювання ризиків;</li><li>розроблення алгоритму зіставлення та ранжування оголошень;</li><li>проєктування моделей даних, архітектури та бази даних;</li><li>програмна реалізація серверної частини;</li><li>програмна реалізація клієнтської частини;</li><li>тестування функціональних і нефункціональних вимог;</li><li>підготовка експлуатаційного прикладу та оформлення роботи.</li></ul>
 <p class="n">Орієнтовний календарний план робіт наведено в таблиці 2.1. Дати подано за стандартом ISO 8601.</p>
@@ -402,10 +425,289 @@ th { font-weight: bold; }
 </tbody>
 </table></div>
 <p class="n">Загальна орієнтовна тривалість розробки становить близько 79 робочих днів. Критичними є етапи 3–6, оскільки алгоритм зіставлення визначає вимоги до моделі даних, а модель даних — обсяг серверної та клієнтської реалізації. Затримка на цих етапах безпосередньо впливає на терміни тестування.</p>
-<p class="n">Оцінювання трудомісткості виконано на основі кількості функціональних можливостей із підрозділу 1.3 і складності алгоритму з розділу 3. Найбільш трудомісткими визнано реалізацію серверної частини та алгоритму зіставлення, оскільки вони містять геопросторові обчислення і правила переходів стану оголошення.</p>
-<h2>2.2 Оцінка ризиків</h2>
-<p class="n">Оцінювання ризиків дозволяє завчасно визначити події, що можуть негативно вплинути на терміни або якість розробки, та передбачити заходи реагування. Для кожного ризику оцінено ймовірність і вплив за трирівневою шкалою (низький, середній, високий) та визначено захід реагування. Результати наведено в таблиці 2.2.</p>
-<div class="tbl-block"><p class="cap-tbl">Таблиця 2.2 – Реєстр ризиків проєкту</p><table>
+<p class="n">Кількісну оцінку розміру проєкту наведено в підрозділі 2.2.</p>
+<h2>2.2 Оцінка розміру проєкту</h2>
+<p class="n">Розмір проєкту оцінюється методом Use Case Points (UCP) на основі восьми варіантів використання, виокремлених у розділі вимог. Метод оцінює розмір за кількістю та складністю акторів і варіантів використання з урахуванням технічних і середовищних чинників.</p>
+<p class="n">Незведену вагу акторів (UAW) визначають за складністю взаємодії кожного актора із системою. Класифікацію акторів наведено в таблиці 2.2.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 2.2 – Класифікація акторів</p><table>
+<thead>
+<tr>
+<th>Актор</th>
+<th>Тип взаємодії</th>
+<th>Складність</th>
+<th>Вага</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Зареєстрований користувач</td>
+<td>Графічний інтерфейс</td>
+<td>Складний</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Відвідувач публічної стрічки</td>
+<td>Графічний інтерфейс</td>
+<td>Складний</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Зовнішнє файлове сховище</td>
+<td>Програмний інтерфейс</td>
+<td>Середній</td>
+<td>2</td>
+</tr>
+</tbody>
+</table></div>
+<p class="n">Сумарна незведена вага акторів UAW = 3 + 3 + 2 = 8.</p>
+<p class="n">Незведену вагу варіантів використання (UUCW) визначають за складністю кожного варіанта: проста взаємодія (до 3 транзакцій) має вагу 5, середня (4–7 транзакцій) — вагу 10, складна (понад 7 транзакцій) — вагу 15. Розподіл восьми варіантів використання за складністю наведено в таблиці 2.3.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 2.3 – Класифікація варіантів використання</p><table>
+<thead>
+<tr>
+<th>Варіант використання</th>
+<th>Складність</th>
+<th>Вага</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Реєстрація та вхід користувача</td>
+<td>Проста</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Перегляд і пошук публічної стрічки</td>
+<td>Проста</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Зміна стану оголошення</td>
+<td>Проста</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Публікація оголошення про загублену тварину</td>
+<td>Середня</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Публікація оголошення про знайдену тварину</td>
+<td>Середня</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Перегляд ранжованих кандидатів</td>
+<td>Середня</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Пропонування зв'язку між оголошеннями</td>
+<td>Середня</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Підтвердження або відхилення зв'язку</td>
+<td>Середня</td>
+<td>10</td>
+</tr>
+</tbody>
+</table></div>
+<p class="n">Сумарна незведена вага варіантів використання UUCW = 3·5 + 5·10 = 65.</p>
+<p class="n">Незведений показник UUCP обчислюють як суму незведених ваг акторів і варіантів використання згідно з формулою (2.1).</p>
+<p class="formula"><span class="fbody">UUCP = UAW + UUCW</span><span class="fnum">(2.1)</span></p>
+<p class="n">де UUCP — незведений показник Use Case Points; UAW — сумарна незведена вага акторів; UUCW — сумарна незведена вага варіантів використання.</p>
+<p class="n">Підстановка дає UUCP = 8 + 65 = 73.</p>
+<p class="n">Технічний коефіцієнт складності TCF враховує 13 технічних чинників: кожен оцінено за шкалою від 0 до 5 і помножено на відповідну вагу. Значення чинників і їх добутки наведено в таблиці 2.4.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 2.4 – Технічні чинники складності</p><table>
+<thead>
+<tr>
+<th>Чинник</th>
+<th>Опис</th>
+<th>Вага</th>
+<th>Оцінка</th>
+<th>Добуток</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>Розподіленість системи</td>
+<td>2</td>
+<td>3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>Продуктивність</td>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>Ефективність роботи кінцевого користувача</td>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>Складність внутрішнього оброблення</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>Повторна використовуваність коду</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>T6</td>
+<td>Простота встановлення</td>
+<td>0,5</td>
+<td>3</td>
+<td>1,5</td>
+</tr>
+<tr>
+<td>T7</td>
+<td>Простота використання</td>
+<td>0,5</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>T8</td>
+<td>Переносність</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>T9</td>
+<td>Простота внесення змін</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>T10</td>
+<td>Паралельність</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>T11</td>
+<td>Безпека</td>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>T12</td>
+<td>Доступ для сторонніх систем</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>T13</td>
+<td>Потреба у навчанні користувачів</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table></div>
+<p class="n">Сума добутків технічних чинників ΣT = 38,5. Технічний коефіцієнт складності обчислюють за формулою (2.2).</p>
+<p class="formula"><span class="fbody">TCF = 0,6 + 0,01 · ΣT</span><span class="fnum">(2.2)</span></p>
+<p class="n">де TCF — технічний коефіцієнт складності; ΣT — сума добутків технічних чинників.</p>
+<p class="n">Підстановка дає TCF = 0,6 + 0,01 · 38,5 = 0,985.</p>
+<p class="n">Середовищний коефіцієнт ECF враховує 8 чинників середовища розробки. Значення чинників і їх добутки наведено в таблиці 2.5.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 2.5 – Середовищні чинники</p><table>
+<thead>
+<tr>
+<th>Чинник</th>
+<th>Опис</th>
+<th>Вага</th>
+<th>Оцінка</th>
+<th>Добуток</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1</td>
+<td>Обізнаність із процесом розробки</td>
+<td>1,5</td>
+<td>3</td>
+<td>4,5</td>
+</tr>
+<tr>
+<td>E2</td>
+<td>Досвід у предметній області</td>
+<td>0,5</td>
+<td>3</td>
+<td>1,5</td>
+</tr>
+<tr>
+<td>E3</td>
+<td>Досвід об'єктно-орієнтованої розробки</td>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>E4</td>
+<td>Кваліфікація провідного аналітика</td>
+<td>0,5</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>E5</td>
+<td>Мотивація</td>
+<td>1</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>E6</td>
+<td>Стабільність вимог</td>
+<td>2</td>
+<td>4</td>
+<td>8</td>
+</tr>
+<tr>
+<td>E7</td>
+<td>Часткова зайнятість персоналу</td>
+<td>−1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>E8</td>
+<td>Складність мови програмування</td>
+<td>−1</td>
+<td>2</td>
+<td>−2</td>
+</tr>
+</tbody>
+</table></div>
+<p class="n">Сума добутків середовищних чинників ΣE = 23. Середовищний коефіцієнт обчислюють за формулою (2.3).</p>
+<p class="formula"><span class="fbody">ECF = 1,4 − 0,03 · ΣE</span><span class="fnum">(2.3)</span></p>
+<p class="n">де ECF — середовищний коефіцієнт; ΣE — сума добутків середовищних чинників.</p>
+<p class="n">Підстановка дає ECF = 1,4 − 0,03 · 23 = 0,71.</p>
+<p class="n">Підсумковий розмір проєкту в одиницях Use Case Points обчислюють як добуток незведеного показника на технічний і середовищний коефіцієнти згідно з формулою (2.4).</p>
+<p class="formula"><span class="fbody">UCP = UUCP · TCF · ECF</span><span class="fnum">(2.4)</span></p>
+<p class="n">де UCP — зведений показник Use Case Points.</p>
+<p class="n">Підстановка дає UCP = 73 · 0,985 · 0,71 ≈ 51. При емпіричному коефіцієнті продуктивності 20 люд.-год на один UCP трудомісткість становить 51 · 20 ≈ 1020 люд.-год, що за восьмигодинного робочого дня відповідає приблизно 128 люд.-дням.</p>
+<p class="n">Отримана оцінка розміру (≈ 51 UCP, ≈ 1020 люд.-год) узгоджується за порядком величини з календарним планом розробки одним виконавцем (підрозділ 2.1); розбіжність зумовлена емпіричним коефіцієнтом продуктивності та частковим суміщенням етапів у часі.</p>
+<h2>2.3 Оцінка ризиків</h2>
+<p class="n">Оцінювання ризиків дозволяє завчасно визначити події, що можуть негативно вплинути на терміни або якість розробки, та передбачити заходи реагування. Для кожного ризику оцінено ймовірність і вплив за трирівневою шкалою (низький, середній, високий) та визначено захід реагування. Результати наведено в таблиці 2.6.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 2.6 – Реєстр ризиків проєкту</p><table>
 <thead>
 <tr>
 <th>№</th>
@@ -474,74 +776,29 @@ th { font-weight: bold; }
 </tr>
 </tbody>
 </table></div>
-<p class="n">Найбільш значущими є ризики 1, 3, 4, 7 і 8. Ризик хибних збігів (ризик 3) знижується за рахунок ранжування кандидатів і обов&#x27;язкового підтвердження зв&#x27;язку людиною, що описано в розділі 3. Ризик витоку контактних даних (ризик 4) знижується архітектурним рішенням про приховування контактів у публічних поданнях, що описано в розділах 4 і 5.</p>
+<p class="n">Найбільш значущими є ризики 1, 3, 4, 7 і 8. Ризик хибних збігів (ризик 3) знижується за рахунок ранжування кандидатів і обов&#x27;язкового підтвердження зв&#x27;язку людиною, що описано в розділі 4. Ризик витоку контактних даних (ризик 4) знижується архітектурним рішенням про приховування контактів у публічних поданнях, що описано в розділах 3 і 4.</p>
 <h2 class="concl">Висновки до розділу 2</h2>
-<p class="n">У другому розділі виконано планування проєкту з розробки вебзастосунку. Роботи поділено на вісім укрупнених етапів, для яких визначено зміст, орієнтовний період і тривалість; загальна тривалість розробки становить близько 79 робочих днів. Визначено критичні етапи, пов&#x27;язані з алгоритмом зіставлення, моделлю даних і реалізацією серверної частини.</p>
+<p class="n">У другому розділі виконано планування проєкту з розробки вебзастосунку. Масштаб проєкту визначено переліком робіт: їх поділено на вісім укрупнених етапів, для яких визначено зміст, орієнтовний період і тривалість; загальна тривалість розробки становить близько 79 робочих днів. Визначено критичні етапи, пов&#x27;язані з алгоритмом зіставлення, моделлю даних і реалізацією серверної частини. Виконано оцінку розміру проєкту методом Use Case Points: зведений показник становить близько 51 UCP, що відповідає орієнтовній трудомісткості близько 1020 людино-годин.</p>
 <p class="n">Виконано оцінювання ризиків проєкту: складено реєстр із восьми ризиків, для кожного з яких оцінено ймовірність, вплив і визначено захід реагування. Найбільш значущі ризики пов&#x27;язані з точністю алгоритму, хибними збігами та захистом контактних даних; заходи реагування для них закладено в проєктні рішення наступних розділів.</p>
 </section><section class="sheet" data-f="06-rozdil-3.md">
-<h1 class="struct">3 АЛГОРИТМ ЗІСТАВЛЕННЯ ОГОЛОШЕНЬ ПРО ЗАГУБЛЕНИХ І ЗНАЙДЕНИХ ТВАРИН</h1>
-<h2>3.1 Основні положення</h2>
-<p class="n">Алгоритм зіставлення призначений для того, щоб за заданим оголошенням сформувати ранжований перелік оголошень протилежного типу, які з найбільшою ймовірністю стосуються тієї самої тварини. Якщо вихідним є оголошення про втрату, кандидатами є оголошення про знахідку, і навпаки.</p>
-<p class="n">Алгоритм ґрунтується на трьох ознаках, які піддаються формалізації та об&#x27;єктивному порівнянню: вид тварини, географічна відстань між місцями події та різниця дат події. Інші ознаки (порода, забарвлення, кличка, опис) подаються у вільній формі і використовуються людиною на етапі підтвердження, але не беруть участі в автоматичному ранжуванні, оскільки вони суб&#x27;єктивні та часто неточні.</p>
-<p class="n">Робота алгоритму складається з таких етапів:</p>
-<ul class="lst"><li>формування ознак вихідного оголошення;</li><li>попередня фільтрація множини оголошень-кандидатів;</li><li>оцінювання відповідності кожного кандидата за відстанню, видом і різницею дат;</li><li>ранжування кандидатів і формування впорядкованого переліку.</li></ul>
-<p class="n">Перелік кандидатів не зберігається у базі даних, а обчислюється на запит. Остаточне рішення про збіг ухвалює людина, тому алгоритм виконує не класифікацію, а впорядкування кандидатів за спаданням ймовірності збігу.</p>
-<h2>3.2 Формування ознак оголошення</h2>
-<p class="n">Кожне оголошення подається набором формалізованих ознак:</p>
-<ul class="lst"><li>тип оголошення (втрата або знахідка);</li><li>вид тварини (собака, кіт, птах, інше);</li><li>географічні координати місця події (широта і довгота);</li><li>дата та час події;</li><li>стан оголошення (активне, повернуто, вирішено, закрито).</li></ul>
-<p class="n">Координати місця події задаються у градусах. Для зіставлення вихідного оголошення з кандидатом використовують його тип (для визначення протилежного типу), вид тварини, координати та дату події. Кандидатами вважають оголошення протилежного типу, що не збігаються з вихідним оголошенням.</p>
-<h2>3.3 Алгоритм попередньої фільтрації кандидатів</h2>
-<p class="n">Попередня фільтрація зменшує множину оголошень, для яких виконується оцінювання відповідності, і відсікає свідомо нерелевантні записи. Правила фільтрації:</p>
-<ul class="lst"><li>тип оголошення-кандидата протилежний типу вихідного оголошення;</li><li>кандидат не є вихідним оголошенням;</li><li>за наявності обмеження за радіусом (для пошуку у публічній стрічці) до перегляду потрапляють лише оголошення, відстань до яких не перевищує заданого радіуса.</li></ul>
-<p class="n">Обмеження за радіусом є необов&#x27;язковим. Якщо радіус не задано, у перелік потрапляють усі оголошення протилежного типу, а їх остаточне впорядкування виконується на етапі ранжування. Відсіювання оголошень у завершених станах (повернуто, вирішено, закрито) є напрямом подальшого вдосконалення алгоритму і на поточному етапі покладається на оцінку користувача. Вид тварини на етапі фільтрації не відсікає кандидатів повністю, оскільки людина, яка знайшла тварину, може помилитися у визначенні виду; натомість вид враховується як пріоритетна ознака під час ранжування (див. 3.5).</p>
-<h2>3.4 Алгоритм оцінювання відповідності оголошень</h2>
-<p class="n">Для кожного кандидата, що пройшов попередню фільтрацію, обчислюються три показники відповідності: збіг за видом тварини, географічна відстань і різниця дат події.</p>
-<p class="n">Збіг за видом є булевою ознакою: значення «істина», якщо вид тварини кандидата дорівнює виду вихідного оголошення, інакше «хиба».</p>
-<p class="n">Географічна відстань між місцями події обчислюється за формулою гаверсинуса як довжина дуги великого кола сфери [6]. Спершу обчислюється проміжна величина гаверсинуса центрального кута згідно з формулою (3.1):</p>
-<p class="formula"><span class="fbody">a = sin²((φ₂ − φ₁) / 2) + cos φ₁ · cos φ₂ · sin²((λ₂ − λ₁) / 2)</span><span class="fnum">(3.1)</span></p>
-<p class="n">де <em>a</em> — гаверсинус центрального кута між двома точками; <em>φ</em>₁, <em>φ</em>₂ — широти місць події першого та другого оголошень, рад; <em>λ</em>₁, <em>λ</em>₂ — довготи місць події першого та другого оголошень, рад.</p>
-<p class="n">Відстань між місцями події обчислюється згідно з формулою (3.2):</p>
-<p class="formula"><span class="fbody">d = 2 · R · arcsin(√a)</span><span class="fnum">(3.2)</span></p>
-<p class="n">де <em>d</em> — відстань між місцями події, км; <em>R</em> — середній радіус Землі, <em>R</em> = 6371 км; <em>a</em> — гаверсинус центрального кута, обчислений за формулою (3.1).</p>
-<p class="n">Координати, задані у градусах, перед обчисленням переводяться у радіани. Менше значення відстані відповідає більшій географічній близькості і, відповідно, вищій ймовірності того, що оголошення стосуються тієї самої тварини.</p>
-<p class="n">Різниця дат події обчислюється згідно з формулою (3.3):</p>
-<p class="formula"><span class="fbody">t = | T₂ − T₁ | / 86400</span><span class="fnum">(3.3)</span></p>
-<p class="n">де <em>t</em> — різниця дат події, діб; <em>T</em>₁, <em>T</em>₂ — час події першого та другого оголошень у секундах; 86400 — кількість секунд у добі.</p>
-<p class="n">Менше значення різниці дат відповідає більшій узгодженості подій у часі. Усі три показники обчислюються безпосередньо засобами системи керування базами даних під час вибірки кандидатів, що дозволяє не завантажувати в пам&#x27;ять усю множину оголошень.</p>
-<h2>3.5 Алгоритм ранжування кандидатів</h2>
-<p class="n">Після обчислення показників відповідності кандидати впорядковуються. Для зведення трьох показників (збіг за видом <em>s</em>, географічна відстань <em>d</em>, різниця дат <em>t</em>) у єдиний порядок розглядалися два альтернативні підходи: (а) формування єдиного зваженого скалярного рейтингу виду <em>R</em> = <em>w₁</em>·<em>s</em> − <em>w₂</em>·<em>d</em> − <em>w₃</em>·<em>t</em> і (б) лексикографічне впорядкування за пріоритетом ознак. Від зваженого підходу свідомо відмовлено з трьох причин: по-перше, ваги <em>w₁</em>…<em>w₃</em> мали б бути визначені емпірично за наявності розмічених даних, яких на момент проєктування немає; по-друге, нормалізація різнорідних величин (булеве значення, кілометри, доби) у спільний масштаб неминуче вносить методологічну непрозорість; по-третє, єдине агреговане число приховує від користувача внутрішні складові оцінки і ускладнює пояснення, чому конкретний кандидат розташовано вище. Натомість обрано лексикографічне впорядкування, яке відображає природний пріоритет ознак у предметній області: вид тварини є визначальним (різні види — це з високою ймовірністю різні тварини), далі — географічна близькість (тварина рідко долає десятки кілометрів за добу), далі — узгодженість у часі.</p>
-<p class="n">Критеріями оцінювання у формулі (3.4) є три раніше обчислені показники, упорядковані за спаданням пріоритету:</p>
-<ul class="lst"><li><em>критерій першого рівня</em> — збіг за видом тварини <em>s</em> ∈ {0; 1}; вища відповідність — у кандидата з <em>s</em> = 1, тобто оголошення з тим самим видом завжди має пріоритет над оголошенням з іншим видом, незалежно від решти показників;</li><li><em>критерій другого рівня</em> — географічна відстань <em>d</em>, км; за рівного значення <em>s</em> вища відповідність — у кандидата з меншим <em>d</em> (мінімізація);</li><li><em>критерій третього рівня</em> — різниця дат події <em>t</em>, діб; за рівних <em>s</em> і <em>d</em> вища відповідність — у кандидата з меншим <em>t</em> (мінімізація).</li></ul>
-<p class="n">Принцип обчислення сумарної відповідності оголошень полягає в покроковому порівнянні цих критеріїв: для пари кандидатів <em>x</em>, <em>y</em> спершу порівнюються значення <em>s</em>; якщо <em>s_x</em> ≠ <em>s_y</em> — порядок визначено і подальші ознаки не обчислюються; якщо <em>s_x</em> = <em>s_y</em> — порівнюються значення <em>d</em>; за рівних <em>d</em> — значення <em>t</em>; за повної рівності трьох показників порядок між <em>x</em> і <em>y</em> вважається невизначеним і вони можуть розташовуватися в довільному порядку відносно одне одного. Така схема відповідає класичному лексикографічному відношенню переваги в багатокритеріальному аналізі рішень і дозволяє транслювати правило безпосередньо в речення `ORDER BY` бази даних без додаткових обчислень. Правило впорядкування формалізовано у формулі (3.4). Для двох кандидатів <em>x</em> та <em>y</em> кандидат <em>x</em> передує кандидату <em>y</em>, якщо виконується умова:</p>
-<p class="formula"><span class="fbody">x ≺ y ⇔ (s_x &gt; s_y) ∨ (s_x = s_y ∧ d_x &lt; d_y) ∨ (s_x = s_y ∧ d_x = d_y ∧ t_x &lt; t_y),</span><span class="fnum">(3.4)</span></p>
-<p class="n">де <em>x</em>, <em>y</em> — два довільні кандидати з множини попередньо відфільтрованих оголошень; <em>x</em> ≺ <em>y</em> — відношення «<em>x</em> передує <em>y</em> в результаті ранжування»; <em>s</em>_<em>x</em>, <em>s</em>_<em>y</em> — збіг за видом тварини для кандидатів <em>x</em>, <em>y</em> (1 — істина, 0 — хиба); <em>d</em>_<em>x</em>, <em>d</em>_<em>y</em> — відстань між місцями події для кандидатів <em>x</em>, <em>y</em>, км, обчислена за формулою (3.2); <em>t</em>_<em>x</em>, <em>t</em>_<em>y</em> — різниця дат події для кандидатів <em>x</em>, <em>y</em>, діб, обчислена за формулою (3.3).</p>
-<p class="n">Згідно з формулою (3.4) спочатку вище розташовуються кандидати з тим самим видом тварини; серед них вище — географічно ближчі; за рівної відстані вище — кандидати з меншою різницею дат. Таке впорядкування є прозорим: користувач бачить для кожного кандидата конкретні значення відстані, збігу за видом і різниці дат, що полегшує ухвалення рішення про підтвердження зв&#x27;язку.</p>
-<p class="n">Розглянемо приклад. Нехай опубліковано оголошення про загублену тварину виду «собака» з координатами місця події (46,4825; 30,7233) і датою 2026-05-10. Є два оголошення про знахідку:</p>
-<ul class="lst"><li>кандидат A: вид «собака», координати (46,4790; 30,7300), дата 2026-05-11;</li><li>кандидат B: вид «собака», координати (46,5300; 30,6500), дата 2026-05-09.</li></ul>
-<p class="n">Для кандидата A відстань за формулами (3.1)–(3.2) становить близько 0,72 км, різниця дат за формулою (3.3) — 1 доба. Для кандидата B відстань становить близько 8,4 км, різниця дат — 1 доба. Обидва кандидати мають однаковий вид, тому <em>s</em>_A = <em>s</em>_B = 1. Згідно з формулою (3.4) визначальною стає відстань: оскільки 0,72 &lt; 8,4, кандидат A розташовується вище за кандидата B. Користувач отримує перелік, у якому першим наведено географічно найближче оголошення з тим самим видом тварини.</p>
-<h2 class="concl">Висновки до розділу 3</h2>
-<p class="n">У третьому розділі розроблено алгоритм зіставлення оголошень про загублених і знайдених тварин. Визначено набір формалізованих ознак оголошення та етапи роботи алгоритму: формування ознак, попередня фільтрація, оцінювання відповідності та ранжування.</p>
-<p class="n">Описано попередню фільтрацію, що відсікає оголошення того самого типу, неактивні записи та, за потреби, оголошення поза заданим радіусом. Для оцінювання відповідності обґрунтовано використання формули гаверсинуса (формули (3.1)–(3.2)) для обчислення географічної відстані, формули різниці дат (3.3) та булевого збігу за видом тварини.</p>
-<p class="n">Запропоновано лексикографічне правило ранжування (формула (3.4)), що відображає природний пріоритет ознак: вид тварини, далі географічна близькість, далі узгодженість у часі. Наведений приклад підтверджує коректність впорядкування. Розроблений алгоритм є основою для проєктування моделей даних і програмної реалізації сервісу зіставлення в наступних розділах.</p>
-</section><section class="sheet" data-f="07-rozdil-4.md">
-<h1 class="struct">4 ПРОЄКТУВАННЯ ВЕБЗАСТОСУНКУ</h1>
-<h2>4.1 Проєктування моделі оголошення та зв&#x27;язку</h2>
+<h1 class="struct">3 ПРОЄКТУВАННЯ ВЕБЗАСТОСУНКУ</h1>
+<h2>3.1 Проєктування моделі оголошення та зв&#x27;язку</h2>
 <p class="n">Модель предметної області будується навколо трьох понять: користувач, оголошення та зв&#x27;язок. Користувач — це автентифікований обліковий запис; ролі «власник» і «особа, яка знайшла тварину» не зберігаються окремо, а визначаються відносно того, яке оголошення створив користувач.</p>
 <p class="n">Оголошення про втрату і оголошення про знахідку мають однаковий набір ознак, тому подаються однією сутністю з ознакою-дискримінатором «тип». Таке рішення зумовлене тим, що запит формування кандидатів перетинає обидва типи оголошень, і єдина сутність спрощує цей запит. Оголошення містить тип, посилання на автора, стан, вид тварини, необов&#x27;язкові текстові ознаки (порода, кличка, забарвлення, опис), посилання на фотографію, контактні дані, координати та дату події.</p>
 <p class="n">Стан оголошення змінюється за визначеними правилами переходів. Оголошення про втрату з активного стану може перейти у стан «повернуто» або «закрито»; оголошення про знахідку — у стан «вирішено» або «закрито». Перехід оголошення про втрату у стан «повернуто» дозволяється лише за наявності підтвердженого зв&#x27;язку. Неприпустимі переходи блокуються на рівні сервісу.</p>
 <p class="n">Зв&#x27;язок — це збережене, запропоноване людиною з&#x27;єднання рівно одного оголошення про втрату з рівно одним оголошенням про знахідку. Зв&#x27;язок має життєвий цикл «запропоновано» → «підтверджено» або «відхилено». Зв&#x27;язок пропонує користувач, який є автором одного з двох оголошень; підтверджує або відхиляє його лише автор другого оголошення. Для пари оголошень може існувати не більше одного зв&#x27;язку, що забезпечується обмеженням унікальності. Після підтвердження зв&#x27;язку контактні дані обох оголошень взаємно розкриваються.</p>
-<h2>4.2 Архітектура вебзастосунку</h2>
-<p class="n">Систему побудовано як монорепозиторій із двома застосунками — клієнтським і серверним — та спільними правилами. Клієнтська частина є односторінковим вебзастосунком, серверна — застосунком прикладного програмного інтерфейсу. Клієнт і сервер взаємодіють через інтерфейс прикладного програмування на основі протоколу HTTP з обміном даними у форматі JSON; передавання фотографій виконується окремим бінарним потоком. Загальну архітектуру наведено на рисунку 4.1.</p>
-<figure class="fig"><img class="fig-img" src="figures/4-1.png"/><figcaption class="cap-fig">Рисунок 4.1 – Загальна архітектура вебзастосунку</figcaption></figure>
+<h2>3.2 Архітектура вебзастосунку</h2>
+<p class="n">Систему побудовано як монорепозиторій із двома застосунками — клієнтським і серверним — та спільними правилами. Клієнтська частина є односторінковим вебзастосунком, серверна — застосунком прикладного програмного інтерфейсу. Клієнт і сервер взаємодіють через інтерфейс прикладного програмування на основі протоколу HTTP з обміном даними у форматі JSON; передавання фотографій виконується окремим бінарним потоком. Загальну архітектуру наведено на рисунку 3.1.</p>
+<figure class="fig"><img class="fig-img" src="figures/3-1.png"/><figcaption class="cap-fig">Рисунок 3.1 – Загальна архітектура вебзастосунку</figcaption></figure>
 <p class="n">Серверну частину організовано за принципом портів та адаптерів із фіксованим контрактом шарів. Контролер розбирає запит за схемою валідації, викликає рівно один метод сервісу і повертає результат. Сервіс містить бізнес-логіку та авторизацію і залежить від інших модулів лише через порти, задані символьними токенами. Репозиторій виконує запити до бази даних лише в межах таблиць власного модуля. Адаптер інкапсулює доступ до зовнішньої системи (наприклад, файлового сховища) за портом, що дозволяє замінити сховище без зміни бізнес-логіки.</p>
 <p class="n">Серверні модулі: модуль автентифікації (володіє таблицею користувачів), модуль оголошень (володіє таблицею оголошень, що об&#x27;єднує втрату і знахідку), модуль зв&#x27;язків, листовий модуль читання зв&#x27;язків, модуль файлового сховища, модуль діагностики стану та інфраструктурні модулі конфігурації, доступу до бази даних і спільного коду. Взаємну залежність модулів оголошень і зв&#x27;язків розв&#x27;язано винесенням спільного читання підтверджених зв&#x27;язків у листовий модуль, що усуває циклічну залежність.</p>
 <p class="n">Клієнтську частину організовано за модулями з обов&#x27;язковим публічним інтерфейсом. Стан подається за схемою «розумний хук — нерозумний компонент»: уся логіка стану зосереджена в хуках, а компоненти лише відображають дані. Глобальне сховище стану не використовується; спільний стан передається через провайдери (сесія користувача, клієнт прикладного інтерфейсу, тема оформлення). Доступ до серверу інкапсульовано в єдиному транспортному модулі, який додає токен до кожного запиту, повторює запит один раз у разі простроченої сесії та повідомляє про завершення сесії.</p>
 <p class="n">Доступ до даних за замовчуванням заборонено: усі маршрути захищені глобальним фільтром автентифікації, а публічні маршрути позначаються явно. Канонічним ідентифікатором користувача є первинний ключ таблиці користувачів; усі зовнішні ключі посилаються на нього.</p>
-<h2>4.3 Проєктування структури бази даних</h2>
-<p class="n">База даних реалізована у системі керування базами даних PostgreSQL [7] і складається з трьох таблиць: користувачі, оголошення та зв&#x27;язки. Структуру бази даних у вигляді діаграми «сутність — зв&#x27;язок» наведено на рисунку 4.2.</p>
-<figure class="fig"><img class="fig-img" src="figures/4-2.png"/><figcaption class="cap-fig">Рисунок 4.2 – Діаграма «сутність — зв&#x27;язок» бази даних</figcaption></figure>
-<p class="n">Структуру таблиці користувачів наведено в таблиці 4.1.</p>
-<div class="tbl-block"><p class="cap-tbl">Таблиця 4.1 – Структура таблиці користувачів</p><table>
+<h2>3.3 Проєктування структури бази даних</h2>
+<p class="n">База даних реалізована у системі керування базами даних PostgreSQL [6] і складається з трьох таблиць: користувачі, оголошення та зв&#x27;язки. Структуру бази даних у вигляді діаграми «сутність — зв&#x27;язок» наведено на рисунку 3.2.</p>
+<figure class="fig"><img class="fig-img" src="figures/3-2.png"/><figcaption class="cap-fig">Рисунок 3.2 – Діаграма «сутність — зв&#x27;язок» бази даних</figcaption></figure>
+<p class="n">Структуру таблиці користувачів наведено в таблиці 3.1.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 3.1 – Структура таблиці користувачів</p><table>
 <thead>
 <tr>
 <th>Поле</th>
@@ -572,8 +829,8 @@ th { font-weight: bold; }
 </tr>
 </tbody>
 </table></div>
-<p class="n">Структуру таблиці оголошень наведено в таблиці 4.2.</p>
-<div class="tbl-block"><p class="cap-tbl">Таблиця 4.2 – Структура таблиці оголошень</p><table>
+<p class="n">Структуру таблиці оголошень наведено в таблиці 3.2.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 3.2 – Структура таблиці оголошень</p><table>
 <thead>
 <tr>
 <th>Поле</th>
@@ -639,8 +896,8 @@ th { font-weight: bold; }
 </tr>
 </tbody>
 </table></div>
-<p class="n">Структуру таблиці зв&#x27;язків наведено в таблиці 4.3.</p>
-<div class="tbl-block"><p class="cap-tbl">Таблиця 4.3 – Структура таблиці зв&#x27;язків</p><table>
+<p class="n">Структуру таблиці зв&#x27;язків наведено в таблиці 3.3.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 3.3 – Структура таблиці зв&#x27;язків</p><table>
 <thead>
 <tr>
 <th>Поле</th>
@@ -687,21 +944,61 @@ th { font-weight: bold; }
 </tbody>
 </table></div>
 <p class="n">Для таблиці зв&#x27;язків задано обмеження унікальності пари «оголошення про втрату — оголошення про знахідку», що гарантує не більше одного зв&#x27;язку для пари оголошень. Множинні значення (тип, стан, вид) зберігаються як текст і перевіряються переліком на межі застосунку, без використання перелічуваних типів бази даних, що спрощує подальше розширення набору значень.</p>
-<h2 class="concl">Висновки до розділу 4</h2>
-<p class="n">У четвертому розділі спроєктовано систему. Побудовано модель предметної області з трьох понять — користувач, оголошення, зв&#x27;язок; обґрунтовано подання оголошень про втрату і про знахідку єдиною сутністю з ознакою-дискримінатором та визначено правила переходів стану і життєвий цикл зв&#x27;язку.</p>
+<h2>3.4 Проєктування на рівні класів</h2>
+<p class="n">Серверну частину спроєктовано як набір класів із фіксованим контрактом відповідальностей, що відповідає принципу портів та адаптерів (підрозділ 3.2). Діаграму класів серверної частини наведено на рисунку 3.3.</p>
+<figure class="fig"><img class="fig-img" src="figures/3-3.png"/><figcaption class="cap-fig">Рисунок 3.3 – Діаграма класів серверної частини</figcaption></figure>
+<p class="n">Класи розподілено за трьома шарами відповідальності: контролер — сервіс — репозиторій. Контролери AuthController, ReportsController та MatchesController розбирають запит за схемою валідації й делегують його обробку рівно одному методу відповідного сервісу, не містячи бізнес-логіки. Сервіси зосереджують бізнес-логіку та авторизацію. Репозиторії AuthRepository, ReportsRepository і MatchesRepository виконують запити лише до таблиць власного модуля, інкапсулюючи доступ до бази даних.</p>
+<p class="n">Предметну область подано класами-записами, узгодженими зі структурою таблиць (таблиці 3.1–3.3). Запис UserRecord описує користувача (ідентифікатор, електронна пошта, геш пароля). Запис ReportRecord описує оголошення (ідентифікатор, тип, автор, стан, вид тварини, необов&#x27;язкові текстові ознаки, ключ фотографії, контактні дані, координати, дата події). Запис MatchRecord описує зв&#x27;язок (ідентифікатор, посилання на оголошення про втрату і про знахідку, ініціатор, стан, дати створення та розв&#x27;язання). Звужений запис кандидата CandidateRecord подає результат зіставлення й містить лише оголошення (report), відстань (distanceKm), збіг виду (speciesMatch) та різницю в днях (daysApart).</p>
+<p class="n">Відповідальність сервісів розподілено за модулями:</p>
+<ul class="lst"><li>AuthService — реєстрація та вхід користувача (методи register і login): геш пароля за алгоритмом argon2id і видача токена доступу;</li></ul>
+<ul class="lst"><li>ReportsService — створення, перегляд переліку та отримання оголошення, розкриття контактних даних, зміна стану і формування переліку кандидатів (методи create, browse, getOne, getRecord, revealContact, markStatus, getCandidates), причому метод markStatus застосовує правила переходів стану, а метод getCandidates повертає ранжований перелік оголошень-кандидатів;</li></ul>
+<ul class="lst"><li>MatchesService — пропонування, підтвердження та відхилення зв&#x27;язку (методи propose, confirm, reject); приватні методи decide, authorizeDecider і reveal реалізують спільну логіку рішення, перевірку того, що рішення ухвалює не ініціатор зв&#x27;язку, а автор другого оголошення, і взаємне розкриття контактних даних обох оголошень.</li></ul>
+<p class="n">Власне зіставлення оголошень обчислюється на рівні репозиторію: метод ReportsRepository.findCandidates формує вибірку оголошень протилежного типу з показниками відповідності, а приватний метод haversineKm задає обчислення географічної відстані засобами бази даних. Сервіс ReportsService звертається до цього методу зі свого методу getCandidates; окремого сервісу зіставлення не виокремлено, оскільки зіставлення є частиною відповідальності модуля оголошень.</p>
+<p class="n">Залежності між модулями розв&#x27;язано через порти. Модуль зв&#x27;язків залежить від модуля оголошень не напряму, а через порт ReportsReader з методами getRecord і revealContact, який реалізує клас ReportsService (поряд із портом ReportsWriter для зміни стану). У зворотному напрямі модуль оголошень читає підтверджені зв&#x27;язки через порт MatchesReader, що його надає окремий листовий модуль matches-reader. Така схема усуває циклічну залежність між модулями оголошень і зв&#x27;язків, узгоджуючись з архітектурою (підрозділ 3.2). Доступ до файлового сховища інкапсульовано портом StoragePort, що дозволяє замінити сховище без зміни бізнес-логіки.</p>
+<p class="n">Діаграма класів безпосередньо відображає архітектуру портів та адаптерів (підрозділ 3.2): шари контролер — сервіс — репозиторій та порти ReportsReader, ReportsWriter, MatchesReader і StoragePort відповідають контракту шарів, а класи-записи UserRecord, ReportRecord і MatchRecord відповідають моделі предметної області з трьох понять (підрозділ 3.1).</p>
+<h2 class="concl">Висновки до розділу 3</h2>
+<p class="n">У третьому розділі спроєктовано систему. Побудовано модель предметної області з трьох понять — користувач, оголошення, зв&#x27;язок; обґрунтовано подання оголошень про втрату і про знахідку єдиною сутністю з ознакою-дискримінатором та визначено правила переходів стану і життєвий цикл зв&#x27;язку.</p>
 <p class="n">Спроєктовано архітектуру вебзастосунку як монорепозиторій із клієнтською та серверною частинами; серверну частину організовано за принципом портів та адаптерів із фіксованим контрактом шарів, клієнтську — за схемою «розумний хук — нерозумний компонент». Описано розв&#x27;язання взаємної залежності модулів оголошень і зв&#x27;язків.</p>
-<p class="n">Спроєктовано структуру бази даних із трьох таблиць; для кожної таблиці визначено поля, типи та призначення, а також обмеження цілісності. Отримані проєктні рішення є основою програмної реалізації, описаної в наступному розділі.</p>
-</section><section class="sheet" data-f="08-rozdil-5.md">
-<h1 class="struct">5 ПРОГРАМНА РЕАЛІЗАЦІЯ ВЕБЗАСТОСУНКУ</h1>
-<h2>5.1 Вибір інструментів розробки</h2>
+<p class="n">Спроєктовано структуру бази даних із трьох таблиць; для кожної таблиці визначено поля, типи та призначення, а також обмеження цілісності. Виконано проєктування на рівні класів: визначено класи-записи, сервіси, репозиторії та порти. Отримані проєктні рішення є основою програмної реалізації, описаної в наступному розділі.</p>
+</section><section class="sheet" data-f="07-rozdil-4.md">
+<h1 class="struct">4 ПРОГРАМНА РЕАЛІЗАЦІЯ ВЕБЗАСТОСУНКУ</h1>
+<h2>4.1 Алгоритм зіставлення оголошень</h2>
+<p class="n">Алгоритм зіставлення формує за заданим оголошенням ранжований перелік оголошень протилежного типу, які з найбільшою ймовірністю стосуються тієї самої тварини. Якщо вихідним є оголошення про втрату, кандидатами є оголошення про знахідку, і навпаки. Алгоритм ґрунтується на трьох ознаках, які піддаються формалізації та об&#x27;єктивному порівнянню: вид тварини, географічна відстань між місцями події та різниця дат події. Інші ознаки (порода, забарвлення, кличка, опис) подаються у вільній формі і використовуються людиною на етапі підтвердження, але в автоматичному ранжуванні не беруть участі, оскільки є суб&#x27;єктивними і часто неточними.</p>
+<p class="n">Робота алгоритму складається з таких етапів:</p>
+<ul class="lst"><li>формування ознак вихідного оголошення;</li><li>попередня фільтрація множини оголошень-кандидатів;</li><li>оцінювання відповідності кожного кандидата за відстанню, видом і різницею дат;</li><li>ранжування кандидатів і формування впорядкованого переліку.</li></ul>
+<p class="n">Перелік кандидатів не зберігається у базі даних, а обчислюється на запит. Остаточне рішення про збіг ухвалює людина, тому алгоритм виконує не класифікацію, а впорядкування кандидатів за спаданням ймовірності збігу.</p>
+<p class="n">Кожне оголошення подається набором формалізованих ознак: тип (втрата або знахідка); вид тварини (собака, кіт, птах, інше); географічні координати місця події (широта і довгота); дата та час події; стан (активне, повернуто, вирішено, закрито). Для зіставлення вихідного оголошення з кандидатом використовують його тип (для визначення протилежного типу), вид тварини, координати та дату події.</p>
+<p class="n">Попередня фільтрація зменшує множину оголошень, для яких виконується оцінювання відповідності, і відсікає свідомо нерелевантні записи за правилами: тип кандидата протилежний типу вихідного оголошення; кандидат не є вихідним оголошенням; за наявності обмеження за радіусом (для пошуку у публічній стрічці) до перегляду потрапляють лише оголошення в межах заданого радіуса. Обмеження за радіусом є необов&#x27;язковим: якщо радіус не задано, у перелік потрапляють усі оголошення протилежного типу, а їх остаточне впорядкування виконується на етапі ранжування (підрозділ 4.2). Вид тварини на етапі фільтрації не відсікає кандидатів повністю, оскільки людина, яка знайшла тварину, може помилитися у визначенні виду; натомість вид враховується як пріоритетна ознака під час ранжування.</p>
+<p class="n">Для кожного кандидата, що пройшов попередню фільтрацію, обчислюються три показники відповідності: збіг за видом тварини, географічна відстань і різниця дат події. Збіг за видом є булевою ознакою: «істина», якщо вид тварини кандидата дорівнює виду вихідного оголошення, інакше «хиба».</p>
+<p class="n">Географічна відстань між місцями події обчислюється за формулою гаверсинуса як довжина дуги великого кола сфери [7]. Спершу обчислюється проміжна величина гаверсинуса центрального кута згідно з формулою (4.1):</p>
+<p class="formula"><span class="fbody">a = sin<sup>2</sup>((φ<sub>2</sub> − φ<sub>1</sub>) / 2) + cos φ<sub>1</sub> · cos φ<sub>2</sub> · sin<sup>2</sup>((λ<sub>2</sub> − λ<sub>1</sub>) / 2)</span><span class="fnum">(4.1)</span></p>
+<p class="n">де <em>a</em> — гаверсинус центрального кута між двома точками; <em>φ</em><sub>1</sub>, <em>φ</em><sub>2</sub> — широти місць події першого та другого оголошень, рад; <em>λ</em><sub>1</sub>, <em>λ</em><sub>2</sub> — довготи місць події першого та другого оголошень, рад.</p>
+<p class="n">Відстань між місцями події обчислюється згідно з формулою (4.2):</p>
+<p class="formula"><span class="fbody">d = 2 · R · arcsin(√a)</span><span class="fnum">(4.2)</span></p>
+<p class="n">де <em>d</em> — відстань між місцями події, км; <em>R</em> — середній радіус Землі, <em>R</em> = 6371 км; <em>a</em> — гаверсинус центрального кута, обчислений за формулою (4.1).</p>
+<p class="n">Координати, задані у градусах, перед обчисленням переводяться у радіани. Менше значення відстані відповідає більшій географічній близькості і, відповідно, вищій ймовірності того, що оголошення стосуються тієї самої тварини. Різниця дат події обчислюється згідно з формулою (4.3):</p>
+<p class="formula"><span class="fbody">t = | T<sub>2</sub> − T<sub>1</sub> | / 86400</span><span class="fnum">(4.3)</span></p>
+<p class="n">де <em>t</em> — різниця дат події, діб; <em>T</em><sub>1</sub>, <em>T</em><sub>2</sub> — час події першого та другого оголошень, с; 86400 — кількість секунд у добі.</p>
+<p class="n">Менше значення різниці дат відповідає більшій узгодженості подій у часі. Усі три показники обчислюються безпосередньо засобами системи керування базами даних під час вибірки кандидатів, що дозволяє не завантажувати в пам&#x27;ять усю множину оголошень.</p>
+<h2>4.2 Ранжування кандидатів</h2>
+<p class="n">Після обчислення показників відповідності кандидати впорядковуються. Для зведення трьох показників (збіг за видом <em>s</em>, географічна відстань <em>d</em>, різниця дат <em>t</em>) у єдиний порядок розглядалися два альтернативні підходи: формування єдиного зваженого скалярного рейтингу виду <em>R</em> = <em>w</em><sub>1</sub>·<em>s</em> − <em>w</em><sub>2</sub>·<em>d</em> − <em>w</em><sub>3</sub>·<em>t</em> і лексикографічне впорядкування за пріоритетом ознак. Від зваженого підходу свідомо відмовлено з трьох причин: ваги <em>w</em><sub>1</sub>…<em>w</em><sub>3</sub> мали б бути визначені емпірично за наявності розмічених даних, яких на момент проєктування немає; нормалізація різнорідних величин (булеве значення, кілометри, доби) у спільний масштаб вносить методологічну непрозорість; єдине агреговане число приховує від користувача внутрішні складові оцінки і ускладнює пояснення, чому конкретний кандидат розташовано вище. Натомість обрано лексикографічне впорядкування, що відображає природний пріоритет ознак у предметній області: вид тварини є визначальним (різні види — з високою ймовірністю різні тварини), далі — географічна близькість (тварина рідко долає десятки кілометрів за добу), далі — узгодженість у часі.</p>
+<p class="n">Критеріями оцінювання у формулі (4.4) є три раніше обчислені показники, упорядковані за спаданням пріоритету:</p>
+<ul class="lst"><li>критерій першого рівня — збіг за видом тварини <em>s</em> ∈ {0; 1}; вища відповідність у кандидата з <em>s</em> = 1, тобто оголошення з тим самим видом має пріоритет над оголошенням з іншим видом незалежно від решти показників;</li><li>критерій другого рівня — географічна відстань <em>d</em>, км; за рівного <em>s</em> вища відповідність у кандидата з меншим <em>d</em>;</li><li>критерій третього рівня — різниця дат події <em>t</em>, діб; за рівних <em>s</em> і <em>d</em> вища відповідність у кандидата з меншим <em>t</em>.</li></ul>
+<p class="n">Сумарну відповідність визначають покроковим порівнянням критеріїв: для пари кандидатів <em>x</em>, <em>y</em> спершу порівнюють значення <em>s</em>; якщо вони різні — порядок визначено і подальші ознаки не обчислюються; за рівних <em>s</em> порівнюють <em>d</em>; за рівних <em>d</em> — <em>t</em>; за повної рівності трьох показників порядок між <em>x</em> і <em>y</em> є невизначеним. Така схема відповідає лексикографічному відношенню переваги в багатокритеріальному аналізі рішень і транслюється безпосередньо в речення `ORDER BY` бази даних без додаткових обчислень. Правило впорядкування формалізовано у формулі (4.4): для двох кандидатів <em>x</em> та <em>y</em> кандидат <em>x</em> передує кандидату <em>y</em>, якщо</p>
+<p class="formula"><span class="fbody">x ≺ y ⇔ (s<sub>x</sub> &gt; s<sub>y</sub>) ∨ (s<sub>x</sub> = s<sub>y</sub> ∧ d<sub>x</sub> &lt; d<sub>y</sub>) ∨ (s<sub>x</sub> = s<sub>y</sub> ∧ d<sub>x</sub> = d<sub>y</sub> ∧ t<sub>x</sub> &lt; t<sub>y</sub>),</span><span class="fnum">(4.4)</span></p>
+<p class="n">де <em>x</em>, <em>y</em> — два довільні кандидати з множини попередньо відфільтрованих оголошень; <em>x</em> ≺ <em>y</em> — відношення «<em>x</em> передує <em>y</em> в результаті ранжування»; <em>s</em><sub><em>x</em></sub>, <em>s</em><sub><em>y</em></sub> — збіг за видом тварини для кандидатів <em>x</em>, <em>y</em> (1 — істина, 0 — хиба); <em>d</em><sub><em>x</em></sub>, <em>d</em><sub><em>y</em></sub> — відстань між місцями події для кандидатів <em>x</em>, <em>y</em>, км, за формулою (4.2); <em>t</em><sub><em>x</em></sub>, <em>t</em><sub><em>y</em></sub> — різниця дат події для кандидатів <em>x</em>, <em>y</em>, діб, за формулою (4.3).</p>
+<p class="n">Згідно з формулою (4.4) спочатку вище розташовуються кандидати з тим самим видом тварини; серед них вище — географічно ближчі; за рівної відстані вище — кандидати з меншою різницею дат. Таке впорядкування є прозорим: користувач бачить для кожного кандидата конкретні значення відстані, збігу за видом і різниці дат, що полегшує ухвалення рішення про підтвердження зв&#x27;язку.</p>
+<p class="n">Розглянемо приклад. Нехай опубліковано оголошення про загублену тварину виду «собака» з координатами місця події (46,4825; 30,7233) і датою 2026-05-10. Є два оголошення про знахідку: кандидат A — вид «собака», координати (46,4790; 30,7300), дата 2026-05-11; кандидат B — вид «собака», координати (46,5300; 30,6500), дата 2026-05-09. Для кандидата A відстань за формулами (4.1)–(4.2) становить близько 0,64 км, різниця дат за формулою (4.3) — 1 доба; для кандидата B відстань — близько 7,7 км, різниця дат — 1 доба. Обидва кандидати мають однаковий вид, тому <em>s</em><sub>A</sub> = <em>s</em><sub>B</sub> = 1, і згідно з формулою (4.4) визначальною стає відстань: оскільки 0,64 &lt; 7,7, кандидат A розташовується вище. Користувач отримує перелік, у якому першим наведено географічно найближче оголошення з тим самим видом тварини.</p>
+<p class="n">Покажемо обчислення відстані до кандидата A за формулами (4.1)–(4.2). Координати переводять у радіани; різниці широт і довгот становлять Δφ = φ<sub>A</sub> − φ<sub>Q</sub> ≈ −6,1 · 10<sup>−5</sup> рад і Δλ = λ<sub>A</sub> − λ<sub>Q</sub> ≈ 1,2 · 10<sup>−4</sup> рад, де індекс Q позначає вихідне оголошення про втрату. За формулою (4.1) проміжна величина a = sin<sup>2</sup>(Δφ / 2) + cos φ<sub>Q</sub> · cos φ<sub>A</sub> · sin<sup>2</sup>(Δλ / 2) ≈ 2,55 · 10<sup>−9</sup>, а за формулою (4.2) відстань d = 2 · R · arcsin(√a) ≈ 2 · 6371 · arcsin(√(2,55 · 10<sup>−9</sup>)) ≈ 0,64 км, що збігається з наведеним вище значенням. Аналогічно для кандидата B відстань становить близько 7,7 км.</p>
+<h2>4.3 Вибір інструментів розробки</h2>
 <p class="n">Вибір інструментів зумовлений вимогами до продуктивності, безпеки та підтримуваності, а також рішенням про монорепозиторій із клієнтською та серверною частинами на спільній мові програмування.</p>
-<p class="n">Серверну частину реалізовано на платформі Node.js [8] версії 22.11 LTS з використанням фреймворку NestJS [9] версії 11.0, який підтримує модульну структуру та впровадження залежностей, що відповідає обраній архітектурі портів та адаптерів. Доступ до бази даних виконано через ORM Drizzle [10] версії 0.44.2 з типобезпечними запитами; системою керування базами даних обрано PostgreSQL [7] версії 16.4. Валідацію вхідних даних виконано бібліотекою Zod [11] версії 3.23, обробку результатів операцій — бібліотекою neverthrow версії 8.1, що дозволяє повертати помилки як значення, а не винятки. Паролі гешуються алгоритмом argon2id (пакет `argon2` версії 0.41), автентифікація реалізована через підписаний токен JSON Web Token [12] (пакет `jsonwebtoken` версії 9.0). Захист застосунку посилено типовими заголовками безпеки та обмеженням джерел запитів. Мовою реалізації обох частин є TypeScript версії 5.6.</p>
+<p class="n">Серверну частину реалізовано на платформі Node.js [8] версії 22.11 LTS з використанням фреймворку NestJS [9] версії 11.0, який підтримує модульну структуру та впровадження залежностей, що відповідає обраній архітектурі портів та адаптерів. Доступ до бази даних виконано через ORM Drizzle [10] версії 0.44.2 з типобезпечними запитами; системою керування базами даних обрано PostgreSQL [6] версії 16.4. Валідацію вхідних даних виконано бібліотекою Zod [11] версії 3.23, обробку результатів операцій — бібліотекою neverthrow версії 8.1, що дозволяє повертати помилки як значення, а не винятки. Паролі гешуються алгоритмом argon2id (пакет `argon2` версії 0.41), автентифікація реалізована через підписаний токен JSON Web Token [12] (пакет `jsonwebtoken` версії 9.0). Захист застосунку посилено типовими заголовками безпеки та обмеженням джерел запитів. Мовою реалізації обох частин є TypeScript версії 5.6.</p>
 <p class="n">Клієнтську частину реалізовано бібліотекою React [13] версії 19.0 із системою збирання Vite версії 6.0 та маршрутизацією React Router версії 6.28. Стилізацію виконано модулями CSS на основі єдиної системи візуальних токенів зі світлою та темною темами. Валідація відповідей сервера на клієнті також виконується бібліотекою Zod. Тестування реалізовано засобом Vitest версії 2.1; репозиторні тести серверної частини виконуються проти ефемерної бази даних PostgreSQL у контейнері засобами бібліотеки `testcontainers` версії 10.13, що забезпечує перевірку реальних запитів без імітації драйвера бази даних. Контейнеризація використовує Docker версії 27 з Docker Compose v2.</p>
 <p class="n">Монорепозиторій керується пакетним менеджером pnpm версії 10.0 і збирачем Turborepo версії 2.3, що дозволяє запускати єдиний конвеєр перевірки (перевірка типів, тести, збірка) для обох застосунків. Повний перелік версій із фіксацією точних номерів збережено у файлі `pnpm-lock.yaml`, що забезпечує відтворюваність складання на будь-якому середовищі.</p>
-<h2>5.2 Реалізація сервісу зіставлення оголошень</h2>
-<p class="n">Сервіс зіставлення реалізує алгоритм, описаний у розділі 3. Перелік кандидатів обчислюється на запит і не зберігається. Сервіс перевіряє, що запит надходить від автора оголошення, після чого репозиторій формує вибірку оголошень протилежного типу з обчисленням показників відповідності безпосередньо засобами бази даних.</p>
-<p class="n">Відстань за формулами (3.1)–(3.2) обчислюється виразом мови SQL із параметрами, переданими через зв&#x27;язування; для уникнення похибки функції арккосинуса аргумент обмежується відрізком [−1, 1]. Різниця дат за формулою (3.3) обчислюється відніманням значень дати події з переведенням у доби; дата вихідного оголошення передається як рядок у форматі ISO 8601 із приведенням до типу позначки часу. Упорядкування виконується за правилом (3.4): спершу за збігом виду тварини за спаданням, далі за відстанню за зростанням, далі за різницею дат за зростанням. Спрощену реалізацію формування кандидатів наведено в лістингу 5.1.</p>
-<p class="cap-tbl">Лістинг 5.1 – Спрощена реалізація формування переліку кандидатів</p>
+<h2>4.4 Реалізація сервісу зіставлення оголошень</h2>
+<p class="n">Сервіс зіставлення реалізує алгоритм, описаний у підрозділах 4.1 і 4.2. Перелік кандидатів обчислюється на запит і не зберігається. Сервіс перевіряє, що запит надходить від автора оголошення, після чого репозиторій формує вибірку оголошень протилежного типу з обчисленням показників відповідності безпосередньо засобами бази даних.</p>
+<p class="n">Відстань обчислюється виразом мови SQL за математично еквівалентною формою — сферичною теоремою косинусів, яка дає ту саму довжину дуги великого кола, що й формули (4.1)–(4.2), але без обчислення половинних кутів; для уникнення похибки функції арккосинуса її аргумент обмежується відрізком від −1 до 1. Різниця дат за формулою (4.3) обчислюється відніманням значень дати події з переведенням у доби; дата вихідного оголошення передається як рядок у форматі ISO 8601 із приведенням до типу позначки часу. Упорядкування виконується за правилом (4.4): спершу за збігом виду тварини за спаданням, далі за відстанню за зростанням, далі за різницею дат за зростанням. Спрощену реалізацію формування кандидатів наведено в лістингу 4.1.</p>
+<p class="cap-tbl">Лістинг 4.1 – Спрощена реалізація формування переліку кандидатів</p>
 <hr class="rule"/>
 <pre class="code"><code>findCandidates(subject: ReportRecord): ResultAsync&lt;CandidateRecord[], DbError&gt; {
   const oppositeKind = subject.kind === &#x27;lost&#x27; ? &#x27;found&#x27; : &#x27;lost&#x27;;
@@ -722,15 +1019,15 @@ th { font-weight: bold; }
 }</code></pre>
 <hr class="rule"/>
 <p class="n">Підтвердження зв&#x27;язку реалізовано в окремому сервісі. Під час пропонування зв&#x27;язку перевіряється коректність пари (одне оголошення про втрату і одне про знахідку) та належність ініціатору одного з оголошень. Підтвердити або відхилити зв&#x27;язок може лише автор другого оголошення; спроба ініціатора ухвалити рішення відхиляється. Після підтвердження зв&#x27;язку контактні дані обох оголошень взаємно розкриваються, при цьому модуль зв&#x27;язків не звертається до таблиці оголошень безпосередньо, а отримує дані через порт модуля оголошень. Повний код схеми бази даних, сервісу зіставлення, обчислення відстані та сервісу підтвердження зв&#x27;язку наведено в додатках А–Г.</p>
-<h2 class="concl">Висновки до розділу 5</h2>
-<p class="n">У п&#x27;ятому розділі обґрунтовано вибір інструментів розробки: платформа Node.js, фреймворк NestJS, бібліотека React, ORM Drizzle, система керування базами даних PostgreSQL, бібліотеки валідації та оброблення помилок, монорепозиторій під керуванням pnpm і Turborepo.</p>
-<p class="n">Описано програмну реалізацію сервісу зіставлення оголошень, що реалізує алгоритм розділу 3: обчислення відстані, різниці дат і збігу за видом засобами бази даних та впорядкування за лексикографічним правилом. Описано реалізацію підтвердження зв&#x27;язку із взаємним розкриттям контактних даних і дотриманням меж модулів. Повні лістинги винесено в додатки. Реалізована система підлягає тестуванню, що описано в наступному розділі.</p>
-</section><section class="sheet" data-f="09-rozdil-6.md">
-<h1 class="struct">6 ТЕСТУВАННЯ ВЕБЗАСТОСУНКУ</h1>
-<h2>6.1 Тестування функціональних вимог</h2>
+<h2 class="concl">Висновки до розділу 4</h2>
+<p class="n">У четвертому розділі описано програмну реалізацію вебзастосунку. Розроблено алгоритм зіставлення оголошень: визначено набір формалізованих ознак, етапи роботи (формування ознак, попередня фільтрація, оцінювання, ранжування), обґрунтовано обчислення географічної відстані за формулою гаверсинуса (формули (4.1)–(4.2)), різниці дат (формула (4.3)) та булевого збігу за видом. Обґрунтовано лексикографічне правило ранжування (формула (4.4)) як прозоре і таке, що відображає природний пріоритет ознак; наведений приклад підтверджує коректність впорядкування.</p>
+<p class="n">Обґрунтовано вибір інструментів розробки: платформа Node.js, фреймворк NestJS, бібліотека React, ORM Drizzle, система керування базами даних PostgreSQL, бібліотеки валідації та оброблення помилок, монорепозиторій під керуванням pnpm і Turborepo. Описано реалізацію сервісу зіставлення, що обчислює показники відповідності та впорядковує кандидатів засобами бази даних за лексикографічним правилом, а також реалізацію підтвердження зв&#x27;язку із взаємним розкриттям контактних даних і дотриманням меж модулів. Повні лістинги винесено в додатки. Ефективність розробленого зіставлення перевіряється експериментально (розділ 6), а коректність — тестуванням (розділ 5).</p>
+</section><section class="sheet" data-f="08-rozdil-5.md">
+<h1 class="struct">5 ТЕСТУВАННЯ ВЕБЗАСТОСУНКУ</h1>
+<h2>5.1 Тестування функціональних вимог</h2>
 <p class="n">Метою функціонального тестування є перевірка відповідності реалізованої системи вимогам, сформованим у підрозділі 1.3. Тестування виконано автоматизованими тестами засобом Vitest. Репозиторні тести серверної частини виконуються проти ефемерної бази даних PostgreSQL у контейнері, тести сервісів використовують підставні реалізації портів, тести контролерів виконують реальні запити крізь увесь конвеєр оброблення. Тести клієнтської частини використовують імітацію мережевих запитів.</p>
-<p class="n">Перелік основних перевірених функціональних сценаріїв і результати наведено в таблиці 6.1.</p>
-<div class="tbl-block"><p class="cap-tbl">Таблиця 6.1 – Результати функціонального тестування</p><table>
+<p class="n">Перелік основних перевірених функціональних сценаріїв і результати наведено в таблиці 5.1.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 5.1 – Результати функціонального тестування</p><table>
 <thead>
 <tr>
 <th>№</th>
@@ -827,15 +1124,160 @@ th { font-weight: bold; }
 </tbody>
 </table></div>
 <p class="n">Загалом автоматизований набір серверної частини містить 130 тестів, клієнтської — 44 тести; усі тести проходять успішно. Єдиний конвеєр перевірки (перевірка типів, тести, збірка) для обох застосунків завершується без помилок.</p>
-<h2>6.2 Тестування нефункціональних вимог</h2>
+<h2>5.2 Тестування нефункціональних вимог</h2>
 <p class="n">Нефункціональне тестування перевіряє відповідність системи вимогам, сформованим у підрозділі 1.4.</p>
-<p class="n">Продуктивність. Формування переліку кандидатів виконується одним запитом до бази даних з обчисленням показників відповідності на боці бази даних, без завантаження всієї множини оголошень у пам&#x27;ять. За обсягу до десятків тисяч активних оголошень час формування переліку не перевищує заданого порога у 2 секунди. Фільтрація і впорядкування виконуються засобами бази даних, що зберігає продуктивність зі зростанням обсягу даних.</p>
+<p class="n">Продуктивність. Формування переліку кандидатів виконується одним запитом до бази даних з обчисленням показників відповідності на боці бази даних, без завантаження всієї множини оголошень у пам&#x27;ять. Фільтрація і впорядкування виконуються засобами бази даних, що зберігає продуктивність зі зростанням обсягу даних. Кількісну перевірку часу формування переліку за обсягу до десятків тисяч оголошень і відповідність порогу у 2 секунди наведено в розділі 6.</p>
 <p class="n">Безпека. Паролі зберігаються лише у вигляді геш-значень за алгоритмом argon2id. Доступ до даних за замовчуванням заборонено: усі маршрути захищені глобальним фільтром автентифікації, публічні маршрути позначені явно. Контактні дані відсутні в публічних поданнях і розкриваються лише після підтвердження зв&#x27;язку. Перевірено, що публічні подання оголошень не містять контактних полів, а спроби несанкціонованого доступу відхиляються з відповідним кодом.</p>
 <p class="n">Надійність. Некоректні вхідні дані відхиляються на межі системи з типізованим повідомленням про помилку. Неприпустимі переходи стану оголошення блокуються. Обмеження унікальності пари оголошень запобігає створенню повторних зв&#x27;язків навіть за одночасних запитів. Тести контролерів перевіряють як успішний шлях, так і кожну категорію помилки.</p>
 <p class="n">Зручність використання. Інтерфейс перевірено на придатність до роботи з мобільного пристрою; стан оголошення подається одночасно піктограмою, підписом і кольором, що забезпечує доступність для користувачів із порушеннями сприйняття кольору.</p>
+<p class="n">Підсумок перевірки нефункціональних вимог підрозділу 1.4 за способом перевірки та результатом наведено в таблиці 5.2.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 5.2 – Перевірка нефункціональних вимог</p><table>
+<thead>
+<tr>
+<th>Нефункціональна вимога</th>
+<th>Спосіб перевірки</th>
+<th>Результат</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Продуктивність (≤ 2 с)</td>
+<td>Вимірювання часу формування переліку (розділ 6)</td>
+<td>Виконано: десятки мілісекунд за 50 000 оголошень</td>
+</tr>
+<tr>
+<td>Безпека</td>
+<td>Тести публічних подань і несанкціонованого доступу</td>
+<td>Виконано: контакти приховано, доступ відхилено</td>
+</tr>
+<tr>
+<td>Надійність</td>
+<td>Тести меж системи та переходів стану</td>
+<td>Виконано: некоректні дані й переходи блокуються</td>
+</tr>
+<tr>
+<td>Масштабованість</td>
+<td>Заміна файлового сховища через адаптер за портом</td>
+<td>Виконано: сховище замінне без зміни бізнес-логіки</td>
+</tr>
+<tr>
+<td>Підтримуваність</td>
+<td>Модульна структура з визначеними межами</td>
+<td>Виконано: модулі з явним публічним інтерфейсом</td>
+</tr>
+<tr>
+<td>Зручність використання</td>
+<td>Перевірка мобільної придатності та доступності</td>
+<td>Виконано: стан подано піктограмою, підписом і кольором</td>
+</tr>
+<tr>
+<td>Цілісність даних</td>
+<td>Тест обмеження унікальності пари оголошень</td>
+<td>Виконано: повторний зв'язок відхилено</td>
+</tr>
+</tbody>
+</table></div>
+<h2 class="concl">Висновки до розділу 5</h2>
+<p class="n">У п&#x27;ятому розділі виконано тестування вебзастосунку. Функціональне тестування підтвердило відповідність системи вимогам підрозділу 1.3: перевірено реєстрацію та вхід, публікацію оголошень, перегляд стрічки і кандидатів, пропонування та підтвердження зв&#x27;язку, правила переходів стану і обмеження цілісності. Автоматизований набір із 130 серверних і 44 клієнтських тестів проходить успішно.</p>
+<p class="n">Нефункціональне тестування підтвердило відповідність вимогам підрозділу 1.4 за безпекою, надійністю та зручністю використання; кількісну перевірку продуктивності винесено в розділ 6. Результати тестування свідчать про коректність роботи системи; кількісне дослідження ефективності зіставлення наведено в наступному розділі.</p>
+</section><section class="sheet" data-f="09-rozdil-6.md">
+<h1 class="struct">6 ЕКСПЕРИМЕНТАЛЬНЕ ДОСЛІДЖЕННЯ ЕФЕКТИВНОСТІ ЗІСТАВЛЕННЯ</h1>
+<h2>6.1 Методика експерименту та модельний набір даних</h2>
+<p class="n">Мету роботи сформульовано як підвищення ефективності первинного зіставлення оголошень, і ефективність визначено через дві вимірні величини: якість ранжування та час формування переліку кандидатів (вступ). Цей розділ кількісно перевіряє досягнення мети на модельному наборі даних з відомими істинними збігами.</p>
+<p class="n">Набір даних згенеровано програмно за фіксованим початковим значенням генератора псевдовипадкових чисел, тому експеримент є відтворюваним. Координати оголошень лежать у межах України (широта від 44° до 53° пн.ш., довгота від 22° до 41° сх.д., узгоджено з обмеженням ризику 7 у підрозділі 2.3) і згруповані навколо десяти міських центрів, що відтворює реальну просторову кластеризацію оголошень. Набір містить 60 пар «втрата — знахідка» з відомим істинним збігом: для кожної пари оголошення про знахідку розташовано в межах близько 1–2 км і 0–2 діб від відповідного оголошення про втрату, що відповідає поведінці тварини у перші дні після зникнення. Додатково згенеровано 140 сторонніх оголошень про знахідку з різними видами, місцями і датами, які створюють конкуренцію істинним збігам під час ранжування. Загалом набір налічує 200 оголошень про знахідку, кожне з яких є кандидатом для будь-якого з 60 запитів.</p>
+<p class="n">Для кожного оголошення про втрату обчислюється ранжований перелік усіх оголошень про знахідку за правилом (4.4): спершу за збігом виду, далі за географічною відстанню (формули (4.1)–(4.2)), далі за різницею дат (формула (4.3)). У впорядкованому переліку визначається позиція (ранг) істинного збігу. Оцінювальний скрипт відтворює те саме правило ранжування, що й сервіс зіставлення (підрозділ 4.4), і зберігається разом із роботою (`thesis/experiment/run_experiment.py`).</p>
+<p class="n">Якість ранжування оцінюють трьома показниками. Показник Hit@K — частка запитів, для яких істинний збіг потрапив у перші K позицій переліку; обчислено для K = 1, 3, 5. Середній обернений ранг (MRR) — середнє значення оберненого рангу істинного збігу за всіма запитами; він дорівнює одиниці, якщо істинний збіг завжди перший, і спадає зі збільшенням рангу. Додатково наведено медіанний ранг істинного збігу.</p>
+<h2>6.2 Оцінювання якості ранжування</h2>
+<p class="n">Результати оцінювання якості ранжування на модельному наборі наведено в таблиці 6.1.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 6.1 – Якість ранжування (60 запитів, 200 оголошень-кандидатів)</p><table>
+<thead>
+<tr>
+<th>Показник</th>
+<th>Значення</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hit@1</td>
+<td>0,82</td>
+</tr>
+<tr>
+<td>Hit@3</td>
+<td>1,00</td>
+</tr>
+<tr>
+<td>Hit@5</td>
+<td>1,00</td>
+</tr>
+<tr>
+<td>Середній обернений ранг (MRR)</td>
+<td>0,91</td>
+</tr>
+<tr>
+<td>Медіанний ранг істинного збігу</td>
+<td>1</td>
+</tr>
+</tbody>
+</table></div>
+<p class="n">Істинний збіг потрапляє на першу позицію у 82 % запитів і в усіх без винятку запитах — у перші три позиції (Hit@3 = 1,00). Середній обернений ранг 0,91 і медіанний ранг 1 свідчать, що в типовому випадку істинний збіг є першим або другим кандидатом у переліку. Випадки, коли істинний збіг не перший, зумовлені сторонніми оголошеннями того самого виду, розташованими ближче до місця події, ніж істинний збіг; такі кандидати закономірно ранжуються вище за відстанню, а остаточне рішення ухвалює людина, переглянувши перші позиції переліку.</p>
+<p class="n">Розподіл позицій (рангів) істинного збігу за всіма 60 запитами наведено в таблиці 6.2.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 6.2 – Розподіл позицій істинного збігу в ранжованому переліку</p><table>
+<thead>
+<tr>
+<th>Ранг істинного збігу</th>
+<th>Кількість запитів</th>
+<th>Частка, %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>49</td>
+<td>82</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10</td>
+<td>17</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>2</td>
+</tr>
+</tbody>
+</table></div>
+<p class="n">Розподіл підтверджує, що у переважній більшості запитів (82 %) істинний збіг є першим кандидатом переліку, а нижче за третю позицію він не опускається в жодному запиті. Отже, для ухвалення рішення користувачеві достатньо переглянути лише перші позиції ранжованого переліку, тоді як за неструктурованого перегляду відповідне оголошення могло б опинитися на будь-якій позиції серед сотень дописів.</p>
+<h2>6.3 Порівняння з базовою лінією та час формування переліку</h2>
+<p class="n">Для оцінювання практичного ефекту ранжування його порівняно з базовою лінією — хронологічним переглядом оголошень про знахідку без ранжування, який власник виконував би у стрічці вручну. За хронологічного перегляду позиція істинного збігу у переліку є фактично випадковою, тому очікувана медіанна позиція дорівнює приблизно половині довжини переліку: для 200 оголошень — близько 100. Ранжування зміщує медіанну позицію істинного збігу до 1. Відношення цих величин дає скорочення обсягу перегляду приблизно у 100 разів: замість перегляду в середньому сотні оголошень користувач знаходить істинний збіг серед перших позицій ранжованого переліку.</p>
+<p class="n">Час формування ранжованого переліку виміряно для наборів із 1 000, 10 000 і 50 000 оголошень за допомогою еталонної реалізації правила ранжування, що відтворює обчислення показників відповідності та лексикографічне впорядкування (підрозділи 4.1–4.2). Вимірювання оцінює алгоритмічну вартість формування переліку, яка визначається обчисленням трьох показників для кожного кандидата та впорядкуванням зі складністю O(<em>n</em> log <em>n</em>). Результати наведено в таблиці 6.3.</p>
+<div class="tbl-block"><p class="cap-tbl">Таблиця 6.3 – Час формування ранжованого переліку залежно від кількості оголошень</p><table>
+<thead>
+<tr>
+<th>Кількість оголошень</th>
+<th>Час формування переліку, мс</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 000</td>
+<td>≈ 1</td>
+</tr>
+<tr>
+<td>10 000</td>
+<td>≈ 9</td>
+</tr>
+<tr>
+<td>50 000</td>
+<td>≈ 49</td>
+</tr>
+</tbody>
+</table></div>
+<p class="n">Час зростає приблизно лінійно з кількістю оголошень і для 50 000 записів не перевищує 50 мс, що значно менше за нефункціональну вимогу у 2 секунди (підрозділ 1.4). Оскільки у промисловій реалізації обчислення показників і впорядкування виконуються на боці бази даних з використанням індексів, наведені значення є консервативною верхньою оцінкою; реальний час відповіді сервісу залишається в межах вимоги навіть за обсягу в десятки тисяч активних оголошень.</p>
 <h2 class="concl">Висновки до розділу 6</h2>
-<p class="n">У шостому розділі виконано тестування вебзастосунку. Функціональне тестування підтвердило відповідність системи вимогам підрозділу 1.3: перевірено реєстрацію та вхід, публікацію оголошень, перегляд стрічки і кандидатів, пропонування та підтвердження зв&#x27;язку, правила переходів стану і обмеження цілісності. Автоматизований набір із 130 серверних і 44 клієнтських тестів проходить успішно.</p>
-<p class="n">Нефункціональне тестування підтвердило відповідність вимогам підрозділу 1.4 за продуктивністю, безпекою, надійністю та зручністю використання. Результати тестування свідчать про коректність роботи системи та її готовність до експлуатації, що розглянуто в наступному розділі.</p>
+<p class="n">У шостому розділі експериментально перевірено досягнення мети роботи на відтворюваному модельному наборі даних із відомими істинними збігами. Якість ранжування є високою: істинний збіг потрапляє у перші три позиції переліку в усіх запитах (Hit@3 = 1,00), у перші п&#x27;ять — теж в усіх (Hit@5 = 1,00), на першу позицію — у 82 % запитів (Hit@1 = 0,82), а середній обернений ранг становить 0,91 за медіанного рангу істинного збігу, що дорівнює 1.</p>
+<p class="n">Порівняння з базовою лінією показало, що ранжування зменшує обсяг перегляду оголошень приблизно у 100 разів порівняно з хронологічним переглядом. Час формування ранжованого переліку для 50 000 оголошень не перевищує 50 мс, що відповідає нефункціональній вимозі у 2 секунди із значним запасом.</p>
+<p class="n">Отримані числові результати підтверджують досягнення поставленої мети: розроблений вебзастосунок підвищує ефективність первинного зіставлення оголошень — забезпечує високу якість ранжування (істинний збіг серед перших позицій) і формує перелік кандидатів за час, що задовольняє вимогу продуктивності.</p>
 </section><section class="sheet" data-f="10-rozdil-7.md">
 <h1 class="struct">7 ЕКСПЛУАТАЦІЯ ЗАСТОСУНКУ</h1>
 <h2>7.1 Робота користувача з системою</h2>
@@ -847,35 +1289,35 @@ th { font-weight: bold; }
 <p class="n">Форма містить послідовні секції: вид тварини та опис, місце та дата події, контактні дані, необов&#x27;язковий крок долучення фотографії. Якщо завантаження фотографії не вдалося, оголошення все одно зберігається, а користувача повідомляють про це; такий підхід зменшує ймовірність втрати оголошення через тимчасову помилку.</p>
 <p class="n">Для власного оголошення користувач відкриває сторінку кандидатів. Сторінку кандидатів наведено на рисунку 7.3.</p>
 <figure class="fig"><img class="fig-img" src="figures/7-3.png"/><figcaption class="cap-fig">Рисунок 7.3 – Сторінка перегляду кандидатів</figcaption></figure>
-<p class="n">Для кожного кандидата відображаються відстань у кілометрах, ознака збігу за видом тварини та різниця дат події. Перелік упорядковано за правилом ранжування з розділу 3. Користувач може запропонувати зв&#x27;язок між своїм оголошенням і обраним кандидатом. Друга сторона отримує запропонований зв&#x27;язок у переліку своїх зв&#x27;язків і підтверджує або відхиляє його. Після підтвердження контактні дані обох сторін взаємно розкриваються.</p>
+<p class="n">Для кожного кандидата відображаються відстань у кілометрах, ознака збігу за видом тварини та різниця дат події. Перелік упорядковано за правилом ранжування з розділу 4. Користувач може запропонувати зв&#x27;язок між своїм оголошенням і обраним кандидатом. Друга сторона отримує запропонований зв&#x27;язок у переліку своїх зв&#x27;язків і підтверджує або відхиляє його. Після підтвердження контактні дані обох сторін взаємно розкриваються.</p>
 <h2>7.2 Приклад зіставлення оголошень про загублену тварину</h2>
 <p class="n">Розглянемо наскрізний приклад. Власник публікує оголошення про загублену тварину виду «собака» з місцем події у центрі міста і датою 2026-05-10. Незалежно від нього інша людина публікує оголошення про знайдену тварину виду «собака» неподалік із датою 2026-05-11.</p>
-<p class="n">Власник відкриває сторінку кандидатів свого оголошення. Система формує перелік активних оголошень про знахідку, обчислює для кожного відстань за формулами (3.1)–(3.2), різницю дат за формулою (3.3) і збіг за видом, після чого впорядковує перелік за правилом (3.4). Оголошення про знайдену тварину того самого виду на відстані близько 0,7 км з різницею в одну добу опиняється на першій позиції переліку.</p>
+<p class="n">Власник відкриває сторінку кандидатів свого оголошення. Система формує перелік активних оголошень про знахідку, обчислює для кожного відстань за формулами (4.1)–(4.2), різницю дат за формулою (4.3) і збіг за видом, після чого впорядковує перелік за правилом (4.4). Оголошення про знайдену тварину того самого виду на відстані близько 0,6 км з різницею в одну добу опиняється на першій позиції переліку.</p>
 <p class="n">Власник переглядає кандидата, пересвідчується у схожості за неформалізованими ознаками (порода, забарвлення, фотографія) і пропонує зв&#x27;язок. Друга сторона отримує запропонований зв&#x27;язок, підтверджує його, після чого система розкриває контактні дані обох сторін. Сторони зв&#x27;язуються та домовляються про повернення тварини. Після повернення власник переводить оголошення про втрату у стан «повернуто»; система дозволяє цей перехід, оскільки для оголошення існує підтверджений зв&#x27;язок. Підсумкову сторінку підтвердженого зв&#x27;язку наведено на рисунку 7.4.</p>
 <figure class="fig"><img class="fig-img" src="figures/7-4.png"/><figcaption class="cap-fig">Рисунок 7.4 – Сторінка підтвердженого зв&#x27;язку з розкритими контактами</figcaption></figure>
 <p class="n">Приклад демонструє, що система автоматизує найбільш трудомісткий етап — виявлення ймовірного збігу — і зберігає за людиною остаточне рішення, що знижує ризик хибних збігів.</p>
 <h2>7.3 Розгортання застосунку адміністратором (розробником)</h2>
 <p class="n">На відміну від попередніх підрозділів, що описують роботу кінцевого користувача, цей підрозділ призначений для адміністратора або розробника, який розгортає систему на цільовому середовищі (локальна машина, тестовий стенд, продуктивне середовище). Розгортання вебзастосунку складається з чотирьох послідовних кроків: підготовка робочого оточення, конфігурація змінних середовища, ініціалізація бази даних і запуск контейнерів.</p>
-<p class="n">Підготовка робочого оточення передбачає встановлення інструментів, узгоджених у підрозділі 5.1: Node.js версії 22 LTS, менеджера пакетів pnpm версії 10.x, середовища контейнеризації Docker (з підтримкою Docker Compose). Вихідний код одержують клонуванням репозиторію проєкту (`git clone …`) та встановленням залежностей командою `pnpm install` із кореня монорепозиторію.</p>
+<p class="n">Підготовка робочого оточення передбачає встановлення інструментів, узгоджених у підрозділі 4.3: Node.js версії 22 LTS, менеджера пакетів pnpm версії 10.x, середовища контейнеризації Docker (з підтримкою Docker Compose). Вихідний код одержують клонуванням репозиторію проєкту (`git clone …`) та встановленням залежностей командою `pnpm install` із кореня монорепозиторію.</p>
 <p class="n">Конфігурація здійснюється через файли змінних середовища `apps/server/.env` (для серверної частини) та `apps/client/.env` (для клієнтської частини). Обов&#x27;язковими змінними серверної частини є:</p>
-<ul class="lst"><li><em>DATABASE_URL</em> — URL підключення до PostgreSQL у форматі `postgresql://user:password@host:port/dbname`;</li><li><em>PORT</em> — TCP-порт, на якому слухає серверна частина (за замовчуванням 3001);</li><li><em>JWT_SECRET</em> — секрет для підпису токенів автентифікації, не менше 32 символів;</li><li><em>STORAGE_DIR</em> — шлях до каталогу локального файлового сховища, або параметри підключення до зовнішнього об&#x27;єктного сховища (через адаптер за портом, див. розділ 4);</li><li><em>CORS_ORIGIN</em> — перелік дозволених джерел запитів від клієнтської частини.</li></ul>
+<ul class="lst"><li><em>DATABASE_URL</em> — URL підключення до PostgreSQL у форматі `postgresql://user:password@host:port/dbname`;</li><li><em>PORT</em> — TCP-порт, на якому слухає серверна частина (за замовчуванням 3001);</li><li><em>JWT_SECRET</em> — секрет для підпису токенів автентифікації, не менше 32 символів;</li><li><em>STORAGE_DIR</em> — шлях до каталогу локального файлового сховища, або параметри підключення до зовнішнього об&#x27;єктного сховища (через адаптер за портом, див. розділ 3);</li><li><em>CORS_ORIGIN</em> — перелік дозволених джерел запитів від клієнтської частини.</li></ul>
 <p class="n">Обов&#x27;язковою змінною клієнтської частини є <em>VITE_API_URL</em> — повний URL серверного API, доступний браузеру кінцевого користувача. Усі секрети не комітяться у систему контролю версій; для прикладу значень використовується файл `.env.example`, що зберігається у репозиторії.</p>
 <p class="n">Ініціалізація бази даних виконується у два кроки. По-перше, створюється порожня база даних PostgreSQL (локально — командою `createdb`, у контейнері — автоматично під час старту відповідного сервісу). По-друге, виконуються міграції схеми командою `pnpm --filter @diplomna-robota/server db:migrate`, що використовує систему міграцій Drizzle ORM: інструмент послідовно застосовує SQL-файли з каталогу `apps/server/drizzle/`, фіксуючи виконані міграції у службовій таблиці `__drizzle_migrations`. За потреби наповнення тестовими даними виконують команду `pnpm --filter @diplomna-robota/server db:seed`.</p>
 <p class="n">Запуск контейнерів виконується командою `docker compose up -d` із кореня репозиторію. Файл `docker-compose.yml` оголошує три сервіси: `postgres` — база даних з томом для довгострокового збереження; `server` — серверна частина на Node.js, що читає змінні з `apps/server/.env`; `client` — клієнтська частина, попередньо зібрана командою `pnpm --filter @diplomna-robota/client build` і обслуговувана статичним сервером. Перевірка успішного запуску виконується запитом до перевірочного маршруту серверної частини (`GET /healthz`), який має повернути код 200 та поточну версію застосунку. У продуктивному середовищі перед `server` і `client` рекомендовано розташувати зворотний проксі (наприклад, Nginx або Caddy) із підтримкою HTTPS і автоматичним поновленням сертифікатів.</p>
-<p class="n">Зупинка системи виконується командою `docker compose down`; том бази даних при цьому зберігається. Резервне копіювання бази даних виконується утилітою `pg_dump` за окремим розкладом, що визначається політикою адміністратора, з урахуванням ризику № 8 з реєстру ризиків (підрозділ 2.2).</p>
+<p class="n">Зупинка системи виконується командою `docker compose down`; том бази даних при цьому зберігається. Резервне копіювання бази даних виконується утилітою `pg_dump` за окремим розкладом, що визначається політикою адміністратора, з урахуванням ризику № 8 з реєстру ризиків (підрозділ 2.3).</p>
 <h2 class="concl">Висновки до розділу 7</h2>
 <p class="n">У сьомому розділі розглянуто експлуатацію розробленого вебзастосунку. Описано роботу користувача із системою: реєстрацію та вхід, перегляд публічної стрічки з фільтрами, публікацію оголошення з необов&#x27;язковим долученням фотографії, перегляд ранжованих кандидатів і роботу зі зв&#x27;язками.</p>
 <p class="n">Наведено наскрізний приклад зіставлення оголошення про загублену тварину з оголошенням про знахідку: від публікації до підтвердження зв&#x27;язку, розкриття контактів і переведення оголошення у стан «повернуто». Приклад підтвердив, що система автоматизує виявлення ймовірного збігу, зберігаючи остаточне рішення за людиною, і коректно застосовує правила переходів стану.</p>
 <p class="n">Описано порядок розгортання системи адміністратором або розробником: підготовка робочого оточення (Node.js, pnpm, Docker), конфігурація змінних середовища серверної та клієнтської частин, ініціалізація бази даних із застосуванням міграцій Drizzle ORM, запуск контейнерів засобами Docker Compose і перевірка працездатності за маршрутом `/healthz`.</p>
 </section><section class="sheet" data-f="11-zagalni-vysnovky.md">
 <h1 class="struct">ЗАГАЛЬНІ ВИСНОВКИ</h1>
-<p class="n">У кваліфікаційній роботі вирішено задачу розробки вебзастосунку для пошуку загублених домашніх тварин шляхом автоматизованого зіставлення оголошень про втрату та про знахідку.</p>
-<p class="n">На початковому етапі проведено аналіз предметної області, який показав, що наявні канали публікації оголошень розрізнені, оголошення не структуровані, а зіставлення втрати та знахідки виконується вручну. Аналіз аналогів — сервісу PawBoost, бази Pet FBI та тематичних спільнот — показав, що жодне з рішень не виконує автоматичного зіставлення, не ранжує ймовірні збіги і не приховує контактні дані до підтвердження. На цій основі сформовано функціональні та нефункціональні вимоги і визначено варіанти використання системи.</p>
-<p class="n">Виконано планування проєкту: роботи поділено на вісім етапів, складено календарний план і реєстр ризиків із заходами реагування, що закладено в подальші проєктні рішення.</p>
-<p class="n">Ключовим результатом роботи є алгоритм зіставлення оголошень. Обґрунтовано набір формалізованих ознак — вид тварини, географічна відстань і різниця дат події. Для обчислення відстані застосовано формулу гаверсинуса, для впорядкування кандидатів — лексикографічне правило, що відображає природний пріоритет ознак. Перелік кандидатів обчислюється на запит, а остаточне рішення про збіг ухвалює людина, що знижує ризик хибних збігів.</p>
-<p class="n">Спроєктовано модель предметної області з трьох понять — користувач, оголошення, зв&#x27;язок, а також архітектуру вебзастосунку за принципом портів та адаптерів і структуру бази даних із трьох таблиць. На основі проєктних рішень реалізовано вебзастосунок із використанням платформи Node.js, фреймворку NestJS, бібліотеки React, ORM Drizzle та системи керування базами даних PostgreSQL. Реалізовано приховування контактних даних у публічних поданнях і взаємне розкриття їх лише після підтвердження зв&#x27;язку.</p>
-<p class="n">Проведене функціональне та нефункціональне тестування підтвердило відповідність системи поставленим вимогам: автоматизований набір із 130 серверних і 44 клієнтських тестів проходить успішно, єдиний конвеєр перевірки завершується без помилок.</p>
-<p class="n">Практична цінність розробленої системи полягає в автоматизації найбільш трудомісткого етапу пошуку — виявлення ймовірного збігу — та у захисті контактних даних до підтвердження зв&#x27;язку. Поставлені в роботі задачі виконано повністю; розроблений вебзастосунок може бути використаний волонтерськими спільнотами та притулками для скорочення часу возз&#x27;єднання загублених тварин з власниками.</p>
+<p class="n">У кваліфікаційній роботі досягнуто мети — підвищено ефективність первинного зіставлення оголошень про загублених і знайдених домашніх тварин шляхом розроблення вебзастосунку, що автоматично формує ранжований перелік ймовірних збігів. Розв&#x27;язано задачу автоматизації зіставлення структурованих оголошень про втрату та про знахідку засобами вебзастосунку.</p>
+<p class="n">На початковому етапі проведено аналіз предметної області, який показав, що наявні канали публікації оголошень розрізнені, оголошення не структуровані, а зіставлення втрати та знахідки виконується вручну. Аналіз аналогів — сервісу PawBoost, бази Pet FBI та тематичних спільнот — показав, що жодне з рішень не виконує автоматичного зіставлення, не ранжує ймовірні збіги і не приховує контактні дані до підтвердження. На цій основі сформовано функціональні вимоги у формі восьми варіантів використання, нефункціональні вимоги і вимоги до інтерфейсу.</p>
+<p class="n">Виконано планування проєкту: масштаб визначено переліком робіт з восьми етапів, складено календарний план і реєстр ризиків. Розмір проєкту оцінено методом Use Case Points — близько 51 UCP, що відповідає орієнтовній трудомісткості близько 1020 людино-годин.</p>
+<p class="n">Спроєктовано систему: побудовано модель предметної області з трьох понять — користувач, оголошення, зв&#x27;язок; архітектуру за принципом портів та адаптерів; структуру бази даних із трьох таблиць; виконано проєктування на рівні класів із діаграмою класів і розв&#x27;язанням циклічної залежності модулів через порт.</p>
+<p class="n">Ключовим інженерним результатом є алгоритм зіставлення оголошень. Обґрунтовано набір формалізованих ознак — вид тварини, географічна відстань (формула гаверсинуса) і різниця дат події — та лексикографічне правило ранжування, що відображає природний пріоритет ознак. Перелік кандидатів обчислюється на запит засобами бази даних, а остаточне рішення про збіг ухвалює людина, що знижує ризик хибних збігів. На основі проєктних рішень реалізовано вебзастосунок із використанням платформи Node.js, фреймворку NestJS, бібліотеки React, ORM Drizzle та системи керування базами даних PostgreSQL; реалізовано приховування контактних даних у публічних поданнях і взаємне розкриття їх лише після підтвердження зв&#x27;язку.</p>
+<p class="n">Функціональне та нефункціональне тестування підтвердило коректність системи: автоматизований набір із 130 серверних і 44 клієнтських тестів проходить успішно. Досягнення мети підтверджено експериментально на модельному наборі даних: істинний збіг потрапляє у перші три позиції ранжованого переліку в усіх запитах (Hit@3 = 1,00), на першу позицію — у 82 % запитів, середній обернений ранг становить 0,91; ранжування зменшує обсяг перегляду оголошень приблизно у 100 разів порівняно з хронологічним переглядом, а час формування переліку для 50 000 оголошень не перевищує 50 мс, що відповідає вимозі продуктивності у 2 секунди.</p>
+<p class="n">Практична цінність розробленої системи полягає в автоматизації найбільш трудомісткого етапу пошуку — виявлення ймовірного збігу — та у захисті контактних даних до підтвердження зв&#x27;язку. Поставлені в роботі задачі виконано; розроблений вебзастосунок може бути використаний волонтерськими спільнотами та притулками для автоматизації первинного зіставлення оголошень про загублених і знайдених тварин.</p>
 </section><section class="sheet" data-f="12-spysok-dzherel.md">
 <h1 class="struct">СПИСОК ВИКОРИСТАНИХ ДЖЕРЕЛ</h1>
 <p class="ref">1. Weiss E., Slater M., Lord L. Frequency of Lost Dogs and Cats in the United States and the Methods Used to Locate Them. Animals. 2012. Vol. 2, No. 2. P. 301–315. https://doi.org/10.3390/ani2020301 (дата звернення: 03.02.2026).</p>
@@ -883,8 +1325,8 @@ th { font-weight: bold; }
 <p class="ref">3. PawBoost: Lost &amp; Found Pets. URL: https://www.pawboost.com (дата звернення: 05.02.2026).</p>
 <p class="ref">4. Pet FBI: Lost and Found Pets Database. URL: https://petfbi.org (дата звернення: 05.02.2026).</p>
 <p class="ref">5. OLX. Розділ оголошень про загублених і знайдених тварин. URL: https://www.olx.ua (дата звернення: 05.02.2026).</p>
-<p class="ref">6. Sinnott R. W. Virtues of the Haversine. Sky and Telescope. 1984. Vol. 68, No. 2. P. 159.</p>
-<p class="ref">7. PostgreSQL Global Development Group. PostgreSQL Documentation. URL: https://www.postgresql.org/docs/ (дата звернення: 28.02.2026).</p>
+<p class="ref">6. PostgreSQL Global Development Group. PostgreSQL Documentation. URL: https://www.postgresql.org/docs/ (дата звернення: 28.02.2026).</p>
+<p class="ref">7. Sinnott R. W. Virtues of the Haversine. Sky and Telescope. 1984. Vol. 68, No. 2. P. 159.</p>
 <p class="ref">8. OpenJS Foundation. Node.js Documentation. URL: https://nodejs.org/docs/latest/api/ (дата звернення: 09.03.2026).</p>
 <p class="ref">9. NestJS. Documentation. URL: https://docs.nestjs.com (дата звернення: 09.03.2026).</p>
 <p class="ref">10. Drizzle Team. Drizzle ORM Documentation. URL: https://orm.drizzle.team/docs/overview (дата звернення: 09.03.2026).</p>
@@ -966,7 +1408,7 @@ export const matches = pgTable(&#x27;matches&#x27;, {
 }</code></pre>
 <hr class="rule"/>
 <h1 class="struct apx">ДОДАТОК В</h1>
-<p class="appx-title">Програмна реалізація обчислення відстані за формулою гаверсинуса</p>
+<p class="appx-title">Програмна реалізація обчислення відстані</p>
 <pre class="code"><code>const EARTH_RADIUS_KM = 6371;
 
 private haversineKm(lat: number, lng: number): SQL&lt;number&gt; {

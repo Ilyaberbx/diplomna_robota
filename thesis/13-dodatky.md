@@ -78,7 +78,7 @@ findCandidates(subject: ReportRecord): ResultAsync<CandidateRecord[], DbError> {
 ```
 
 ДОДАТОК В
-Програмна реалізація обчислення відстані за формулою гаверсинуса
+Програмна реалізація обчислення відстані
 
 ```ts
 const EARTH_RADIUS_KM = 6371;

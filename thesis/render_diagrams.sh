@@ -23,5 +23,6 @@ render() { # <mmd> <out> <scale>
 }
 
 render use-case.mmd     1-4.png 3
-render architecture.mmd 4-1.png 3
-render er.mmd           4-2.png 3
+render architecture.mmd 3-1.png 3
+render er.mmd           3-2.png 3
+render class.mmd        3-3.png 3

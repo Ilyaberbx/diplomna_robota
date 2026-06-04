@@ -1,9 +1,9 @@
 <!--
-Дані для щоденника практики. Заповнюється скілом /generate-zvit-and-shodennik:
+Дані для щоденника практики. Заповнюється скілом /generate-shodennyk:
 - метадані тягнуться з thesis/00-tytulnyi-arkush.md;
 - практико-специфічні поля зібрано інтерактивно.
 Поля підписів/печаток/оцінок — порожні бланки (заповнюються вручну).
-Білдер читає YAML-блок нижче: thesis/.venv/bin/python practice/build_practice.py
+Білдер читає YAML-блок нижче: thesis/.venv/bin/python practice/build_shodennyk.py
 -->
 
 ```yaml

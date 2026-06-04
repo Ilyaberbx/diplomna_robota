@@ -5,8 +5,8 @@
 3. PawBoost: Lost & Found Pets. URL: https://www.pawboost.com (дата звернення: 05.02.2026).
 4. Pet FBI: Lost and Found Pets Database. URL: https://petfbi.org (дата звернення: 05.02.2026).
 5. OLX. Розділ оголошень про загублених і знайдених тварин. URL: https://www.olx.ua (дата звернення: 05.02.2026).
-6. Sinnott R. W. Virtues of the Haversine. Sky and Telescope. 1984. Vol. 68, No. 2. P. 159.
-7. PostgreSQL Global Development Group. PostgreSQL Documentation. URL: https://www.postgresql.org/docs/ (дата звернення: 28.02.2026).
+6. PostgreSQL Global Development Group. PostgreSQL Documentation. URL: https://www.postgresql.org/docs/ (дата звернення: 28.02.2026).
+7. Sinnott R. W. Virtues of the Haversine. Sky and Telescope. 1984. Vol. 68, No. 2. P. 159.
 8. OpenJS Foundation. Node.js Documentation. URL: https://nodejs.org/docs/latest/api/ (дата звернення: 09.03.2026).
 9. NestJS. Documentation. URL: https://docs.nestjs.com (дата звернення: 09.03.2026).
 10. Drizzle Team. Drizzle ORM Documentation. URL: https://orm.drizzle.team/docs/overview (дата звернення: 09.03.2026).
