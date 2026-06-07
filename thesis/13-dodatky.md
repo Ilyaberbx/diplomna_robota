@@ -53,8 +53,7 @@ export const matches = pgTable('matches', {
 
 ```ts
 findCandidates(subject: ReportRecord): ResultAsync<CandidateRecord[], DbError> {
-  const oppositeKind: ReportRecord['kind'] =
-    subject.kind === 'lost' ? 'found' : 'lost';
+  const oppositeKind = subject.kind === 'lost' ? 'found' : 'lost';
   const distanceKm = this.haversineKm(subject.lat, subject.lng);
   const speciesMatch = sql<boolean>`${reports.species} = ${subject.species}`;
   const subjectDateIso = subject.eventDate.toISOString();

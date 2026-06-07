@@ -340,7 +340,7 @@ h1.struct {
   font-size: 14pt; text-indent: 0; margin: 0 0 1.5em 0;
   page-break-after: avoid;
 }
-hr.rule { border: 0; border-top: 0.25pt solid #000; margin: 0.3em 0; }
+hr.rule { border: 0; border-top: 0.25pt solid #000; margin: 0.2em 0; }
 h1.apx { margin-bottom: 0.2em; }
 p.appx-title {
   text-align: center; text-indent: 0; margin: 0 0 1.5em 0;
@@ -409,9 +409,12 @@ table {
   border-collapse: collapse; width: 100%; font-size: 12pt;
   margin: 0.5em 0; page-break-inside: avoid;
 }
-th, td { border: 0.5pt solid #000; padding: 3pt 5pt; text-align: left;
-         vertical-align: top; }
+/* §5 allows single–1.5 spacing inside tables; single-ish keeps dense tables
+   on one page so a caption never orphans onto a near-empty page. */
+th, td { border: 0.5pt solid #000; padding: 2pt 4pt; text-align: left;
+         vertical-align: top; line-height: 1.15; }
 th { font-weight: bold; }
+tr { page-break-inside: avoid; }
 /* title page */
 .title-page p { text-align: center; text-indent: 0; margin: 0; }
 .title-page .tp-gap { height: 1.5em; }

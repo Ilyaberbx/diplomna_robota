@@ -24,3 +24,13 @@ thesis/.pptx_assets/
 
 # Python bytecode cache (created when build_practice.py imports build_pdf.py)
 __pycache__/
+
+# Other students' practice diaries — third-party personal data, never commit
+docs/diploma-rules/references/practice/examples/
+
+# Reference practice diary sample contains a real student name — keep local only
+docs/diploma-rules/references/practice/shodennyk-zrazok.pdf
+
+# Practice order lists the whole course; template carries a sample student name — keep local
+docs/diploma-rules/references/practice/nakaz-praktyka-4-kurs-2026.docx
+thesis/practice/shodennyk-template.docx

@@ -29,7 +29,7 @@ h1.struct {
   font-size: 14pt; text-indent: 0; margin: 0 0 1.5em 0;
   page-break-after: avoid;
 }
-hr.rule { border: 0; border-top: 0.25pt solid #000; margin: 0.3em 0; }
+hr.rule { border: 0; border-top: 0.25pt solid #000; margin: 0.2em 0; }
 h1.apx { margin-bottom: 0.2em; }
 p.appx-title {
   text-align: center; text-indent: 0; margin: 0 0 1.5em 0;
@@ -98,9 +98,12 @@ table {
   border-collapse: collapse; width: 100%; font-size: 12pt;
   margin: 0.5em 0; page-break-inside: avoid;
 }
-th, td { border: 0.5pt solid #000; padding: 3pt 5pt; text-align: left;
-         vertical-align: top; }
+/* §5 allows single–1.5 spacing inside tables; single-ish keeps dense tables
+   on one page so a caption never orphans onto a near-empty page. */
+th, td { border: 0.5pt solid #000; padding: 2pt 4pt; text-align: left;
+         vertical-align: top; line-height: 1.15; }
 th { font-weight: bold; }
+tr { page-break-inside: avoid; }
 /* title page */
 .title-page p { text-align: center; text-indent: 0; margin: 0; }
 .title-page .tp-gap { height: 1.5em; }
@@ -146,16 +149,16 @@ th { font-weight: bold; }
 <p class="tp">Одеса – 2026</p>
 </section><section class="sheet" data-f="01-anotaciya.md">
 <h1 class="struct">АНОТАЦІЯ</h1>
-<p class="n">Вербанов І. Г. Вебзастосунок для пошуку загублених домашніх тварин : кваліфікаційна робота бакалавра за спеціальністю «121 Інженерія програмного забезпечення» / Ілля Геннадійович Вербанов ; керівник Надія Миколаївна Беглова – Одеса : Нац. ун-т «Одес. політехніка», 2026. – 75 с.</p>
-<p class="n">Кваліфікаційна робота містить основну текстову частину на 63 сторінках, список використаних джерел з 14 найменувань на 2 сторінках, додатки на 3 сторінках.</p>
+<p class="n">Вербанов І. Г. Вебзастосунок для пошуку загублених домашніх тварин : кваліфікаційна робота бакалавра за спеціальністю «121 Інженерія програмного забезпечення» / Ілля Геннадійович Вербанов ; керівник Надія Миколаївна Беглова – Одеса : Нац. ун-т «Одес. політехніка», 2026. – 70 с.</p>
+<p class="n">Кваліфікаційна робота містить основну текстову частину на 59 сторінках, список використаних джерел з 14 найменувань на 2 сторінках, додатки на 2 сторінках.</p>
 <p class="n">Метою кваліфікаційної роботи є підвищення ефективності первинного зіставлення оголошень про загублених і знайдених тварин шляхом розроблення вебзастосунку, що автоматично формує ранжований перелік ймовірних збігів за видом тварини, географічною відстанню та часовим вікном події. Ефективність оцінюється часткою випадків, коли істинний збіг потрапляє в перші K позицій переліку (Hit@K, K = 1, 3, 5), середнім оберненим рангом істинного збігу (MRR) і часом формування переліку; досягнення мети підтверджується експериментально.</p>
 <p class="n">У роботі розроблено вебзастосунок, який дозволяє власникам публікувати оголошення про загублену тварину, а особам, які знайшли тварину, — оголошення про знахідку. Реалізовано алгоритм формування ранжованого переліку оголошень-кандидатів, що оцінює збіг за видом тварини, відстанню між місцями події за формулою гаверсинуса та різницею дат. Запропонований кандидат підтверджується людиною: після підтвердження зв&#x27;язку контактні дані сторін взаємно розкриваються, що дозволяє організувати повернення тварини.</p>
 <p class="n">Систему реалізовано із застосуванням платформи Node.js, фреймворку NestJS, бібліотеки React, ORM Drizzle та системи керування базами даних PostgreSQL. У процесі розробки проведено аналіз предметної області та аналогів, сформовано функціональні та нефункціональні вимоги, виконано планування проєкту, спроєктовано архітектуру системи, структуру бази даних і користувацький інтерфейс, проведено функціональне та нефункціональне тестування.</p>
 <p class="n">Результатом кваліфікаційної роботи є вебзастосунок для пошуку загублених тварин, який може бути використаний волонтерськими спільнотами та притулками для автоматизації первинного зіставлення оголошень. Проведене тестування підтвердило коректність роботи системи, а експериментальне дослідження на модельному наборі даних — досягнення мети: істинний збіг потрапляє у перші позиції ранжованого переліку, а час формування переліку задовольняє вимогу продуктивності.</p>
 <p class="n"><em>Ключові слова:</em> вебзастосунок, пошук загублених тварин, алгоритм зіставлення, формула гаверсинуса, ранжування кандидатів, база даних, NestJS, React.</p>
 <h1 class="struct">ABSTRACT</h1>
-<p class="n">Verbanov I. H. Web application for finding lost pets : Bachelor&#x27;s qualification work in the specialty «121 Software Engineering» / Illia Hennadiiovych Verbanov ; supervisor Nadiia Mykolaivna Behlova – Odesa : Odesa Polytechnic Nat. Univ., 2026. – 75 pages.</p>
-<p class="n">The qualification work contains the main text part on 63 pages, a list of used sources with 14 titles on 2 pages, and appendices on 3 pages.</p>
+<p class="n">Verbanov I. H. Web application for finding lost pets : Bachelor&#x27;s qualification work in the specialty «121 Software Engineering» / Illia Hennadiiovych Verbanov ; supervisor Nadiia Mykolaivna Behlova – Odesa : Odesa Polytechnic Nat. Univ., 2026. – 70 pages.</p>
+<p class="n">The qualification work contains the main text part on 59 pages, a list of used sources with 14 titles on 2 pages, and appendices on 2 pages.</p>
 <p class="n">The aim of the qualification work is to improve the effectiveness of the initial matching of lost- and found-pet reports by developing a web application that automatically builds a ranked list of likely matches by animal species, geographic distance, and the time window of the event. Effectiveness is assessed by the share of cases in which the true match appears among the top K positions of the list (Hit@K, K = 1, 3, 5), by the mean reciprocal rank of the true match (MRR), and by the time to build the list; the achievement of the aim is confirmed experimentally.</p>
 <p class="n">The work presents a web application that allows owners to publish reports about a lost pet and finders to publish reports about a found animal. A matching algorithm is implemented that builds a ranked list of candidate reports, evaluating the match by species equality, the distance between event locations computed with the haversine formula, and the difference of dates. A proposed candidate is confirmed by a human: after the link is confirmed, the contact details of both parties are mutually revealed so that the return of the pet can be arranged.</p>
 <p class="n">The system is implemented using the Node.js platform, the NestJS framework, the React library, the Drizzle ORM, and the PostgreSQL database management system. During the development, the subject area and existing solutions were analyzed, functional and non-functional requirements were defined, project planning was carried out, the system architecture, database structure, and user interface were designed, and functional and non-functional testing was performed.</p>
@@ -178,37 +181,37 @@ th { font-weight: bold; }
 <div class="toc-row lvl1"><span class="t">2.2 Оцінка розміру проєкту</span><span class="dots"></span><span class="p">26</span></div>
 <div class="toc-row lvl1"><span class="t">2.3 Календарний план робіт</span><span class="dots"></span><span class="p">29</span></div>
 <div class="toc-row lvl1"><span class="t">2.4 Оцінка ризиків</span><span class="dots"></span><span class="p">30</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 2</span><span class="dots"></span><span class="p">32</span></div>
-<div class="toc-row lvl0"><span class="t">3 Проєктування вебзастосунку</span><span class="dots"></span><span class="p">33</span></div>
-<div class="toc-row lvl1"><span class="t">3.1 Проєктування моделі оголошення та зв&#x27;язку</span><span class="dots"></span><span class="p">33</span></div>
-<div class="toc-row lvl1"><span class="t">3.2 Архітектура вебзастосунку</span><span class="dots"></span><span class="p">34</span></div>
-<div class="toc-row lvl1"><span class="t">3.3 Проєктування структури бази даних</span><span class="dots"></span><span class="p">36</span></div>
-<div class="toc-row lvl1"><span class="t">3.4 Проєктування на рівні класів</span><span class="dots"></span><span class="p">39</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 3</span><span class="dots"></span><span class="p">41</span></div>
-<div class="toc-row lvl0"><span class="t">4 Програмна реалізація вебзастосунку</span><span class="dots"></span><span class="p">43</span></div>
-<div class="toc-row lvl1"><span class="t">4.1 Алгоритм зіставлення оголошень</span><span class="dots"></span><span class="p">43</span></div>
-<div class="toc-row lvl1"><span class="t">4.2 Ранжування кандидатів</span><span class="dots"></span><span class="p">45</span></div>
-<div class="toc-row lvl1"><span class="t">4.3 Вибір інструментів розробки</span><span class="dots"></span><span class="p">47</span></div>
-<div class="toc-row lvl1"><span class="t">4.4 Реалізація сервісу зіставлення оголошень</span><span class="dots"></span><span class="p">48</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 4</span><span class="dots"></span><span class="p">49</span></div>
-<div class="toc-row lvl0"><span class="t">5 Тестування вебзастосунку</span><span class="dots"></span><span class="p">51</span></div>
-<div class="toc-row lvl1"><span class="t">5.1 Процес тестування</span><span class="dots"></span><span class="p">51</span></div>
-<div class="toc-row lvl1"><span class="t">5.2 Функціональне тестування</span><span class="dots"></span><span class="p">52</span></div>
-<div class="toc-row lvl1"><span class="t">5.3 Тестування нефункціональних вимог</span><span class="dots"></span><span class="p">55</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 5</span><span class="dots"></span><span class="p">57</span></div>
-<div class="toc-row lvl0"><span class="t">6 Експериментальне дослідження ефективності зіставлення</span><span class="dots"></span><span class="p">58</span></div>
-<div class="toc-row lvl1"><span class="t">6.1 Методика експерименту та модельний набір даних</span><span class="dots"></span><span class="p">58</span></div>
-<div class="toc-row lvl1"><span class="t">6.2 Оцінювання метрик ранжування</span><span class="dots"></span><span class="p">59</span></div>
-<div class="toc-row lvl1"><span class="t">6.3 Порівняння з базовою лінією та час формування переліку</span><span class="dots"></span><span class="p">60</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 6</span><span class="dots"></span><span class="p">61</span></div>
-<div class="toc-row lvl0"><span class="t">7 Експлуатація застосунку</span><span class="dots"></span><span class="p">62</span></div>
-<div class="toc-row lvl1"><span class="t">7.1 Робота користувача з системою</span><span class="dots"></span><span class="p">62</span></div>
-<div class="toc-row lvl1"><span class="t">7.2 Приклад зіставлення оголошень про загублену тварину</span><span class="dots"></span><span class="p">64</span></div>
-<div class="toc-row lvl1"><span class="t">7.3 Розгортання застосунку адміністратором (розробником)</span><span class="dots"></span><span class="p">66</span></div>
-<div class="toc-row lvl2"><span class="t">Висновки до розділу 7</span><span class="dots"></span><span class="p">68</span></div>
-<div class="toc-row lvl0"><span class="t">Загальні висновки</span><span class="dots"></span><span class="p">69</span></div>
-<div class="toc-row lvl0"><span class="t">Список використаних джерел</span><span class="dots"></span><span class="p">71</span></div>
-<div class="toc-row lvl0"><span class="t">Додаток А Лістинги програмного коду</span><span class="dots"></span><span class="p">73</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 2</span><span class="dots"></span><span class="p">31</span></div>
+<div class="toc-row lvl0"><span class="t">3 Проєктування вебзастосунку</span><span class="dots"></span><span class="p">32</span></div>
+<div class="toc-row lvl1"><span class="t">3.1 Проєктування моделі оголошення та зв&#x27;язку</span><span class="dots"></span><span class="p">32</span></div>
+<div class="toc-row lvl1"><span class="t">3.2 Архітектура вебзастосунку</span><span class="dots"></span><span class="p">33</span></div>
+<div class="toc-row lvl1"><span class="t">3.3 Проєктування структури бази даних</span><span class="dots"></span><span class="p">35</span></div>
+<div class="toc-row lvl1"><span class="t">3.4 Проєктування на рівні класів</span><span class="dots"></span><span class="p">38</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 3</span><span class="dots"></span><span class="p">40</span></div>
+<div class="toc-row lvl0"><span class="t">4 Програмна реалізація вебзастосунку</span><span class="dots"></span><span class="p">41</span></div>
+<div class="toc-row lvl1"><span class="t">4.1 Алгоритм зіставлення оголошень</span><span class="dots"></span><span class="p">41</span></div>
+<div class="toc-row lvl1"><span class="t">4.2 Ранжування кандидатів</span><span class="dots"></span><span class="p">43</span></div>
+<div class="toc-row lvl1"><span class="t">4.3 Вибір інструментів розробки</span><span class="dots"></span><span class="p">45</span></div>
+<div class="toc-row lvl1"><span class="t">4.4 Реалізація сервісу зіставлення оголошень</span><span class="dots"></span><span class="p">46</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 4</span><span class="dots"></span><span class="p">47</span></div>
+<div class="toc-row lvl0"><span class="t">5 Тестування вебзастосунку</span><span class="dots"></span><span class="p">49</span></div>
+<div class="toc-row lvl1"><span class="t">5.1 Процес тестування</span><span class="dots"></span><span class="p">49</span></div>
+<div class="toc-row lvl1"><span class="t">5.2 Функціональне тестування</span><span class="dots"></span><span class="p">50</span></div>
+<div class="toc-row lvl1"><span class="t">5.3 Тестування нефункціональних вимог</span><span class="dots"></span><span class="p">52</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 5</span><span class="dots"></span><span class="p">53</span></div>
+<div class="toc-row lvl0"><span class="t">6 Експериментальне дослідження ефективності зіставлення</span><span class="dots"></span><span class="p">54</span></div>
+<div class="toc-row lvl1"><span class="t">6.1 Методика експерименту та модельний набір даних</span><span class="dots"></span><span class="p">54</span></div>
+<div class="toc-row lvl1"><span class="t">6.2 Оцінювання метрик ранжування</span><span class="dots"></span><span class="p">55</span></div>
+<div class="toc-row lvl1"><span class="t">6.3 Порівняння з базовою лінією та час формування переліку</span><span class="dots"></span><span class="p">56</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 6</span><span class="dots"></span><span class="p">57</span></div>
+<div class="toc-row lvl0"><span class="t">7 Експлуатація застосунку</span><span class="dots"></span><span class="p">58</span></div>
+<div class="toc-row lvl1"><span class="t">7.1 Робота користувача з системою</span><span class="dots"></span><span class="p">58</span></div>
+<div class="toc-row lvl1"><span class="t">7.2 Приклад зіставлення оголошень про загублену тварину</span><span class="dots"></span><span class="p">60</span></div>
+<div class="toc-row lvl1"><span class="t">7.3 Розгортання застосунку адміністратором (розробником)</span><span class="dots"></span><span class="p">62</span></div>
+<div class="toc-row lvl2"><span class="t">Висновки до розділу 7</span><span class="dots"></span><span class="p">64</span></div>
+<div class="toc-row lvl0"><span class="t">Загальні висновки</span><span class="dots"></span><span class="p">65</span></div>
+<div class="toc-row lvl0"><span class="t">Список використаних джерел</span><span class="dots"></span><span class="p">67</span></div>
+<div class="toc-row lvl0"><span class="t">Додаток А Лістинги програмного коду</span><span class="dots"></span><span class="p">69</span></div>
 </div></section><section class="sheet" data-f="03-vstup.md">
 <h1 class="struct">ВСТУП</h1>
 <p class="n"><strong>Актуальність теми роботи.</strong> Втрата домашньої тварини є поширеною ситуацією, у якій вирішальне значення має час: чим довше тварина залишається ненайденою, тим менша ймовірність її повернення. За даними міжнародних досліджень (ASPCA, American Humane Association), протягом життя власника втрачає близько 14–15 % собак і близько 15 % котів; із них своїми силами або через сусідів повертаються близько 60 % собак, тоді як для котів цей показник не перевищує 30 %. У межах першого тижня після зникнення додому повертається лише близько третини тварин, після чого ймовірність повернення стрімко знижується. В умовах України ситуація додатково ускладнюється воєнним станом і вимушеною міграцією населення: за оцінками громадських організацій, що опікуються тваринами (UAnimals, «Сіріус», «Happy Paw»), кількість загублених і покинутих домашніх тварин у великих містах зросла у 2–3 рази порівняно з довоєнним періодом, а основними каналами пошуку залишаються неструктуровані дописи у Telegram-каналах, Facebook-групах і на класифайдах на кшталт OLX. Власник, який втратив тварину, і людина, яка її знайшла, зазвичай діють розрізнено: оголошення розміщуються в різних соціальних мережах, тематичних групах і дошках оголошень, не мають єдиної структури та не зіставляються між собою автоматично. Зіставлення оголошення про втрату з оголошенням про знахідку виконується людьми вручну, спирається на випадковий перегляд стрічки і значною мірою залежить від того, чи побачать обидві сторони допис одна одної. Це збільшує час пошуку і знижує шанси на возз&#x27;єднання тварини з власником.</p>
@@ -1087,98 +1090,98 @@ th { font-weight: bold; }
 <td>Користувач не зареєстрований</td>
 <td>Ввести унікальну пошту і пароль, підтвердити</td>
 <td>Створено обліковий запис, видано токен</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-2</td>
 <td>Пошта вже зареєстрована</td>
 <td>Ввести зайняту пошту, підтвердити</td>
 <td>Відмова «пошту зайнято», запис не створено</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-3</td>
 <td>Обліковий запис існує</td>
 <td>Ввести правильні пошту і пароль</td>
 <td>Видано токен і дані користувача</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-4</td>
 <td>Обліковий запис існує</td>
 <td>Ввести правильну пошту і невірний пароль</td>
 <td>Відмова «невірні дані»</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-5</td>
 <td>Користувач автентифікований</td>
 <td>Заповнити форму коректними даними, підтвердити</td>
 <td>Оголошення збережено зі станом «активне»</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-6</td>
 <td>Користувач автентифікований</td>
 <td>Подати форму з порожніми обов'язковими полями</td>
 <td>Відмова з повідомленням про помилку, запис не створено</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-7</td>
 <td>Є активні оголошення</td>
 <td>Відкрити стрічку, задати фільтри виду й періоду</td>
 <td>Повернено відфільтровану сторінку без контактів</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-8</td>
 <td>Користувач — автор оголошення</td>
 <td>Відкрити власне оголошення, запросити кандидатів</td>
 <td>Повернено ранжований перелік кандидатів</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-9</td>
 <td>Користувач не є автором оголошення</td>
 <td>Запросити кандидатів чужого оголошення</td>
 <td>Відмову у доступі</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-10</td>
 <td>Користувач — автор, переглядає кандидатів</td>
 <td>Обрати кандидата, «Запропонувати зв'язок»</td>
 <td>Зв'язок створено у стані «запропоновано»</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-11</td>
 <td>Зв'язок запропоновано, актор — друга сторона</td>
 <td>Відкрити зв'язок, підтвердити</td>
 <td>Зв'язок «підтверджено», контакти взаємно розкрито</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-12</td>
 <td>Зв'язок запропоновано, актор — ініціатор</td>
 <td>Спробувати підтвердити власний зв'язок</td>
 <td>Відмову у доступі</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-13</td>
 <td>Оголошення про втрату без підтвердженого зв'язку</td>
 <td>Перевести оголошення у стан «повернуто»</td>
 <td>Відмова: неприпустимий перехід</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 <tr>
 <td>ТК-14</td>
 <td>Для пари оголошень уже існує зв'язок</td>
 <td>Запропонувати ще один зв'язок для тієї самої пари</td>
 <td>Відмова: конфлікт унікальності</td>
-<td>Відповідає очікуваному</td>
+<td>Пройдено</td>
 </tr>
 </tbody>
 </table></div>
@@ -1445,8 +1448,7 @@ th { font-weight: bold; }
 <p class="cap-tbl">Лістинг А.2 – Програмна реалізація сервісу зіставлення оголошень</p>
 <hr class="rule"/>
 <pre class="code"><code><span class="nx">findCandidates</span><span class="p">(</span><span class="nx">subject</span><span class="o">:</span><span class="w"> </span><span class="kt">ReportRecord</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">ResultAsync</span><span class="o">&lt;</span><span class="nx">CandidateRecord</span><span class="p">[],</span><span class="w"> </span><span class="nx">DbError</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">oppositeKind</span><span class="o">:</span><span class="w"> </span><span class="kt">ReportRecord</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span>
-<span class="w">    </span><span class="nx">subject</span><span class="p">.</span><span class="nx">kind</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;lost&#39;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;found&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;lost&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">oppositeKind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">subject</span><span class="p">.</span><span class="nx">kind</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;lost&#39;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;found&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;lost&#39;</span><span class="p">;</span>
 <span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">distanceKm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">haversineKm</span><span class="p">(</span><span class="nx">subject</span><span class="p">.</span><span class="nx">lat</span><span class="p">,</span><span class="w"> </span><span class="nx">subject</span><span class="p">.</span><span class="nx">lng</span><span class="p">);</span>
 <span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">speciesMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sql</span><span class="o">&lt;</span><span class="kt">boolean</span><span class="o">&gt;</span><span class="sb">`</span><span class="si">${</span><span class="nx">reports</span><span class="p">.</span><span class="nx">species</span><span class="si">}</span><span class="sb"> = </span><span class="si">${</span><span class="nx">subject</span><span class="p">.</span><span class="nx">species</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
 <span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">subjectDateIso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">subject</span><span class="p">.</span><span class="nx">eventDate</span><span class="p">.</span><span class="nx">toISOString</span><span class="p">();</span>
