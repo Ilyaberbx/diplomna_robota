@@ -54,6 +54,24 @@ def strip_formatting_comment(text: str) -> str:
     return re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL).strip()
 
 
+def highlight_code(code: str, lang: str) -> str:
+    """Listing body with coloured syntax highlighting (RULES §6).
+
+    Pygments emits <span class="k|s|c1|…"> tokens (nowrap → no wrapper div);
+    the muted palette for those classes lives in the CSS. Falls back to plain
+    escaped text if the language is unknown or Pygments is unavailable.
+    """
+    try:
+        from pygments import highlight
+        from pygments.lexers import get_lexer_by_name
+        from pygments.formatters import HtmlFormatter
+        lexer = get_lexer_by_name(lang or "text")
+        body = highlight(code, lexer, HtmlFormatter(nowrap=True)).rstrip("\n")
+    except Exception:
+        body = html.escape(code)
+    return '<pre class="code"><code>' + body + "</code></pre>"
+
+
 def title_class(line: str) -> str:
     if line.startswith("МІНІСТЕРСТВО"):
         return "tp-min"
@@ -143,14 +161,14 @@ def render_body(fname, text):
 
         if line.startswith("```"):
             flush_para(); flush_list()
+            lang = line[3:].strip()
             i += 1
             code = []
             while i < n and not lines[i].strip().startswith("```"):
-                code.append(html.escape(lines[i]))
+                code.append(lines[i])
                 i += 1
             i += 1
-            parts.append('<pre class="code"><code>' +
-                         "\n".join(code) + "</code></pre>")
+            parts.append(highlight_code("\n".join(code), lang))
             parts.append('<hr class="rule"/>')
             continue
 
@@ -375,9 +393,18 @@ pre.code {
   font-family: 'Liberation Mono', 'Courier New', monospace;
   font-size: 10pt; line-height: 1.0; text-align: left;
   white-space: pre-wrap; word-break: break-word;
-  border: 0.25pt solid #000; padding: 4pt; margin: 0.5em 0;
+  border: 0; padding: 2pt 0; margin: 0.2em 0;
 }
 pre.code code { font-family: inherit; }
+/* coloured syntax highlighting for listings (RULES §6), muted print palette */
+pre.code .k, pre.code .kd, pre.code .kr, pre.code .kc,
+pre.code .kn, pre.code .kt, pre.code .nt { color: #00007f; font-weight: bold; }
+pre.code .s, pre.code .s1, pre.code .s2, pre.code .sb,
+pre.code .se, pre.code .sr, pre.code .sd { color: #007f00; }
+pre.code .c, pre.code .c1, pre.code .cm, pre.code .cs { color: #6f6f6f; font-style: italic; }
+pre.code .mi, pre.code .mf, pre.code .mh, pre.code .mo, pre.code .m { color: #7f3f00; }
+pre.code .nb, pre.code .bp { color: #7f007f; }
+pre.code .nf, pre.code .nx, pre.code .nc, pre.code .o, pre.code .p { color: #000; }
 table {
   border-collapse: collapse; width: 100%; font-size: 12pt;
   margin: 0.5em 0; page-break-inside: avoid;

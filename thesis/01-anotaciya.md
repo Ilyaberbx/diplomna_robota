@@ -1,10 +1,10 @@
 АНОТАЦІЯ
 
-Вербанов І. Г. Вебзастосунок для пошуку загублених домашніх тварин : кваліфікаційна робота бакалавра за спеціальністю «121 Інженерія програмного забезпечення» / Ілля Геннадійович Вербанов ; керівник Надія Миколаївна Беглова – Одеса : Нац. ун-т «Одес. політехніка», 2026. – 70 с.
+Вербанов І. Г. Вебзастосунок для пошуку загублених домашніх тварин : кваліфікаційна робота бакалавра за спеціальністю «121 Інженерія програмного забезпечення» / Ілля Геннадійович Вербанов ; керівник Надія Миколаївна Беглова – Одеса : Нац. ун-т «Одес. політехніка», 2026. – 75 с.
 
-Кваліфікаційна робота містить основну текстову частину на 58 сторінках, список використаних джерел з 13 найменувань на 1 сторінці, додатки на 4 сторінках.
+Кваліфікаційна робота містить основну текстову частину на 63 сторінках, список використаних джерел з 14 найменувань на 2 сторінках, додатки на 3 сторінках.
 
-Метою кваліфікаційної роботи є підвищення ефективності первинного зіставлення оголошень про загублених і знайдених тварин шляхом розроблення вебзастосунку, що автоматично формує ранжований перелік ймовірних збігів за видом тварини, географічною відстанню та часовим вікном події. Ефективність оцінюється якістю ранжування (часткою випадків, коли істинний збіг потрапляє в перші позиції переліку, та середнім оберненим рангом істинного збігу) і часом формування переліку; досягнення мети підтверджується експериментально.
+Метою кваліфікаційної роботи є підвищення ефективності первинного зіставлення оголошень про загублених і знайдених тварин шляхом розроблення вебзастосунку, що автоматично формує ранжований перелік ймовірних збігів за видом тварини, географічною відстанню та часовим вікном події. Ефективність оцінюється часткою випадків, коли істинний збіг потрапляє в перші K позицій переліку (Hit@K, K = 1, 3, 5), середнім оберненим рангом істинного збігу (MRR) і часом формування переліку; досягнення мети підтверджується експериментально.
 
 У роботі розроблено вебзастосунок, який дозволяє власникам публікувати оголошення про загублену тварину, а особам, які знайшли тварину, — оголошення про знахідку. Реалізовано алгоритм формування ранжованого переліку оголошень-кандидатів, що оцінює збіг за видом тварини, відстанню між місцями події за формулою гаверсинуса та різницею дат. Запропонований кандидат підтверджується людиною: після підтвердження зв'язку контактні дані сторін взаємно розкриваються, що дозволяє організувати повернення тварини.
 
@@ -16,11 +16,11 @@
 
 ABSTRACT
 
-Verbanov I. H. Web application for finding lost pets : Bachelor's qualification work in the specialty «121 Software Engineering» / Illia Hennadiiovych Verbanov ; supervisor Nadiia Mykolaivna Behlova – Odesa : Odesa Polytechnic Nat. Univ., 2026. – 70 pages.
+Verbanov I. H. Web application for finding lost pets : Bachelor's qualification work in the specialty «121 Software Engineering» / Illia Hennadiiovych Verbanov ; supervisor Nadiia Mykolaivna Behlova – Odesa : Odesa Polytechnic Nat. Univ., 2026. – 75 pages.
 
-The qualification work contains the main text part on 58 pages, a list of used sources with 13 titles on 1 page, and appendices on 4 pages.
+The qualification work contains the main text part on 63 pages, a list of used sources with 14 titles on 2 pages, and appendices on 3 pages.
 
-The aim of the qualification work is to improve the effectiveness of the initial matching of lost- and found-pet reports by developing a web application that automatically builds a ranked list of likely matches by animal species, geographic distance, and the time window of the event. Effectiveness is assessed by ranking quality (the share of cases in which the true match appears among the top positions of the list, and the mean reciprocal rank of the true match) and by the time to build the list; the achievement of the aim is confirmed experimentally.
+The aim of the qualification work is to improve the effectiveness of the initial matching of lost- and found-pet reports by developing a web application that automatically builds a ranked list of likely matches by animal species, geographic distance, and the time window of the event. Effectiveness is assessed by the share of cases in which the true match appears among the top K positions of the list (Hit@K, K = 1, 3, 5), by the mean reciprocal rank of the true match (MRR), and by the time to build the list; the achievement of the aim is confirmed experimentally.
 
 The work presents a web application that allows owners to publish reports about a lost pet and finders to publish reports about a found animal. A matching algorithm is implemented that builds a ranked list of candidate reports, evaluating the match by species equality, the distance between event locations computed with the haversine formula, and the difference of dates. A proposed candidate is confirmed by a human: after the link is confirmed, the contact details of both parties are mutually revealed so that the return of the pet can be arranged.
 

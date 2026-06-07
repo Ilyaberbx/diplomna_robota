@@ -1,0 +1,124 @@
+classDiagram
+    direction TB
+
+    class AuthController {
+        <<контролер>>
+    }
+    class ReportsController {
+        <<контролер>>
+        +create(actor, dto)
+        +browse(query)
+        +getOne(id)
+    }
+    class MatchesController {
+        <<контролер>>
+        +propose(actor, dto)
+        +confirm(actor, id)
+        +reject(actor, id)
+    }
+
+    class AuthService {
+        <<сервіс>>
+        +register(email, password) Result
+        +login(email, password) Result
+    }
+    class ReportsService {
+        <<сервіс>>
+        +create(actor, dto) Result
+        +browse(query) ReportPage
+        +getOne(id) PublicReport
+        +getRecord(id) ReportRecord
+        +revealContact(id) OwnerReport
+        +markStatus(actor, id, status) Result
+        +getCandidates(actor, id) CandidateRecord[]
+    }
+    class MatchesService {
+        <<сервіс>>
+        +propose(actor, lostId, foundId) Result
+        +confirm(actor, matchId) Result
+        +reject(actor, matchId) Result
+        -decide(actor, matchId, status) Result
+        -authorizeDecider(actor, match) Result
+        -reveal(match) MatchView
+    }
+
+    class AuthRepository {
+        <<репозиторій>>
+    }
+    class ReportsRepository {
+        <<репозиторій>>
+        +browse(query) ReportPage
+        +findCandidates(subject) CandidateRecord[]
+        -haversineKm(lat, lng) SQL
+    }
+    class MatchesRepository {
+        <<репозиторій>>
+    }
+
+    class ReportsReader {
+        <<порт>>
+        +getRecord(id) ReportRecord
+        +revealContact(id) OwnerReport
+    }
+    class ReportsWriter {
+        <<порт>>
+        +markStatus(actor, id, status) Result
+    }
+    class MatchesReader {
+        <<порт>>
+    }
+    class StoragePort {
+        <<порт>>
+    }
+
+    class UserRecord {
+        <<запис>>
+        +id uuid
+        +email text
+        +passwordHash text
+        +createdAt timestamptz
+    }
+    class ReportRecord {
+        <<запис>>
+        +id uuid
+        +kind lost|found
+        +reporterId uuid
+        +status text
+        +species text
+        +lat double
+        +lng double
+        +eventDate timestamptz
+    }
+    class MatchRecord {
+        <<запис>>
+        +id uuid
+        +lostReportId uuid
+        +foundReportId uuid
+        +proposedBy uuid
+        +status proposed|confirmed|rejected
+    }
+    class CandidateRecord {
+        <<запис>>
+        +report ReportRecord
+        +distanceKm number
+        +speciesMatch boolean
+        +daysApart number
+    }
+
+    AuthController --> AuthService
+    ReportsController --> ReportsService
+    MatchesController --> MatchesService
+
+    AuthService --> AuthRepository
+    ReportsService --> ReportsRepository
+    ReportsService ..|> ReportsReader
+    ReportsService ..|> ReportsWriter
+    ReportsService ..> StoragePort
+    ReportsService ..> MatchesReader
+    MatchesService --> MatchesRepository
+    MatchesService ..> ReportsReader
+
+    AuthRepository ..> UserRecord
+    ReportsRepository ..> ReportRecord
+    ReportsRepository ..> CandidateRecord
+    MatchesRepository ..> MatchRecord

@@ -7,16 +7,17 @@
 5. OLX. Розділ оголошень про загублених і знайдених тварин. URL: https://www.olx.ua (дата звернення: 05.02.2026).
 6. PostgreSQL Global Development Group. PostgreSQL Documentation. URL: https://www.postgresql.org/docs/ (дата звернення: 28.02.2026).
 7. Sinnott R. W. Virtues of the Haversine. Sky and Telescope. 1984. Vol. 68, No. 2. P. 159.
-8. OpenJS Foundation. Node.js Documentation. URL: https://nodejs.org/docs/latest/api/ (дата звернення: 09.03.2026).
-9. NestJS. Documentation. URL: https://docs.nestjs.com (дата звернення: 09.03.2026).
-10. Drizzle Team. Drizzle ORM Documentation. URL: https://orm.drizzle.team/docs/overview (дата звернення: 09.03.2026).
-11. Colin McDonnell. Zod Documentation. URL: https://zod.dev (дата звернення: 10.03.2026).
-12. Jones M., Bradley J., Sakimura N. JSON Web Token (JWT) : RFC 7519. Internet Engineering Task Force, 2015. URL: https://www.rfc-editor.org/rfc/rfc7519 (дата звернення: 10.03.2026).
-13. Meta Open Source. React Documentation. URL: https://react.dev (дата звернення: 23.03.2026).
+8. Fishburn P. C. Lexicographic Orders, Utilities and Decision Rules: A Survey. Management Science. 1974. Vol. 20, No. 11. P. 1442–1471. https://doi.org/10.1287/mnsc.20.11.1442 (дата звернення: 19.02.2026).
+9. OpenJS Foundation. Node.js Documentation. URL: https://nodejs.org/docs/latest/api/ (дата звернення: 09.03.2026).
+10. NestJS. Documentation. URL: https://docs.nestjs.com (дата звернення: 09.03.2026).
+11. Drizzle Team. Drizzle ORM Documentation. URL: https://orm.drizzle.team/docs/overview (дата звернення: 09.03.2026).
+12. Colin McDonnell. Zod Documentation. URL: https://zod.dev (дата звернення: 10.03.2026).
+13. Jones M., Bradley J., Sakimura N. JSON Web Token (JWT) : RFC 7519. Internet Engineering Task Force, 2015. URL: https://www.rfc-editor.org/rfc/rfc7519 (дата звернення: 10.03.2026).
+14. Meta Open Source. React Documentation. URL: https://react.dev (дата звернення: 23.03.2026).
 
 <!-- ОФОРМЛЕННЯ:
 - Заголовок СПИСОК ВИКОРИСТАНИХ ДЖЕРЕЛ — з нової сторінки, ВЕЛИКИМИ, напівжирний, по центру, без крапки; один порожній рядок після нього; розташований перед додатками.
-- Бібліоописи у порядку першої згадки в тексті; номери відповідають номерам посилань [1]–[13].
+- Бібліоописи у порядку першої згадки в тексті; номери відповідають номерам посилань [1]–[14].
 - Оформлення за ДСТУ 8302:2015 та ДСТУ 3582:2013. ВАЖЛИВО: за першоджерелом (pravyla-full.pdf, Додаток Д) формат дати звернення — ДД.ММ.РРРР (напр. «(дата звернення: 05.01.2025)»), а не ISO; першоджерело має перевагу над нормалізованим конспектом RULES.md.
 - Перевірити фінальне оформлення генератором https://bo.op.edu.ua за потреби.
 -->
